@@ -4,10 +4,10 @@
 		title="Carte hebdomadaire des horaires sur Rennes Métropole"
 		logo="https://public.sig.rennesmetropole.fr/ressources/img/logos/rm/logo_mviewer_gris_inverse.png"
         titlehelp="À propos de la carte des horaires" 
-		help="apps/cartohoraires/html/help_horaires.html"
+		help="apps/cartoHoraires/html/help_horaires.html"
 		showhelp="true"
 		iconhelp=""
-		style="apps/cartohoraires/css/horaires.css"
+		style="apps/cartoHoraires/css/horaires.css"
 		exportpng="true"
 		geoloc="false"
 		measuretools="false"
@@ -40,14 +40,14 @@
 				id="horaires"
 				name="Flux de personnes"
 				type="customlayer"
-				url="apps/cartohoraires/customlayer/cluster_horaires.js"
+				url="apps/cartoHoraires/customlayer/cluster_horaires.js"
 				visible="true"
 				metadata=""
 				metadata-csw=""
 				queryable="true"
                 featurecount="6"
 				infopanel="right-panel">
-                <template url="apps/cartohoraires/templates/horaires.mst"></template>
+                <template url="apps/cartoHoraires/templates/horaires.mst"></template>
 			</layer>
 		</theme>
 	</themes>
