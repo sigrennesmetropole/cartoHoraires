@@ -1,0 +1,11 @@
+{
+    "js": [
+        "js/main.js"
+    ],
+    "css": "css/main.css",
+    "html": "cartohoraires.html",
+    "target": "page-content-wrapper",
+    "options": {
+        "maxzoom":"10"
+    }
+}

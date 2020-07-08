@@ -1,0 +1,28 @@
+.mir_marker {
+    z-index: 10000;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+
+.mir_marker:before, .mir_marker:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: rgb(255, 145, 0);
+}
+
+.mir_marker:before {
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.mir_marker:after {
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
+}
