@@ -1,0 +1,11 @@
+{
+    "js": [
+        "mir.js"
+    ],
+    "css": "mir.css",
+    "html": "mir.html",
+    "target": "mouse-position",
+    "options": {
+        "maxzoom":"10"
+    }
+}

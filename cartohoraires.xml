@@ -31,6 +31,12 @@
 		</baselayer>
 	</baselayers>
 
+	<extensions>
+		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="bootstrap-autocomplete" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
+	</extensions>
+
     <searchparameters bbox="false" localities="false" features="false" static="false"
 		searchRM="false" searchRMConf="apps/georm/addons/data/searchConf.json"/>
     
