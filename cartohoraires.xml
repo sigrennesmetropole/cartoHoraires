@@ -20,15 +20,10 @@
 	<mapoptions maxzoom="20" minzoom="10" projection="EPSG:3857" center="-186098.36482879001,6125889.9088213602" zoom="12" />
     
 	
-	<baselayers style="default">
-		<baselayer visible="false" id="pvcisimplegris" thumbgallery="apps/public/img/basemap/pvcilight.jpg" title="Rennes Metropole" label="Plan de ville simple gris" type="WMTS" 
-			url="https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?" layers="ref_fonds:pvci_simple_gris" format="image/png" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
-			attribution="&lt;a href=&quot;https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/home&quot; target=&quot;_blank&quot; &gt;Rennes Métropole&lt;/a&gt;">
-		</baselayer>
-		<baselayer visible="false" id="ortho2017" thumbgallery="apps/public/img/basemap/ortho2014.jpg" title="Rennes Metropole" label="Vue aérienne" type="WMTS" 
-            url="https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?" layers="raster:ortho2017" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
-            attribution="&lt;a href=&quot;https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/metadata/6ecb85b1-ec5e-4427-ae81-9c83b21a7f32&quot; target=&quot;_blank&quot; &gt;Rennes Métropole&lt;/a&gt;">
-		</baselayer>
+	<baselayers style="gallery">
+		<baselayer visible="false" type="OSM" id="osm1" label="OpenStreetMap" title="OpenStreetMap" thumbgallery="img/basemap/osm.png" url="http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+		<baselayer visible="false" type="OSM" id="darkmatter" label="Dark Matter" title="CartoDb" thumbgallery="img/basemap/darkmatter.png" url="http://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" maxzoom="20" attribution="Map tiles by CartoDb, under CC BY 3.0"/>
+		<baselayer visible="true" id="positron" thumbgallery="img/basemap/positron.png" title="CartoDb" label="Positron" type="OSM" url="https://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" attribution="Map tiles by  &lt;a href=&quot;https://cartodb.com/attributions&quot;&gt;CartoDb&lt;/a&gt;, under  &lt;a href=&quot;https://creativecommons.org/licenses/by/3.0/&quot;&gt;CC BY 3.0 &lt;/a&gt;"/>
 	</baselayers>
 
     <searchparameters bbox="false" localities="false" features="false" static="false"
@@ -37,17 +32,16 @@
 	<themes mini="true">
 		<theme id="horaires" name="Transport" collapsed="true" icon="fas fa-clock">
 		<layer
-				id="horaires"
+				id="etablissements"
 				name="Flux de personnes"
 				type="customlayer"
-				url="apps/cartoHoraires/customlayer/cluster_horaires.js"
+				url="apps/cartoHoraires/customlayers/etablissements.js"
 				visible="true"
 				metadata=""
 				metadata-csw=""
-				queryable="true"
+				queryable="false"
                 featurecount="6"
 				infopanel="right-panel">
-                <template url="apps/cartoHoraires/templates/horaires.mst"></template>
 			</layer>
 		</theme>
 	</themes>
