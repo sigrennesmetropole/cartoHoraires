@@ -46,7 +46,7 @@
 				visible="true"
 				metadata=""
 				metadata-csw=""
-				queryable="true"
+				queryable="false"
                 featurecount="6"
 				infopanel="right-panel">
 			</layer>
