@@ -1,6 +1,8 @@
 const cartohoraires = (function() {
     let config = mviewer.customComponents.cartohoraires.config;
     let options = mviewer.customComponents.cartohoraires.config.options;
+    const mapWidth = options.mapWidth;
+    const itemsRight = 
     /**
      * Standardize request creation
      * @param {Object} infos as data params
@@ -67,9 +69,10 @@ const cartohoraires = (function() {
         mviewer.getMap().once('postrender', m => {
             if(!configuration.getConfiguration().mobile) {
                 $('#map').attr('style',`width:${options.mapWidth}% !important`);
+                console.log(`right: ${options.templateWidth + 2}% !important`)
+                $('#zoomtoolbar').attr('style',`right: ${options.templateWidth + 2}% !important`);
+                $('#toolstoolbar').attr('style',`right: ${options.templateWidth + 2}% !important`);
             }
-            $('#zoomtoolbar').css('right',`${options.templateWidth + 2}%`);
-            $('#toolstoolbar').css('right',`${options.templateWidth + 2}%`);
         });
 
     }
