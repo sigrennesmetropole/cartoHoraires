@@ -4,7 +4,7 @@
     ],
     "css": "css/main.css",
     "html": "cartohoraires.html",
-    "target": "row-wrapper",
+    "target": "page-content-wrapper",
     "options": {
         "template": "apps/cartoHoraires/addons/cartohoraires/templates/cartohoraires.mst"
     }

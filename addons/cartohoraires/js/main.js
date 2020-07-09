@@ -44,8 +44,6 @@ const cartohoraires = (function() {
             $("#cartohoraires-modal .modal-body").children().remove();
             // add to modal
             $("#cartohoraires-modal .modal-body").append(panelContent);
-            // show modal
-            $('#cartohoraires-modal').modal();
         } else {
             // close modal if visible
             if($("#cartohoraires-modal").is(':visible')){$("#cartohoraires-modal").modal('toggle');}
@@ -55,11 +53,19 @@ const cartohoraires = (function() {
             $(".cartohoraires-panel .panel-body").append(panelContent);
         }
     }
+
+    function initModalBehavior() {
+        mviewer.getMap().once('postrender', m => {
+            $('#mobilebtn-el').on('click', function() {
+                $("#cartohoraires-modal").modal('toggle');
+            });
+        });
+    }
     return {
         init : () => {
             console.log('init cartohoraires module');
             initTemplate();
-            
+            initModalBehavior();            
         },
     };
 })();
