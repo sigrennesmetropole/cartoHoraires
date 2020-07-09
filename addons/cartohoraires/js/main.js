@@ -61,9 +61,22 @@ const cartohoraires = (function() {
             });
         });
     }
+
+    function initDisplayComponents() {
+        mviewer.getMap().once('postrender', m => {
+            if(!configuration.getConfiguration().mobile) {
+                $('#map').attr('style','width:60% !important');
+            }
+            $('#zoomtoolbar').css('right','42%');
+            $('#toolstoolbar').css('right','42%');
+        });
+
+    }
+
     return {
         init : () => {
             console.log('init cartohoraires module');
+            initDisplayComponents();
             initTemplate();
             initModalBehavior();            
         },

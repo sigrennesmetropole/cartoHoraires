@@ -11,7 +11,7 @@
         element: document.getElementById('mir-marker'),
         stopEvent: false
     });
-      
+
     map.addOverlay(marker);
     
     map.on('postrender', m => {

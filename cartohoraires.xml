@@ -5,7 +5,7 @@
 		logo="https://public.sig.rennesmetropole.fr/ressources/img/logos/rm/logo_mviewer_gris_inverse.png"
         titlehelp="À propos de la carte des horaires" 
 		help="apps/cartoHoraires/html/help_horaires.html"
-		showhelp="true"
+		showhelp="false"
 		iconhelp=""
 		style="apps/cartoHoraires/css/horaires.css"
 		exportpng="true"
@@ -20,7 +20,7 @@
 	<mapoptions maxzoom="20" minzoom="10" projection="EPSG:3857" center="-186098.36482879001,6125889.9088213602" zoom="12" />
     
 	
-	<baselayers style="gallery">
+	<baselayers>
 		<baselayer visible="false" type="OSM" id="osm1" label="OpenStreetMap" title="OpenStreetMap" thumbgallery="img/basemap/osm.png" url="http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 		<baselayer visible="false" type="OSM" id="darkmatter" label="Dark Matter" title="CartoDb" thumbgallery="img/basemap/darkmatter.png" url="http://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" maxzoom="20" attribution="Map tiles by CartoDb, under CC BY 3.0"/>
 		<baselayer visible="true" id="positron" thumbgallery="img/basemap/positron.png" title="CartoDb" label="Positron" type="OSM" url="https://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" attribution="Map tiles by  &lt;a href=&quot;https://cartodb.com/attributions&quot;&gt;CartoDb&lt;/a&gt;, under  &lt;a href=&quot;https://creativecommons.org/licenses/by/3.0/&quot;&gt;CC BY 3.0 &lt;/a&gt;"/>
@@ -30,6 +30,7 @@
 		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="bootstrap-autocomplete" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
 	</extensions>
 
     <searchparameters bbox="false" localities="false" features="false" static="false"
@@ -45,7 +46,7 @@
 				visible="true"
 				metadata=""
 				metadata-csw=""
-				queryable="false"
+				queryable="true"
                 featurecount="6"
 				infopanel="right-panel">
 			</layer>
