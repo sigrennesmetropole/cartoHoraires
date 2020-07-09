@@ -1,0 +1,15 @@
+.cartohoraires-panel {
+    position: fixed;
+    right: 0px;
+    width: 40%;
+    background-color: white;
+    height: 100%;
+}
+
+.cartohoraires-panel>.panel-body{
+    padding-top:50px;
+}
+
+.cartohoraires-template{
+    padding-top:10px;
+}

@@ -1,0 +1,11 @@
+{
+    "js": [
+        "mobilebtn.js"
+    ],
+    "css": "mobilebtn.css",
+    "html": "mobilebtn.html",
+    "target": "page-content-wrapper",
+    "options": {
+        "mobileonly": true
+    }
+}
