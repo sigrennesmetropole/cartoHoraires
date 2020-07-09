@@ -1,5 +1,6 @@
 const cartohoraires = (function() {
     let config = mviewer.customComponents.cartohoraires.config;
+    let options = mviewer.customComponents.cartohoraires.config.options;
     /**
      * Standardize request creation
      * @param {Object} infos as data params
@@ -20,7 +21,7 @@ const cartohoraires = (function() {
     */
     const initTemplate = function () {
         let req = createRequest({
-            url: config.options.template,
+            url: options.template,
             success: function(template) {
                 config.template = template;
                 displayTemplate(template);
@@ -65,10 +66,10 @@ const cartohoraires = (function() {
     function initDisplayComponents() {
         mviewer.getMap().once('postrender', m => {
             if(!configuration.getConfiguration().mobile) {
-                $('#map').attr('style','width:60% !important');
+                $('#map').attr('style',`width:${options.mapWidth}% !important`);
             }
-            $('#zoomtoolbar').css('right','42%');
-            $('#toolstoolbar').css('right','42%');
+            $('#zoomtoolbar').css('right',`${options.templateWidth + 2}%`);
+            $('#toolstoolbar').css('right',`${options.templateWidth + 2}%`);
         });
 
     }
