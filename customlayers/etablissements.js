@@ -22,9 +22,11 @@ mviewer.customLayers.etablissements = (function () {
     function pointStyle (color) {
       var style =  new ol.style.Style({
         image: new ol.style.Circle({
-          radius: 3,
+          radius: 5,
           fill: new ol.style.Fill({color: color}),
-          stroke: new ol.style.Stroke({color: 'black', width: 1})
+          stroke: new ol.style.Stroke({
+            color: 'white', width: 1.5
+          })
         })
       });
       return [style];
@@ -32,7 +34,7 @@ mviewer.customLayers.etablissements = (function () {
 
     function clusterStyle (feature) {
       var size = feature.get('features').length;
-      var max_radius = 30;
+      var max_radius = 25;
       var max_value = 500;
       var radius = 10 + Math.sqrt(size)*(max_radius / Math.sqrt(max_value));
       var color = '#53B3B8';
