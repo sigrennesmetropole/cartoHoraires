@@ -10,7 +10,7 @@
         positioning: 'center-center',
         element: document.getElementById('mir-marker'),
         stopEvent: false
-      });
+    });
       
     map.addOverlay(marker);
     
