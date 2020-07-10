@@ -1,6 +1,6 @@
 mviewer.customLayers.etablissements = (function () {
     var id = 'etablissements';
-    var data = 'apps/cartoHoraires/data/etablissements.geojson'
+    var data = 'apps/cartoHoraires/data/etablissements.geojson';
     
     function manyStyle (radius, size, color) {
       return [

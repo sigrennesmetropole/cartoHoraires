@@ -4,9 +4,12 @@ const cartohoraires = (function() {
     const mapWidth = options.mapWidth;
     const itemsRight = options.templateWidth + 2;
 
+    let requestLayer = options.requestLayer;
+
+    let zacLayer = null;
     let selected = null;
 
-    /**
+        /**
      * PRIVATE
     */
 
@@ -138,6 +141,50 @@ const cartohoraires = (function() {
 
     function setSelected(e) {return selected = e;}
 
+    function initZacLayer() {
+        var data = 'apps/cartoHoraires/data/zac_rm.geojson';
+        zacLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: data,
+                format: new ol.format.GeoJSON()
+            })
+        });
+        mviewer.getMap().addLayer(zacLayer);
+    }
+
+    function initMoveBehavior() {
+        mviewer.getMap().on('moveend', function() {
+            center = turf.point(mviewer.getMap().getView().getCenter());
+            let turfPolygon;
+            if($('#switch').is(':checked')) {
+                zacLayer.getSource().getFeatures().forEach(e => {
+                    let polygon = turf.polygon(e.getGeometry().getCoordinates()[0]);
+                    if(turf.booleanContains(polygon, center)){
+                        turfPolygon = polygon;
+                        $('#temp-infos').text('');
+                        $('#temp-infos').text(`Nb. saisies dans la ZA - ${e.getProperties().nomza} (${e.getProperties().nom_com}) : `);
+                    }
+                });
+            } else {
+                let extentMap = mviewer.getMap().getView().calculateExtent(mviewer.getMap().getSize());
+                turfPolygon = turf.bboxPolygon(extentMap);
+                $('#temp-infos').text('');
+                $('#temp-infos').text('Nb. saisies visibles à l\'écran : ');
+            }
+            setInfoData(turfPolygon); // search request infos from this polygon and display to template
+        });
+    }
+
+    function setInfoData(polygon) {
+        if(!polygon){return};
+        let features = mviewer.getLayers()[requestLayer].layer.getSource().getSource().getFeatures();
+        let findFeatures = features.filter(e => turf.booleanContains(polygon, turf.point(e.getGeometry().getCoordinates())))
+        let txt = $('#temp-infos').text();
+        txt += findFeatures.length.toString();
+        $('#temp-infos').text('');
+        $('#temp-infos').text(txt);
+    }
+
     /**
      * PUBLIC
     */
@@ -148,7 +195,8 @@ const cartohoraires = (function() {
                 initTemplate();
                 initDisplayComponents();
                 initModalBehavior();
-                
+                initZacLayer();
+                initMoveBehavior();                
             });
             initSearchItem();
         },
