@@ -1,3 +1,49 @@
-<div class="cartohoraires-template">
-Template chargé !
+<div class="cartohoraires-template container">
+    <!--search area-->
+    <div class="row">
+        <!--search field-->
+        <div class='col-sm-10 col-md-3' id="search-input">
+            <div class="form-group">
+                <div class='input-group date' id='ch-searchfield'>
+                    <span class="input-group-addon search-picto">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type='text' class="form-control search-input" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
+        <!--search radio-->
+        <div class="col-sm-10 col-md-4" id="search-radio">
+            <!--address radio-->
+            <input type="radio" id="ch-adresse" name="search" value="address">
+            <label for="ch-adresse">Adresse</label>
+            <!--sirene radio-->
+            <input type="radio" id="ch-sirene" name="search" value="sirene" checked>
+            <label for="ch-sirene">Etablissement</label>
+        </div>
+    </div>
+    <!--toggle button-->
+    <div class="row col-sm-12 toggle-zone">
+        <div class="form-group" style="display: inline-flex;">
+            <div class="col-sm-3 col-md-2">
+                <input type="checkbox" id="switch" />
+                <label for="switch" class="toggle-label">Toggle</label>
+            </div>
+            <strong style="padding-left: 5px;" class="col-sm-8 col-md-9">
+                Sélectionner les zones d'activité sur la carte
+                <br>
+                <small class="subText">Voir uniquement les informations par zone d'activité vue sur la carte</small>
+            </strong>
+        </div>
+    </div>
+    </div class="row">
+        <h4 class="col-sm-12" id="title-zone">
+            Les déplacements sur la zone sélectionnées    
+        </h4>
+    <div>
+    </div class="row">
+        <strong class="col-sm-12" id="temp-infos">
+            Aucune information.
+        </strong>
+    <div>
 </div>
