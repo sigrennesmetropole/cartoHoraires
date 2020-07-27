@@ -1,6 +1,6 @@
 mviewer.customLayers.etablissements = (function () {
     var id = 'etablissements';
-    var data = 'apps/cartoHoraires/data/etablissements.geojson';
+    var data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
     
     function manyStyle (radius, size, color) {
       return [
@@ -37,6 +37,7 @@ mviewer.customLayers.etablissements = (function () {
       var max_radius = 25;
       var max_value = 500;
       var radius = 10 + Math.sqrt(size)*(max_radius / Math.sqrt(max_value));
+      radius = radius * 0.4;
       var color = '#53B3B8';
 
       if(size > 1) {
@@ -46,13 +47,15 @@ mviewer.customLayers.etablissements = (function () {
       }
     }
 
+    var vectorSource = new ol.source.Vector({
+      url: data,
+      format: new ol.format.GeoJSON()
+    });
+
     var vectorLayer = new ol.layer.Vector({
       source: new ol.source.Cluster({
           distance: 0,
-          source: new ol.source.Vector({
-              url: data,
-              format: new ol.format.GeoJSON()
-          })
+          source: vectorSource
       }),
       style: clusterStyle
     });
