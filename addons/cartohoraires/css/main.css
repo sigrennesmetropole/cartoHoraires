@@ -123,3 +123,23 @@ input[type='radio']:after {
 	color:#353350;
 	font-weight: bold;
 }
+
+.autocomplete-list {
+	background-color:white;
+	position: absolute;
+	z-index: 1;
+	border: 1px #eeeeee solid;
+	border-radius: 4px;
+}
+
+.form-autocomplete {
+	margin-bottom: 0px;
+}
+
+.autocomplete {
+	padding: 0;
+}
+
+.top-form {
+	margin-bottom: 10px;
+}

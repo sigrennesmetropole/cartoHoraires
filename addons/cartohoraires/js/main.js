@@ -4,6 +4,8 @@ const cartohoraires = (function() {
     const mapWidth = options.mapWidth;
     const itemsRight = options.templateWidth + 2;
     let zacLayer = null;
+    let load = false;
+    let autocomplete;
 
     /**
      * Default style to highlight ZAC on center hover
@@ -104,59 +106,147 @@ const cartohoraires = (function() {
     }
 
     /**
+     * Create autocomplete request response for BAN API
+     * @param {String} results 
+     */
+    function searchAddress(value) {
+        if(value &&value.length > 3) {
+            // Ajax request
+            var xhr = new XMLHttpRequest();
+            var url = 'https://api-adresse.data.gouv.fr/search/?limit=5&q='+ value + '&limit=5&lat=48.112131&lon=-1.67902';
+            xhr.open('GET', url);
+            xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText) {
+                    var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
+                    if(response && autocomplete.displayList) {
+                        autocomplete.closeAllLists();
+                        autocomplete.displayList(response.features);
+                    }
+                }
+                else {
+                    console.log('fail request');
+                }
+            };
+            xhr.send();
+        }
+    }
+
+    /**
+     * Format autocomplete response for BAN API
+     * @param {Array} results 
+     */
+    function formatAddressResult(results) {
+        let listed = [];
+        let html = [];
+        results.forEach(e => {
+            if(listed.indexOf(e.properties.label)<0){
+                listed.push(e.properties.label);
+                let coord = [e.properties.x, e.properties.y];
+                coord = ol.proj.transform(coord,'EPSG:2154','EPSG:4326');
+                html.push(`
+                    <div style='overflow-x:hidden;'>
+                        <a href="#" onclick='cartohoraires.searchBehavior("${coord.join(',')}")'>${e.properties.label}</a>
+                        <input type='hidden' value='${coord}'>
+                    </div>`
+                );
+            }
+        })
+        return html.join('');
+    }
+
+    /**
+     * Create autocomplete request response for Open Data Rennes API - base-sirene-v3 dataset
+     * @param {String} results 
+     */
+    function searchSIRENE(value) {
+        if(value &&value.length > 3) {
+            // Ajax request
+            var xhr = new XMLHttpRequest();
+            var url = `https://data.rennesmetropole.fr/api/records/1.0/search?q=denominationunitelegale = ${value}&rows=5&dataset=base-sirene-v3-ss`;
+            xhr.open('GET', url);
+            xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText) {
+                    var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
+                    if(response && response.records.length && autocomplete.displayList) {
+                        autocomplete.closeAllLists();
+                        autocomplete.displayList(response.records);
+                    }
+                }
+                else {
+                    console.log('fail request');
+                }
+            };
+            xhr.send();
+        }
+    }
+
+    /**
+     * Format autocomplete response for SIRENE API
+     * @param {Array} results 
+     */
+    function formatSIRENEesult(results) {
+        let listed = [];
+        let html = [];
+        results.forEach(record => {
+            if(listed.indexOf(record.fields.siren)<0){
+                listed.push(record.fields.siren);
+                let txt = [record.fields.denominationunitelegale, record.fields.libellecommuneetablissement].join(', ');
+                let coord = record.geometry.coordinates.join(',');
+                html.push(`
+                    <div style='overflow-x:hidden;'>
+                    <a href="#" onclick='cartohoraires.searchBehavior("${record.geometry.coordinates}")'>${txt}</a>
+                    <input type='hidden' value='${coord}'>
+                    </div>`
+                );
+            }
+        })
+        return html.join('');
+    }
+
+    /**
+     * Check search type
+     * @param {String} v  as input value
+     */
+    function search(v) {
+        if($('#search-radio input:checked').val() === 'sirene') {
+            return searchSIRENE(v);
+        } else {
+            return searchAddress(v);
+        }
+    }
+
+    /**
+     * Transform response to HTML as autocomplete list
+     * @param {Object} r as JSON response from API
+     */
+    function formatInputResult(r) {
+        if($('#search-radio input:checked').val() === 'sirene'){
+            return formatSIRENEesult(r);
+        } else {
+            return formatAddressResult(r);
+        }
+    }
+
+    /**
      * Init combo search item with search API
      */
     function initSearchItem() {
-        mviewer.getMap().on('postrender', m => {
-            $('.search-input').autoComplete({
-                resolver: 'custom',
-                minLength: 3,
-                resolverSettings: {
-                    requestThrottling: 50
-                },
-                formatResult: function (record) {
-                    let txt = [record.fields.denominationunitelegale, record.fields.libellecommuneetablissement].join(', ');
-                    let rec = JSON.stringify(record);
-                    let str = `<div style='overflow-x:hidden;'>
-                                    <a href="#" onclick='cartohoraires.searchBehavior(${rec})'>${txt}</a>
-                                </div>`;
-                    return {
-                        value: record.datasetid,
-                        text: txt,
-                        html: [str]
-                    };
-                },
-                noResultsText: '<div style="overflow-x:hidden"><span>Aucun résultat - Merci de sélectionner une adresse<span></div>',
-                events: {
-                    search: function (qry, callback) {
-                        // let's do a custom ajax call
-                        $.ajax(
-                            'https://data.rennesmetropole.fr/api/records/1.0/search/',
-                            {
-                                data: {
-                                'dataset':'base-sirene-v3-ss',
-                                'q' : `denominationunitelegale = ${qry}`,
-                                'rows': 5
-                                }
-                            }
-                        ).done(function (res) {
-                            callback(res.records);
-                        });
-                    }
-                }
-            });
-        });
-        $('.bootstrap-autocomplete.dropdown-menu').css('width','100%');
+        if(document.getElementById('search-input') && !load) {
+            load = true;
+            autocomplete = new Autocomplete(document.getElementById('search-input'), $('.autocomplete-list'), search, formatInputResult);
+            autocomplete.initListeners();
+            autocomplete.initCloseAction();
+        }
     }
 
     /**
      * From Sirene or Address API, we zoom on result feature
      * @param {ol.Feature} selected 
      */
-    function displayResult(selected) {
-        if(selected) {
-           var geom = selected.geometry.coordinates;
-           mviewer.zoomToLocation(geom[0], geom[1], 16, null);
+    function displayResult(coordinates) {
+        if(coordinates) {
+            console.log(coordinates);
+            mviewer.zoomToLocation(coordinates[0], coordinates[1], 16, null);
         }
     }
 
@@ -350,19 +440,24 @@ const cartohoraires = (function() {
                 getDataByExtent();
                 // manage mir status
                 manageMir();
+                // init seach - to test
+                initSearchItem();
                 
             });
             // to manage switch because this component is load late
             mviewer.getMap().on('postrender', m => {
                 initSwitch();
+                if(cartohoraires) {
+                    initSearchItem();
+                }
             });
             // search component init
-            initSearchItem();
+            //initSearchItem();
         },
 
         searchBehavior : function(e) {
             if(e) {
-                displayResult(e);
+                displayResult(e.split(',').map(a => parseFloat(a)));
             }
         }
     };
