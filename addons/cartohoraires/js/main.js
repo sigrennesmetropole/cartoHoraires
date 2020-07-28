@@ -3,11 +3,11 @@ const cartohoraires = (function() {
     let options = mviewer.customComponents.cartohoraires.config.options;
     const mapWidth = options.mapWidth;
     const itemsRight = options.templateWidth + 2;
-
-    let requestLayer = options.requestLayer;
-
     let zacLayer = null;
 
+    /**
+     * Default style to highlight ZAC on center hover
+     */
     const zacHighlightStyle = new ol.style.Style({
         fill: new ol.style.Fill({
           color: 'rgba(255, 255, 255, 0)',
@@ -103,6 +103,9 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * Init combo search item with search API
+     */
     function initSearchItem() {
         mviewer.getMap().on('postrender', m => {
             $('.search-input').autoComplete({
@@ -162,25 +165,18 @@ const cartohoraires = (function() {
      * @param {String} wkt as geom string
      */
     function getDataByGeom(wkt) {
-        let request = createRequest({
-            url: 'https://public-test.sig.rennesmetropole.fr/geoserver/ows',
-            data: {
-                SERVICE: "WFS",
-                VERSION: "1.1.0",
-                REQUEST: "GetFeature",
-                TYPENAME: `v_horaires`,
-                OUTPUTFORMAT: "application/json",
-                CQL_FILTER: `Intersects(shape, ${wkt})`
-            },
-            success: function (results) {
-                if(results.features && results.features.length) {
-                    setInfoData(results.features);
-                }
+        $.post( 'https://public-test.sig.rennesmetropole.fr/geoserver/ows', {
+            SERVICE: "WFS",
+            VERSION: "1.1.0",
+            REQUEST: "GetFeature",
+            TYPENAME: `v_horaires`,
+            OUTPUTFORMAT: "application/json",
+            CQL_FILTER: `Intersects(shape, ${wkt})`
+        }, function( results ) {
+            if(results.features && results.features.length) {
+                setInfoData(results.features);
             }
-        });
-
-        request.type = 'GET';
-        $.ajax(request);
+        }, "json");
     };
 
     /**
@@ -214,7 +210,7 @@ const cartohoraires = (function() {
             success: function (results) {
                 if(results.features && results.features.length) {
                     // get geom coordinates as string
-                    let wktGeom = coordinatesToWKT(results.features[0].geometry.coordinates[0][0], 'POLYGON')
+                    let wktGeom = coordinatesToWKT(results.features[0].geometry.coordinates[0][0], 'POLYGON');
 
                     // add to layer to highlight feature
                     let zac3857 = new ol.Feature(
@@ -229,17 +225,22 @@ const cartohoraires = (function() {
             }
         });
 
-        request.type = 'GET';
+        request.type = 'POST';
         $.ajax(request);
     }
 
+    /**
+     * Search data by map extent
+     */
     function getDataByExtent() {
-        let extentMap = mviewer.getMap().getView().calculateExtent(mviewer.getMap().getSize());
-        turfPolygon = turf.bboxPolygon(extentMap);
+        if(turf) {
+            let extentMap = mviewer.getMap().getView().calculateExtent(mviewer.getMap().getSize());
+            turfPolygon = turf.bboxPolygon(extentMap);
 
-        let bboxFeature = new ol.format.GeoJSON().readFeatures(turfPolygon);
-        let bboxCoord = bboxFeature[0].getGeometry().transform('EPSG:3857','EPSG:3948').getCoordinates()[0];
-        getDataByGeom(coordinatesToWKT(bboxCoord, 'POLYGON'));
+            let bboxFeature = new ol.format.GeoJSON().readFeatures(turfPolygon);
+            let bboxCoord = bboxFeature[0].getGeometry().transform('EPSG:3857','EPSG:3948').getCoordinates()[0];
+            getDataByGeom(coordinatesToWKT(bboxCoord, 'POLYGON'));
+        }
     }
 
     /**
@@ -247,9 +248,7 @@ const cartohoraires = (function() {
      */
     function initMoveBehavior() {
         mviewer.getMap().on('moveend', function() {
-            zacLayer.getSource().clear(); // cremove all features
-            $('#temp-infos').text('');
-
+            cleanInfos();
             if($('#switch').is(':checked')) {
                 getZacByPoint(mviewer.getMap().getView().getCenter());
             } else {
@@ -258,11 +257,28 @@ const cartohoraires = (function() {
         });
     }
 
+    /**
+     * Empty zac layer and clean text
+     */
+    function cleanInfos() {
+        if(zacLayer) {
+            zacLayer.getSource().clear(); // cremove all features
+            $('#temp-infos').text('');
+        }
+    }
+
+    /**
+     * Display text to get features length infos
+     * @param {Array} features 
+     */
     function setInfoData(features) {
         $('#temp-infos').text('');
         $('#temp-infos').text('Nombre d\'objets à l\'écran : ' + features.length.toString());
     }
 
+    /**
+     * Create zac layer
+     */
     function initZacLayer() {
         // display zac layer temporary
         var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
@@ -290,6 +306,27 @@ const cartohoraires = (function() {
         }
     }
 
+    function manageMir(){
+        if($('#switch').is(':checked') && mir) {
+            mir.activate();
+        } else if(mir) {
+            mir.deactivate();
+        }
+    }
+
+    /**
+     * Init toggle button behavior
+     */
+    function initSwitch() {
+        $('#switch').click(function(e){
+            if(zacLayer) {
+                cleanInfos();
+            }
+            // manage center cross
+            manageMir();
+        })
+    }
+
     /**
      * PUBLIC
     */
@@ -297,16 +334,32 @@ const cartohoraires = (function() {
     return {
         init: () => {
             mviewer.getMap().once('postrender', m => {
+                // create SRS 3948 use by sigrennesmetropole as default SRS
                 initSRS3948();
+                // get template to display info panel
                 initTemplate();
+                // force some mviewer's components display
                 initDisplayComponents();
+                // Display modal on mobile device
                 initModalBehavior();
+                // create ZAC layer
                 initZacLayer();
+                // init behavior on map move
                 initMoveBehavior();
+                // init get data by extent by default
                 getDataByExtent();
+                // manage mir status
+                manageMir();
+                
             });
+            // to manage switch because this component is load late
+            mviewer.getMap().on('postrender', m => {
+                initSwitch();
+            });
+            // search component init
             initSearchItem();
         },
+
         searchBehavior : function(e) {
             if(e) {
                 displayResult(e);
