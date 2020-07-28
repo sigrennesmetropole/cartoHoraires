@@ -1,16 +1,17 @@
 <div class="cartohoraires-template container">
     <!--search area-->
-    <div class="row">
+    <div class="row top-form">
         <!--search field-->
-        <div class='col-sm-10 col-md-3' id="search-input">
-            <div class="form-group">
+        <div class='col-sm-10 col-md-3 autocomplete' id="search-input">
+            <div class="form-group form-autocomplete">
                 <div class='input-group date' id='ch-searchfield'>
                     <span class="input-group-addon search-picto">
                         <i class="fas fa-search"></i>
                     </span>
-                    <input type='text' class="form-control search-input" autocomplete="off"/>
+                    <input type='text' class="form-control search-input input-search input-text" autocomplete="off"/>
                 </div>
             </div>
+            <div class="autocomplete-list col-sm-12" style="display:none;"></div>
         </div>
         <!--search radio-->
         <div class="col-sm-10 col-md-4" id="search-radio">
