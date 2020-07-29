@@ -100,10 +100,28 @@
         </div>
     </div>
     <div class="row" style="margin-top:15px;">
-        <div class="col-sm-10">
-            <div class="panel panel-default no-border">
+        <div class="col-sm-7">
+            <div class="card-info col-sm-5">
+                <span class="input-info">
+                    <span id="input-number" class="input-number">45</span> personnes
+                </span>
+                <br>
+                <span class="subText"> ont saisis leurs horaires</span>
+                <br>
+                <small class="subText">Pour la journée, l'heure et la zone sélectionnée</small>
+            </div>
+            <div class="col-sm-2">
+            </div>
+            <div class="card-info col-sm-5">
+                <span class="input-info">
+                    <span id="absent-number" class="input-number">3</span> personnes
+                </h4>
+                <br>
+                <span class="subText"> sont en télétravail ou absentes</span>
+                <br>
+                <small class="subText">Pour la journée, l'heure et la zone sélectionnée</small>
             </div>
         </div>
     </div>
 </div>
-<strong class="col-sm-12" id="temp-infos">Nombre d'objets à l'écran : 16923</strong>
+<strong class="col-sm-12" id="temp-infos" style="margin-top: 20px">Nombre d'objets à l'écran : 16923</strong>
