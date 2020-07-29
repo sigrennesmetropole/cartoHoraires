@@ -6,6 +6,7 @@ const cartohoraires = (function() {
     let zacLayer = null;
     let load = false;
     let autocomplete;
+    let rvaConf;
 
     /**
      * Default style to highlight ZAC on center hover
@@ -109,49 +110,94 @@ const cartohoraires = (function() {
      * Create autocomplete request response for BAN API
      * @param {String} results 
      */
-    function searchAddress(value) {
+    function searchRVA(value) {
         if(value &&value.length > 3) {
-            // Ajax request
-            var xhr = new XMLHttpRequest();
-            var url = 'https://api-adresse.data.gouv.fr/search/?limit=5&q='+ value + '&limit=5&lat=48.112131&lon=-1.67902';
-            xhr.open('GET', url);
-            xhr.onload = function() {
-                if (xhr.status === 200 && xhr.responseText) {
-                    var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
-                    if(response && autocomplete.displayList) {
-                        autocomplete.closeAllLists();
-                        autocomplete.displayList(response.features);
-                    }
-                }
-                else {
-                    console.log('fail request');
-                }
-            };
-            xhr.send();
+            let promises = searchRM.request(rvaConf, value);
+            Promise.all(promises).then(function(allResult) {
+                let data = searchRM.getAutocompleteData(allResult, value, false);
+                autocomplete.closeAllLists();
+                autocomplete.displayList(data);
+            });
         }
     }
 
     /**
-     * Format autocomplete response for BAN API
+     * Return RVA autocompletion content
+     * @param {String} text
+    * @param {String} coord as xxx.xxx,yyy.yyy expected by select func.
+     */
+    function getLiRVA(text, coord){
+        coord = ol.proj.transform(coord.split(','),'EPSG:3948','EPSG:4326').join(',');
+        return `<div style='overflow-x:hidden;'>
+        <a href="#" onclick='cartohoraires.select("${coord}","${text}")'>${text}</a>
+        <input type='hidden' value='${coord}'>
+        </div>`
+    }
+
+    /**
+     * Return RVA list Title
+     * @param {String} text 
+     */
+    function getLiRVATitle(text){
+        return `<h5 style='overflow-x:hidden; margin-bottom:5px; margin-top:5px;'>
+            <strong>${text}</strong>
+        </h5>`
+    }
+
+    /**
+     * Format autocomplete response for RVA API
      * @param {Array} results 
      */
-    function formatAddressResult(results) {
+    function formatRvaResult(results) {
         let listed = [];
         let html = [];
-        results.forEach(e => {
-            if(listed.indexOf(e.properties.label)<0){
-                listed.push(e.properties.label);
-                let coord = [e.properties.x, e.properties.y];
-                coord = ol.proj.transform(coord,'EPSG:2154','EPSG:4326');
-                html.push(`
-                    <div style='overflow-x:hidden;'>
-                        <a href="#" onclick='cartohoraires.searchBehavior("${coord.join(',')}")'>${e.properties.label}</a>
-                        <input type='hidden' value='${coord}'>
-                    </div>`
-                );
-            }
+        let htmCities = [];
+        let htmLane = [];
+        let htmlAddress = [];
+        let coord;
+
+        Object.keys(results).forEach(type => {
+            if(!results[type].length){return}
+            results[type][0].forEach(record => {
+                switch(type) {
+                    case 'address':
+                        if(!htmlAddress.length) {
+                            htmlAddress.push(
+                                getLiRVATitle('Adresses')
+                            );
+                        }
+                        listed.push(record.addr3);
+                        coord = [record.x,record.y].join(',');
+                        htmlAddress.push(
+                            getLiRVA(record.addr3, coord)
+                        );
+                        break;
+                    case 'lane':
+                        if(!htmLane.length) {
+                            getLiRVATitle('Voies');
+                        }
+                        listed.push(record.name4);
+                        coord = record.upperCorner.replace(' ',',');
+                        htmLane.push(
+                            getLiRVA(record.name4, coord)
+                        );
+                        break;
+                    case 'cities':
+                        if(!htmCities.length) {
+                            htmCities.push(
+                                getLiRVATitle('Communes')
+                            )
+                        }
+                        listed.push(record.nameindex);
+                        coord = record.upperCorner.replace(' ',',');
+                        htmCities.push(
+                            getLiRVA(record.nameindex, coord)
+                        ); 
+                        break;
+                }
+            })
         })
-        return html.join('');
+        return htmlAddress.concat(htmCities,htmLane).join('');
     }
 
     /**
@@ -194,7 +240,7 @@ const cartohoraires = (function() {
                 let coord = record.geometry.coordinates.join(',');
                 html.push(`
                     <div style='overflow-x:hidden;'>
-                    <a href="#" onclick='cartohoraires.searchBehavior("${record.geometry.coordinates}")'>${txt}</a>
+                    <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}"${txt})'>${txt}</a>
                     <input type='hidden' value='${coord}'>
                     </div>`
                 );
@@ -211,7 +257,8 @@ const cartohoraires = (function() {
         if($('#search-radio input:checked').val() === 'sirene') {
             return searchSIRENE(v);
         } else {
-            return searchAddress(v);
+            //return searchAddress(v);
+            return searchRVA(v);
         }
     }
 
@@ -223,8 +270,17 @@ const cartohoraires = (function() {
         if($('#search-radio input:checked').val() === 'sirene'){
             return formatSIRENEesult(r);
         } else {
-            return formatAddressResult(r);
+            //return formatAddressResult(r);
+            return formatRvaResult(r);
         }
+    }
+
+    var initRvaConf = function (conf) {
+        $.getJSON(conf, function (response) {
+            if(response) {
+                rvaConf = response;
+            }
+        });
     }
 
     /**
@@ -232,8 +288,12 @@ const cartohoraires = (function() {
      */
     function initSearchItem() {
         if(document.getElementById('search-input') && !load) {
+            // TODO : pass this file as addon param
+            initRvaConf(configuration.getConfiguration().searchparameters.searchRMConf)
+
+
             load = true;
-            autocomplete = new Autocomplete(document.getElementById('search-input'), $('.autocomplete-list'), search, formatInputResult);
+            autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
             autocomplete.initListeners();
             autocomplete.initCloseAction();
         }
@@ -396,6 +456,9 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * Function to display or hide map center cross
+     */
     function manageMir(){
         if($('#switch').is(':checked') && mir) {
             mir.activate();
@@ -440,8 +503,6 @@ const cartohoraires = (function() {
                 getDataByExtent();
                 // manage mir status
                 manageMir();
-                // init seach - to test
-                initSearchItem();
                 
             });
             // to manage switch because this component is load late
@@ -450,15 +511,20 @@ const cartohoraires = (function() {
                 if(cartohoraires) {
                     initSearchItem();
                 }
+                $('#searchtool').hide();
             });
-            // search component init
-            //initSearchItem();
         },
 
-        searchBehavior : function(e) {
+        /**
+         * 
+         * @param {String} e as coordinates separated with coma
+         * @param {String} label as text to display into input field
+         */
+        select : function(e, label) {
             if(e) {
                 displayResult(e.split(',').map(a => parseFloat(a)));
             }
+            autocomplete.select(label);
         }
     };
 })();

@@ -18,7 +18,6 @@
 
 	</application>
 	<mapoptions maxzoom="20" minzoom="10" projection="EPSG:3857" center="-186098.36482879001,6125889.9088213602" zoom="12" />
-    
 	
 	<baselayers>
 		<baselayer visible="false" type="OSM" id="osm1" label="OpenStreetMap" title="OpenStreetMap" thumbgallery="img/basemap/osm.png" url="http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -35,7 +34,7 @@
 	</extensions>
 
     <searchparameters bbox="false" localities="false" features="false" static="false"
-		searchRM="false" searchRMConf="apps/georm/addons/data/searchConf.json"/>
+		searchRM="true" searchRMConf="apps/georm/addons/data/searchConf.json"/>
     
 	<themes mini="true">
 		<theme id="horaires" name="Transport" collapsed="true" icon="fas fa-clock">
