@@ -1,4 +1,10 @@
-
+/**
+ * This class allow to use API with input HTML
+ * Result panel and API search beahvier was fully mandatory.
+ * This component have no default behavior to search and display results.
+ * 
+ * Needs JQUERY >=1.2.
+ */
 
 class Autocomplete {
     target = null;
@@ -7,7 +13,10 @@ class Autocomplete {
     listTarget = null;
     /**
      * Constructor
-     * @param {Object} map as ol.map object
+     * @param {Object} target as Jquery HTML component
+     * @param {Object} list as Jquery HTML component
+     * @param {Function} search as function to search wathever from your favorite API
+     * @param {Function} html as function to create HTML List (as JQuery Object) content
      */
     constructor (target, list, search, html) {
         this.target = target;
@@ -25,6 +34,9 @@ class Autocomplete {
     getListTarget() {return this.listTarget}
     getTarget() {return this.target}
 
+    /**
+     * Init input behavior under users actions
+     */
     initListeners() {
         let autocomplete = this;
         let currentFocus;
@@ -70,6 +82,10 @@ class Autocomplete {
         });
     }
 
+    /**
+     * Display list result
+     * @param {Object} results from JSON parsed response
+     */
     displayList = function (results) {
         // parse results
         if(this.html) {
@@ -104,6 +120,9 @@ class Autocomplete {
         this.listTarget.hide();
     }
 
+    /**
+     * Init behavior to close list on click out of input result box
+     */
     initCloseAction() { // to trigger
         let autocomplete = this;
         document.addEventListener("click", function (e) {
