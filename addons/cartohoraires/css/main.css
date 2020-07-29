@@ -184,6 +184,24 @@ input[type='radio']:after {
 }
 
 /**
+* CARD INFO
+*/
+.card-info {
+	background-color: whitesmoke;
+	border: 1px transparent solid;
+	font-weight: bold;
+	border-radius: 4px;
+	padding: 15px;
+}
+.input-info {
+	color: #53b3b8;
+}
+.input-number {
+	font-size: 30px;
+	color: #f0ad4e;
+}
+
+/**
 * OTHERS
 */
 
