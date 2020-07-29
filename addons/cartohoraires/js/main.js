@@ -110,32 +110,6 @@ const cartohoraires = (function() {
      * Create autocomplete request response for BAN API
      * @param {String} results 
      */
-    function searchAddress(value) {
-        if(value &&value.length > 3) {
-            // Ajax request
-            var xhr = new XMLHttpRequest();
-            var url = 'https://api-adresse.data.gouv.fr/search/?limit=5&q='+ value + '&limit=5&lat=48.112131&lon=-1.67902';
-            xhr.open('GET', url);
-            xhr.onload = function() {
-                if (xhr.status === 200 && xhr.responseText) {
-                    var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
-                    if(response && autocomplete.displayList) {
-                        autocomplete.closeAllLists();
-                        autocomplete.displayList(response.features);
-                    }
-                }
-                else {
-                    console.log('fail request');
-                }
-            };
-            xhr.send();
-        }
-    }
-
-    /**
-     * Create autocomplete request response for BAN API
-     * @param {String} results 
-     */
     function searchRVA(value) {
         if(value &&value.length > 3) {
             let promises = searchRM.request(rvaConf, value);
@@ -150,12 +124,12 @@ const cartohoraires = (function() {
     /**
      * Return RVA autocompletion content
      * @param {String} text
-    * @param {String} coord as xxx.xxx,yyy.yyy expected by searchBehavior func.
+    * @param {String} coord as xxx.xxx,yyy.yyy expected by select func.
      */
     function getLiRVA(text, coord){
         coord = ol.proj.transform(coord.split(','),'EPSG:3948','EPSG:4326').join(',');
         return `<div style='overflow-x:hidden;'>
-        <a href="#" onclick='cartohoraires.searchBehavior("${coord}")'>${text}</a>
+        <a href="#" onclick='cartohoraires.select("${coord}","${text}")'>${text}</a>
         <input type='hidden' value='${coord}'>
         </div>`
     }
@@ -227,29 +201,6 @@ const cartohoraires = (function() {
     }
 
     /**
-     * Format autocomplete response for BAN API
-     * @param {Array} results 
-     */
-    function formatAddressResult(results) {
-        let listed = [];
-        let html = [];
-        results.forEach(e => {
-            if(listed.indexOf(e.properties.label)<0){
-                listed.push(e.properties.label);
-                let coord = [e.properties.x, e.properties.y];
-                coord = ol.proj.transform(coord,'EPSG:2154','EPSG:4326');
-                html.push(`
-                    <div style='overflow-x:hidden;'>
-                        <a href="#" onclick='cartohoraires.searchBehavior("${coord.join(',')}")'>${e.properties.label}</a>
-                        <input type='hidden' value='${coord}'>
-                    </div>`
-                );
-            }
-        })
-        return html.join('');
-    }
-
-    /**
      * Create autocomplete request response for Open Data Rennes API - base-sirene-v3 dataset
      * @param {String} results 
      */
@@ -289,7 +240,7 @@ const cartohoraires = (function() {
                 let coord = record.geometry.coordinates.join(',');
                 html.push(`
                     <div style='overflow-x:hidden;'>
-                    <a href="#" onclick='cartohoraires.searchBehavior("${record.geometry.coordinates}")'>${txt}</a>
+                    <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}"${txt})'>${txt}</a>
                     <input type='hidden' value='${coord}'>
                     </div>`
                 );
@@ -342,7 +293,7 @@ const cartohoraires = (function() {
 
 
             load = true;
-            autocomplete = new Autocomplete(document.getElementById('search-input'), $('.autocomplete-list'), search, formatInputResult);
+            autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
             autocomplete.initListeners();
             autocomplete.initCloseAction();
         }
@@ -505,6 +456,9 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * Function to display or hide map center cross
+     */
     function manageMir(){
         if($('#switch').is(':checked') && mir) {
             mir.activate();
@@ -561,10 +515,16 @@ const cartohoraires = (function() {
             });
         },
 
-        searchBehavior : function(e) {
+        /**
+         * 
+         * @param {String} e as coordinates separated with coma
+         * @param {String} label as text to display into input field
+         */
+        select : function(e, label) {
             if(e) {
                 displayResult(e.split(',').map(a => parseFloat(a)));
             }
+            autocomplete.select(label);
         }
     };
 })();
