@@ -31,6 +31,7 @@
 		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="chartjs" path="apps/cartoHoraires/addons"/>
 	</extensions>
 
     <searchparameters bbox="false" localities="false" features="false" static="false"
