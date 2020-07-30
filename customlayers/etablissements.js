@@ -3,6 +3,8 @@ mviewer.customLayers.etablissements = (function () {
     var data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
     var initialData = [];
+
+    var newSource;
     
     function manyStyle (radius, size, color) {
       return [
@@ -63,7 +65,7 @@ mviewer.customLayers.etablissements = (function () {
     });
 
     var setSource = function() {
-      var newSource = new ol.source.Vector({
+      newSource = new ol.source.Vector({
         format: new ol.format.GeoJSON()
       });
       vectorSource.getFeatures().forEach(e => {
@@ -73,7 +75,6 @@ mviewer.customLayers.etablissements = (function () {
           newSource.addFeature(e);
         }
       })
-      console.log(newSource.getFeatures().length);
       // update cluster with new source and last 7days features
       vectorLayer.getSource().setSource(newSource);
     }
@@ -86,7 +87,6 @@ mviewer.customLayers.etablissements = (function () {
         ol.Observable.unByKey(evt);
       }
     });
-
     return {
         layer: vectorLayer,
         getInitialData: () => {return initialData},

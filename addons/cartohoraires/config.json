@@ -1,7 +1,8 @@
 {
     "js": [
         "js/main.js",
-        "js/autocomplete.js"
+        "js/autocomplete.js",
+        "js/graph.js"
     ],
     "css": "css/main.css",
     "html": "cartohoraires.html",
