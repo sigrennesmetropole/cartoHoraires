@@ -10,9 +10,10 @@ const cartohoraires = (function() {
 
     let transportType = [];
     let transportSelectEmpty = true;
-    let transportSelected = "";
+    let transportSelected = '';
 
     let btnInit = false;
+    let sourceInitialized = false;
 
     /**
      * Default style to highlight ZAC on center hover
@@ -281,6 +282,11 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * Get config file to get API key and others RVA params
+     * TODO : pass this file info from addon config
+     * @param {String} conf 
+     */
     var initRvaConf = function (conf) {
         $.getJSON(conf, function (response) {
             if(response) {
@@ -296,8 +302,7 @@ const cartohoraires = (function() {
         if(document.getElementById('search-input') && !load) {
             // TODO : pass this file as addon param
             initRvaConf(configuration.getConfiguration().searchparameters.searchRMConf)
-
-
+            
             load = true;
             autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
             autocomplete.initListeners();
@@ -399,17 +404,20 @@ const cartohoraires = (function() {
         }
     }
 
+    function moveBehavior() {
+        cleanInfos();
+        if($('#switch').is(':checked')) {
+            getZacByPoint(mviewer.getMap().getView().getCenter());
+        } else {
+            getDataByExtent();
+        }
+    }
     /**
      * Init event to trigger behavior on map move end action
      */
     function initMoveBehavior() {
         mviewer.getMap().on('moveend', function() {
-            cleanInfos();
-            if($('#switch').is(':checked')) {
-                getZacByPoint(mviewer.getMap().getView().getCenter());
-            } else {
-                getDataByExtent();
-            }
+            moveBehavior();
         });
     }
 
@@ -463,14 +471,26 @@ const cartohoraires = (function() {
     }
 
     /**
-     * Function to display or hide map center cross
+     * Function to display or hide map center cross and zac name info
      */
-    function manageMir(){
+    function manageZACUi(){
         if($('#switch').is(':checked') && mir) {
             mir.activate();
+            $('#zac-infos-panel').show();
         } else if(mir) {
             mir.deactivate();
+            $('#zac-infos-panel').hide();
         }
+    }
+
+        /**
+     * Function to display or hide map center cross and zac name info
+     */
+    function manageDateInfosUi(){
+        let date = $('.btn-day.btn-selected').attr('dayName');
+        let time = '8:00';
+        $('#datetime-info').text(date + ' - ' + time);
+        $('#mode-info').text(transportSelected);
     }
 
     /**
@@ -481,15 +501,13 @@ const cartohoraires = (function() {
             if(zacLayer) {
                 cleanInfos();
             }
-            // manage center cross
-            manageMir();
+            // manage center cross and zac infos
+            manageZACUi();
+            moveBehavior();
         })
     }
 
     function initTransportList() {
-        function selectTransport() {
-            transportSelected = $('#modal-select').val();
-        }
         mviewer.getMap().on('postrender', m => {
             if(transportType.length && transportSelectEmpty) {
                 // delete null infos
@@ -505,8 +523,9 @@ const cartohoraires = (function() {
                 transportSelected = $('#modal-select').val();
                 // init event
                 $('#modal-select').on('change',function(e){
-                    selectTransport();
-                    mviewer.customLayers.etablissements.setSource();
+                    transportSelected = $('#modal-select').val();
+                    setInfosPanel(true);
+                    manageDateInfosUi();
                 })
 
                 // to do that once
@@ -519,7 +538,7 @@ const cartohoraires = (function() {
      * Init button behaviors
      */
     function initBtnDay() {
-        mviewer.getMap().on('postrender', m => {
+        var initBtnEvent = mviewer.getMap().on('postrender', m => {
             if(!btnInit && $('.btn-day').length) {
                 $('.btn-day').click(function(e){
                     // style
@@ -529,12 +548,33 @@ const cartohoraires = (function() {
                     $(this).addClass('btn-selected');
 
                     // data behavior
-                    mviewer.customLayers.etablissements.setSource();
+                    setInfosPanel(true);
+                    // set ui infos
+                    manageDateInfosUi();
                 });
                 btnInit = true;
+                ol.Observable.unByKey(initBtnEvent);
             }
         })
 
+    }
+
+    /**
+     * Trigger data layer source update from fitlers and trigger infos update
+     * @param {Boolean} isEvent 
+     */
+    function setInfosPanel (isEvent) {
+
+        //mviewer.customLayers.etablissements.setSource();
+        if(!sourceInitialized) {
+            var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
+            mviewer.customLayers.etablissements.setSource();
+            sourceInitialized = features.length || false;
+        }
+        if(isEvent) {
+            mviewer.customLayers.etablissements.setSource();
+        }
+        manageZACUi();
     }
 
     /**
@@ -558,12 +598,11 @@ const cartohoraires = (function() {
                 initMoveBehavior();
                 // init get data by extent by default
                 getDataByExtent();
-                // manage mir status
-                manageMir();
                 // list for transport type value
                 initTransportList();
                 // button for day selection
                 initBtnDay();
+                
             });
             // to manage switch because this component is load late
             mviewer.getMap().on('postrender', m => {
@@ -572,6 +611,7 @@ const cartohoraires = (function() {
                     initSearchItem();
                 }
                 $('#searchtool').hide();
+                setInfosPanel(false);
             });
         },
 
@@ -591,6 +631,9 @@ const cartohoraires = (function() {
         },
         getTransportValue: function () {
             return transportSelected;
+        },
+        getDateValue: function () {
+            return $('.btn-day.btn-selected').attr('dayName');
         }
     };
 })();

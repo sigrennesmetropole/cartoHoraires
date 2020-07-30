@@ -47,13 +47,13 @@
             <br>
             <!--DAYS-->
             <span style="margin-top:10px">
-                <button type="button" class="btn btn-default btn-md btn-day btn-selected" day="1">L</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="2">M</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="3">M</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="4">J</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="5">V</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="6">S</button>
-                <button type="button" class="btn btn-default btn-md btn-day" day="7">D</button>
+                <button type="button" class="btn btn-default btn-md btn-day btn-selected" day="1" dayName="Lundi">L</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="2" dayName="Mardi">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="3" dayName="Mercredi">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="4" dayName="Jeudi">J</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="5" dayName="Vendredi">V</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="6" dayName="Samedi">S</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="7" dayName="Dimanche">D</button>
             </span>
         </div>
         <!--MODAL TYPE-->
@@ -79,9 +79,18 @@
     <!--RECAP INFOS-->
     <div class="row">
         <span class="col-sm-12">
-            <span class="infos"><i class="fas fa-clock"></i> Mercredi - 8:00</span>
-            <span class="infos"><i class="fas fa-car"></i></i> Voiture</span>
-            <span class="infos"><i class="fas fa-map-marker-alt"></i> ZAC - Les longs champs</span>
+            <span class="infos">
+                <i class="fas fa-clock"></i> 
+                <span id="datetime-info">Mercredi - 8:00</span>
+            </span>
+            <span class="infos">
+                <i class="fas fa-car"></i> 
+                <span id="mode-info">Voiture</span>
+            </span>
+            <span class="infos" id="zac-infos-panel"> 
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="zac-info">zac</span>
+            </span>
         </span>
     </div>
     <!--GRAPH PANEL-->
