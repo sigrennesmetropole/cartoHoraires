@@ -8,6 +8,12 @@ const cartohoraires = (function() {
     let autocomplete;
     let rvaConf;
 
+    let transportType = [];
+    let transportSelectEmpty = true;
+    let transportSelected = "";
+
+    let btnInit = false;
+
     /**
      * Default style to highlight ZAC on center hover
      */
@@ -480,6 +486,57 @@ const cartohoraires = (function() {
         })
     }
 
+    function initTransportList() {
+        function selectTransport() {
+            transportSelected = $('#modal-select').val();
+        }
+        mviewer.getMap().on('postrender', m => {
+            if(transportType.length && transportSelectEmpty) {
+                // delete null infos
+                transportType = transportType.filter(e => e);
+                // create select options
+                let optionsSelect = transportType.map(e => `
+                    <option>${e}</option>
+                `);
+                // insert select options
+                $('#modal-select').empty();
+                $('#modal-select').append(optionsSelect);
+
+                transportSelected = $('#modal-select').val();
+                // init event
+                $('#modal-select').on('change',function(e){
+                    selectTransport();
+                    mviewer.customLayers.etablissements.setSource();
+                })
+
+                // to do that once
+                transportSelectEmpty = false;
+            }
+        });
+    }
+
+    /**
+     * Init button behaviors
+     */
+    function initBtnDay() {
+        mviewer.getMap().on('postrender', m => {
+            if(!btnInit && $('.btn-day').length) {
+                $('.btn-day').click(function(e){
+                    // style
+                    $('.btn-day').removeClass('btn-selected');
+                    $('.btn-day').removeClass('active');
+                    $('.btn-day').removeClass('focus');
+                    $(this).addClass('btn-selected');
+
+                    // data behavior
+                    mviewer.customLayers.etablissements.setSource();
+                });
+                btnInit = true;
+            }
+        })
+
+    }
+
     /**
      * PUBLIC
     */
@@ -503,7 +560,10 @@ const cartohoraires = (function() {
                 getDataByExtent();
                 // manage mir status
                 manageMir();
-                
+                // list for transport type value
+                initTransportList();
+                // button for day selection
+                initBtnDay();
             });
             // to manage switch because this component is load late
             mviewer.getMap().on('postrender', m => {
@@ -525,6 +585,12 @@ const cartohoraires = (function() {
                 displayResult(e.split(',').map(a => parseFloat(a)));
             }
             autocomplete.select(label);
+        },
+        setTransportType: function (types) {
+            transportType = types;
+        },
+        getTransportValue: function () {
+            return transportSelected;
         }
     };
 })();

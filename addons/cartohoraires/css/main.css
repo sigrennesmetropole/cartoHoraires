@@ -178,9 +178,17 @@ input[type='radio']:after {
 	font-weight: bold;
 }
 
-.btn-day:hover{
+.btn-selected, .btn-day:focus, .btn-day:active {
 	background-color: whitesmoke;
+	color: #53b3b8;
 	border: 1px #53b3b8 solid;
+}
+
+
+.btn-day:hover {
+	background-color: whitesmoke;
+	border: 1px rgba(0,0,0,0.1) solid;
+	color: #53b3b8;
 }
 
 /**

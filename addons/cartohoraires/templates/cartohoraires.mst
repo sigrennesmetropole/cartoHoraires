@@ -47,13 +47,13 @@
             <br>
             <!--DAYS-->
             <span style="margin-top:10px">
-                <button type="button" class="btn btn-default btn-md btn-day">L</button>
-                <button type="button" class="btn btn-default btn-md btn-day">M</button>
-                <button type="button" class="btn btn-default btn-md btn-day">M</button>
-                <button type="button" class="btn btn-default btn-md btn-day">J</button>
-                <button type="button" class="btn btn-default btn-md btn-day">V</button>
-                <button type="button" class="btn btn-default btn-md btn-day">S</button>
-                <button type="button" class="btn btn-default btn-md btn-day">D</button>
+                <button type="button" class="btn btn-default btn-md btn-day btn-selected" day="1">L</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="2">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="3">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="4">J</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="5">V</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="6">S</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="7">D</button>
             </span>
         </div>
         <!--MODAL TYPE-->
