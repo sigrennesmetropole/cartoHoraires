@@ -29,7 +29,7 @@ class Slider {
             slider.formatTime = slider.timeConvert(e.target.value);
             slider.time = e.target.value;
             $('#slider-info').text(slider.formatTime);
-            callback(true);
+            callback(e, false);
         });
         slider.formatTime = this.timeConvert($('#timeSlider').val());
         $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
