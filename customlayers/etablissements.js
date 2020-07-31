@@ -5,8 +5,15 @@ mviewer.customLayers.etablissements = (function () {
     var initialData = [];
 
     var newSource;
+
+    var i = 0;
     
-    function manyStyle (radius, size, color) {
+    /**
+     * To style cluster
+     * @param {Number} radius 
+     * @param {String} color 
+     */
+    function manyStyle (radius, color) {
       return [
         new ol.style.Style({
           image: new ol.style.Circle({
@@ -23,6 +30,10 @@ mviewer.customLayers.etablissements = (function () {
       ];
     };
 
+    /**
+     * Style uniq feature
+     * @param {String} color 
+     */
     function pointStyle (color) {
       var style =  new ol.style.Style({
         image: new ol.style.Circle({
@@ -36,6 +47,10 @@ mviewer.customLayers.etablissements = (function () {
       return [style];
     }
 
+    /**
+     * To detect and style cluster features
+     * @param {ol.Feature} feature
+     */
     function clusterStyle (feature) {
       var size = feature.get('features').length;
       var max_radius = 25;
@@ -45,12 +60,30 @@ mviewer.customLayers.etablissements = (function () {
       var color = '#53B3B8';
 
       if(size > 1) {
-        return manyStyle(radius, size, color);
+        return manyStyle(radius, color);
       } else {
         return pointStyle(color);
       }
     }
 
+    /**
+     * Convert mintues number to hh:mm:ssZ format
+     * @param {Integer} n as minutes number
+     */
+    var convertMinToZ = function (n) {
+        var num = n;
+        var hours = (num / 60);
+        var rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        var rminutes = Math.round(minutes);
+        rminutes = rminutes == 0 ? '00' : rminutes;
+        rhours = rhours > 10 ? rhours : `0${rhours}`;
+        return rhours + ':' + rminutes + ':00Z';
+    }
+
+    /**
+     * create vector source, cluster source and vector layer
+     */
     var vectorSource = new ol.source.Vector({
       url: data,
       format: new ol.format.GeoJSON()
@@ -63,22 +96,38 @@ mviewer.customLayers.etablissements = (function () {
       }),
       style: clusterStyle
     });
+    
 
+    /**
+     * Update cluster source
+     */
     var setSource = function() {
-      newSource = new ol.source.Vector({
-        format: new ol.format.GeoJSON()
+      // create new source
+      if(!$('.btn-day.btn-selected').attr('day') || !cartohoraires.getTransportValue() || !$('#timeSlider').val()) {
+        return
+      }
+
+      var url = data + 
+      '&CQL_FILTER='+
+      `transport_lib IN ('${cartohoraires.getTransportValue()}')` + 
+      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')` +
+      ` AND horaire IN ('${convertMinToZ($('#timeSlider').val())}')`;
+
+      newSource = new ol.source.Cluster({
+        distance: 0,
+        source: new ol.source.Vector({
+          url: url,
+          format: new ol.format.GeoJSON()
+        })
       });
-      vectorSource.getFeatures().forEach(e => {
-        var isTransport = e.getProperties().transport_lib == cartohoraires.getTransportValue();
-        var isDay = e.getProperties().jour == $('.btn-day.btn-selected').attr('day');
-        if(isDay && isTransport){
-          newSource.addFeature(e);
-        }
-      })
+      // parse feature from initial vector
       // update cluster with new source and last 7days features
-      vectorLayer.getSource().setSource(newSource);
+      vectorLayer.setSource(newSource);
     }
     
+    /**
+     * Init event on layer ready state and remove it after process with unByKey ol method
+     */
     var evt = vectorSource.on('change', function(e) {
       // only for ready state
       if(cartohoraires && cartohoraires.setTransportType) {
