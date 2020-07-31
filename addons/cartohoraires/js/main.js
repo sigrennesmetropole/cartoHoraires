@@ -15,6 +15,10 @@ const cartohoraires = (function() {
     let btnInit = false;
     let sourceInitialized = false;
 
+    let slider;
+
+    let listHtml;
+
     /**
      * Default style to highlight ZAC on center hover
      */
@@ -23,7 +27,7 @@ const cartohoraires = (function() {
           color: 'rgba(255, 255, 255, 0)',
         }),
         stroke: new ol.style.Stroke({
-          color: 'rgb(255, 145, 0)',
+          color: 'rgba(255, 145, 0)',
           width: 2,
         })
     });
@@ -157,7 +161,6 @@ const cartohoraires = (function() {
      */
     function formatRvaResult(results) {
         let listed = [];
-        let html = [];
         let htmCities = [];
         let htmLane = [];
         let htmlAddress = [];
@@ -441,19 +444,18 @@ const cartohoraires = (function() {
     }
 
     /**
-     * Create zac layer
+     * Create zac layer to display if map center intersect zac entity
      */
     function initZacLayer() {
         // display zac layer temporary
-        var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
+        /*var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
         var zacTempLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
                 url: data,
                 format: new ol.format.GeoJSON()
             })
         });
-        mviewer.getMap().addLayer(zacTempLayer);
-
+        mviewer.getMap().addLayer(zacTempLayer);*/
 
         if(!zacLayer) {
             zacLayer = new ol.layer.Vector({
@@ -487,10 +489,26 @@ const cartohoraires = (function() {
      * Function to display or hide map center cross and zac name info
      */
     function manageDateInfosUi(){
+        // day
         let date = $('.btn-day.btn-selected').attr('dayName');
-        let time = '8:00';
+        date = $('.btn-day.btn-selected').length ? date : 'Aucun jour ';
+
+        // time
+        let time = slider.getFormatTime();
+
         $('#datetime-info').text(date + ' - ' + time);
+        if($('#datetime-info').text().length) {
+            $('#clock-info').show();
+        } else {
+            $('#clock-info').hide();
+        }
+
         $('#mode-info').text(transportSelected);
+        if($('#mode-info').text().length) {
+            $('#transport-info').show();
+        } else {
+            $('#transport-info').hide();
+        }
     }
 
     /**
@@ -507,6 +525,9 @@ const cartohoraires = (function() {
         })
     }
 
+    /**
+     * Get transport values from layer's data and create select options
+     */
     function initTransportList() {
         mviewer.getMap().on('postrender', m => {
             if(transportType.length && transportSelectEmpty) {
@@ -518,6 +539,7 @@ const cartohoraires = (function() {
                 `);
                 // insert select options
                 $('#modal-select').empty();
+                $('#modal-select').append('<option></option>');
                 $('#modal-select').append(optionsSelect);
 
                 transportSelected = $('#modal-select').val();
@@ -560,21 +582,31 @@ const cartohoraires = (function() {
     }
 
     /**
+     * init time slider 
+     */
+    function initTimeSlider() {
+        slider = new Slider('timeSlider', setInfosPanel);
+    }
+
+    /**
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
     function setInfosPanel (isEvent) {
 
-        //mviewer.customLayers.etablissements.setSource();
         if(!sourceInitialized) {
             var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
             mviewer.customLayers.etablissements.setSource();
             sourceInitialized = features.length || false;
         }
-        if(isEvent) {
+
+        manageZACUi();
+        manageDateInfosUi();
+        if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() ) {
+            return
+        } else if (isEvent) {
             mviewer.customLayers.etablissements.setSource();
         }
-        manageZACUi();
     }
 
     /**
@@ -602,6 +634,8 @@ const cartohoraires = (function() {
                 initTransportList();
                 // button for day selection
                 initBtnDay();
+                // hide or display mir
+                manageZACUi();
                 
             });
             // to manage switch because this component is load late
@@ -611,7 +645,9 @@ const cartohoraires = (function() {
                     initSearchItem();
                 }
                 $('#searchtool').hide();
-                setInfosPanel(false);
+                // init time slider component
+                initTimeSlider();
+                //setInfosPanel(false);
             });
         },
 
@@ -630,10 +666,13 @@ const cartohoraires = (function() {
             transportType = types;
         },
         getTransportValue: function () {
-            return transportSelected;
+            return $('#modal-select').val();
         },
         getDateValue: function () {
             return $('.btn-day.btn-selected').attr('dayName');
+        },
+        getSlider: function () {
+            return slider;
         }
     };
 })();

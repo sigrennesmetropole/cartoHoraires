@@ -26,6 +26,8 @@
 	</baselayers>
 
 	<extensions>
+		<extension type="component" id="chartjs" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="momentjs" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="bootstrap-autocomplete" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="turfjs" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
