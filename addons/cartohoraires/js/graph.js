@@ -7,14 +7,16 @@
 class Graph {
     target = null;
     chart = null;
-    features = [];
+    features = null;
+    dataSet = [];
     /**
      * Constructor
      * @param {Object} target as Jquery HTML component
-     * @param {Function} filterFunction as callback
+     * @param {Array} features features to send to bar chart
      */
-    constructor (target) {
+    constructor (target, features) {
         this.target = target;
+        this.features = features || null;
         this.createGraph();
     }
 
@@ -23,17 +25,21 @@ class Graph {
      */
     getInfos() {
         let horairesCount = {};
-        this.features.forEach(e => {
-            let h = e.getProperties().horaire;
-            h = moment(h, 'HH:mm:ssZ').subtract(2, 'hours').format('HH:mm');
-            if(!horairesCount[h]) {
-                horairesCount[h] = 0;
+        let data = this.features || this.dataSet;
+        data.forEach(e => {
+            let p = e.properties || e.getProperties();
+            if(p.horaire) {
+                let h = p.horaire;
+                h = moment(h, 'HH:mm:ssZ').subtract(2, 'hours').format('HH:mm');
+                if(!horairesCount[h]) {
+                    horairesCount[h] = 0;
+                }
+                horairesCount[h]+=1;
             }
-            horairesCount[h]+=1;
         });
 
-        let labels = Object.keys(horairesCount);
-        let values = labels.map(e => horairesCount[e]);
+        let labels = Object.keys(horairesCount).reverse();
+        let values = labels.map(e => horairesCount[e]).reverse();
         return {
             labels: labels,
             values: values
@@ -41,8 +47,7 @@ class Graph {
     }
     
     createGraph() {
-        //this.features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
-        this.features = mviewer.customLayers.etablissements.getReceiptData();
+        this.dataSet = mviewer.customLayers.etablissements.getReceiptData();
         this.infos = this.getInfos()
         
         let canvas = document.getElementById(this.target);

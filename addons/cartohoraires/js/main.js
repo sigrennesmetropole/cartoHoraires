@@ -319,7 +319,6 @@ const cartohoraires = (function() {
      */
     function displayResult(coordinates) {
         if(coordinates) {
-            console.log(coordinates);
             mviewer.zoomToLocation(coordinates[0], coordinates[1], 16, null);
         }
     }
@@ -327,9 +326,11 @@ const cartohoraires = (function() {
     /**
      * From geom we retrieve geoserver data by contains method
      * @param {String} wkt as geom string
+     * @param {Array} coordinates 
+     * TODO : replace this by turf operation to select info from map data directly and avoid server call
      */
-    function getDataByGeom(wkt) {
-        $.post( 'https://public-test.sig.rennesmetropole.fr/geoserver/ows', {
+    function getDataByGeom(wkt, coordinates) {
+        /*$.post( 'https://public-test.sig.rennesmetropole.fr/geoserver/ows', {
             SERVICE: "WFS",
             VERSION: "1.1.0",
             REQUEST: "GetFeature",
@@ -339,8 +340,24 @@ const cartohoraires = (function() {
         }, function( results ) {
             if(results.features && results.features.length) {
                 setInfoData(results.features);
+                setInfosPanel(true, true, results.features);
             }
-        }, "json");
+        }, "json");*/
+
+        // use turf.js
+        var data = mviewer.customLayers.etablissements.getReceiptData();
+        if(data.length) {
+            let polygon = turf.polygon([coordinates]);
+            let containsData = [];
+            data.forEach(e => {
+                let point = turf.point(e.getProperties().geometry.getCoordinates());
+                if(turf.booleanContains(polygon, point)) {
+                    containsData.push(e);
+                };
+            });
+            setInfosPanel(true, true,containsData);
+        }
+        //var polygon = turf.polygon(coordinates);
     };
 
     /**
@@ -384,7 +401,7 @@ const cartohoraires = (function() {
                     zacLayer.getSource().addFeature(zac3857); // add this
                     
                     // get data by geoserver request
-                    getDataByGeom(wktGeom);
+                    getDataByGeom(wktGeom, zac3857.getGeometry().getCoordinates()[0]);
                 }
             }
         });
@@ -402,8 +419,8 @@ const cartohoraires = (function() {
             turfPolygon = turf.bboxPolygon(extentMap);
 
             let bboxFeature = new ol.format.GeoJSON().readFeatures(turfPolygon);
-            let bboxCoord = bboxFeature[0].getGeometry().transform('EPSG:3857','EPSG:3948').getCoordinates()[0];
-            getDataByGeom(coordinatesToWKT(bboxCoord, 'POLYGON'));
+            let bboxCoord = bboxFeature[0].getGeometry().getCoordinates()[0]
+            getDataByGeom(coordinatesToWKT(bboxCoord, 'POLYGON'), bboxCoord);
         }
     }
 
@@ -588,15 +605,15 @@ const cartohoraires = (function() {
         slider = new Slider('timeSlider', setInfosPanel);
     }
 
-    function initChart() {
-        graph = new Graph('myChart');
+    function initChart(features) {
+        graph = new Graph('myChart', features);
     }
 
     /**
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
-    function setInfosPanel (isEvent, updateGraph) {
+    function setInfosPanel (isEvent, updateGraph, features) {
         if(!sourceInitialized) { // on init - deactivate because of loop bug
             var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
             mviewer.customLayers.etablissements.setSource();
@@ -615,10 +632,10 @@ const cartohoraires = (function() {
             layer.setSource();
             mviewer.customLayers.etablissements.layer.once('postrender', function(e) {
                 if(!graph) {
-                    initChart();
+                    initChart(features);
                 } else if(updateGraph){
                     graph.getChart().destroy();
-                    initChart();
+                    initChart(features);
                 }
             })
         }
