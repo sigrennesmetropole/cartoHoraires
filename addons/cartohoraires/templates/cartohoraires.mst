@@ -47,7 +47,7 @@
             <br>
             <!--DAYS-->
             <span style="margin-top:10px">
-                <button type="button" class="btn btn-default btn-md btn-day btn-selected" day="1" dayName="Lundi">L</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="1" dayName="Lundi">L</button>
                 <button type="button" class="btn btn-default btn-md btn-day" day="2" dayName="Mardi">M</button>
                 <button type="button" class="btn btn-default btn-md btn-day" day="3" dayName="Mercredi">M</button>
                 <button type="button" class="btn btn-default btn-md btn-day" day="4" dayName="Jeudi">J</button>
@@ -63,10 +63,7 @@
             <small class="subText">Filtrer les données sur la carte les graphiques en fonction du mode de transport sélectionné</small>
             <!--TRANSPORT SELECTOR-->
             <select class="form-control" id="modal-select">
-                <option>Voiture</option>
-                <option>Transports commun</option>
-                <option>Vélo, trottinette, ...</option>
-                <option>A pieds</option>
+                <option>Rien à sélectionner...</option>
             </select>
         </div>
     </div>
@@ -85,15 +82,15 @@
     <!--RECAP INFOS-->
     <div class="row">
         <span class="col-sm-12">
-            <span class="infos">
+            <span class="infos" style="display:none" id="clock-info">
                 <i class="fas fa-clock"></i> 
                 <span id="datetime-info">Mercredi - 8:00</span>
             </span>
-            <span class="infos">
+            <span class="infos" style="display:none" id="transport-info">
                 <i class="fas fa-car"></i> 
                 <span id="mode-info">Voiture</span>
             </span>
-            <span class="infos" id="zac-infos-panel"> 
+            <span class="infos" style="display:none" id="zac-infos-panel"> 
                 <i class="fas fa-map-marker-alt"></i>
                 <span id="zac-info">zac</span>
             </span>
