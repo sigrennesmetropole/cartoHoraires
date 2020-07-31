@@ -70,6 +70,12 @@
             </select>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-5" id="slider-zone">
+            <input id="timeSlider" type="text" data-slider-tooltip="hide"/>
+            <span id="slider-info">00 h 00 min</span>
+        </div>
+    </div>
     <!--GRAPH & INFOS-->
     <div class="row">
         <h4 class="col-sm-12 title-zone">

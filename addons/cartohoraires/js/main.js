@@ -560,6 +560,13 @@ const cartohoraires = (function() {
     }
 
     /**
+     * init time slider 
+     */
+    function initTimeSlider() {
+        new Slider('timeSlider');
+    }
+
+    /**
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
@@ -612,6 +619,8 @@ const cartohoraires = (function() {
                 }
                 $('#searchtool').hide();
                 setInfosPanel(false);
+                // init time slider component
+                initTimeSlider();
             });
         },
 
