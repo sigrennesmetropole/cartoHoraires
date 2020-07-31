@@ -16,8 +16,8 @@ const cartohoraires = (function() {
     let sourceInitialized = false;
 
     let slider;
+    let graph;
 
-    let listHtml;
 
     /**
      * Default style to highlight ZAC on center hover
@@ -546,7 +546,7 @@ const cartohoraires = (function() {
                 // init event
                 $('#modal-select').on('change',function(e){
                     transportSelected = $('#modal-select').val();
-                    setInfosPanel(true);
+                    setInfosPanel(e, true);
                     manageDateInfosUi();
                 })
 
@@ -570,7 +570,7 @@ const cartohoraires = (function() {
                     $(this).addClass('btn-selected');
 
                     // data behavior
-                    setInfosPanel(true);
+                    setInfosPanel(e, true);
                     // set ui infos
                     manageDateInfosUi();
                 });
@@ -588,13 +588,16 @@ const cartohoraires = (function() {
         slider = new Slider('timeSlider', setInfosPanel);
     }
 
+    function initChart() {
+        graph = new Graph('myChart');
+    }
+
     /**
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
-    function setInfosPanel (isEvent) {
-
-        if(!sourceInitialized) {
+    function setInfosPanel (isEvent, updateGraph) {
+        if(!sourceInitialized) { // on init - deactivate because of loop bug
             var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
             mviewer.customLayers.etablissements.setSource();
             sourceInitialized = features.length || false;
@@ -603,9 +606,21 @@ const cartohoraires = (function() {
         manageZACUi();
         manageDateInfosUi();
         if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() ) {
+            if(graph) {
+                graph.getChart().destroy();
+            }
             return
         } else if (isEvent) {
-            mviewer.customLayers.etablissements.setSource();
+            var layer = mviewer.customLayers.etablissements;
+            layer.setSource();
+            mviewer.customLayers.etablissements.layer.once('postrender', function(e) {
+                if(!graph) {
+                    initChart();
+                } else if(updateGraph){
+                    graph.getChart().destroy();
+                    initChart();
+                }
+            })
         }
     }
 
@@ -635,10 +650,10 @@ const cartohoraires = (function() {
                 // button for day selection
                 initBtnDay();
                 // hide or display mir
-                manageZACUi();
-                
+                manageZACUi();                
             });
             // to manage switch because this component is load late
+            var i = 0;
             mviewer.getMap().on('postrender', m => {
                 initSwitch();
                 if(cartohoraires) {
@@ -646,7 +661,11 @@ const cartohoraires = (function() {
                 }
                 $('#searchtool').hide();
                 // init time slider component
-                initTimeSlider();
+
+                if(i == 0 && $('#timeSlider').length) {
+                    initTimeSlider();
+                    i = 1;
+                }
                 //setInfosPanel(false);
             });
         },

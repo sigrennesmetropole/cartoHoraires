@@ -105,8 +105,12 @@
                     <br>
                     <small class="subText">Pour la journée et la zone sélectionnée</small>
                 </div>
-                <div class="panel-body no-border" style="background-color:whitesmoke;">
-                    <i class="fas fa-map-marker-alt"></i>
+                <div class="panel-body no-border text-center" style="background-color:whitesmoke;">
+                    <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
+                    <br>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Vous devez sélectionner tous les filtres pour afficher le graphique.</h5>
+                    <!--CHART BAR-->
+                    <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
             </div>
         </div>

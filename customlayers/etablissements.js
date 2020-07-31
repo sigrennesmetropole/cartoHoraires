@@ -1,13 +1,12 @@
 mviewer.customLayers.etablissements = (function () {
-    var id = 'etablissements';
-    var data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
+    let id = 'etablissements';
+    let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
     var initialData = [];
+    let receiptData = [];
 
-    var newSource;
-
-    var i = 0;
-    
+    let newSource;  
+  
     /**
      * To style cluster
      * @param {Number} radius 
@@ -110,8 +109,8 @@ mviewer.customLayers.etablissements = (function () {
       var url = data + 
       '&CQL_FILTER='+
       `transport_lib IN ('${cartohoraires.getTransportValue()}')` + 
-      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')` +
-      ` AND horaire IN ('${convertMinToZ($('#timeSlider').val())}')`;
+      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')` /*+
+      ` AND horaire IN ('${convertMinToZ($('#timeSlider').val())}')`*/;
 
       newSource = new ol.source.Cluster({
         distance: 0,
@@ -123,6 +122,14 @@ mviewer.customLayers.etablissements = (function () {
       // parse feature from initial vector
       // update cluster with new source and last 7days features
       vectorLayer.setSource(newSource);
+      vectorLayer.once('postrender', function(e) {
+        receiptData = newSource.getSource().getFeatures();
+        vectorLayer.getSource().getSource().getFeatures().forEach(e => {
+          if(e.getProperties().horaire != convertMinToZ($('#timeSlider').val())) { // remove features without correct time
+            vectorLayer.getSource().getSource().removeFeature(e);
+          }
+        });
+      })
     }
     
     /**
@@ -133,12 +140,16 @@ mviewer.customLayers.etablissements = (function () {
       if(cartohoraires && cartohoraires.setTransportType) {
         var type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
         cartohoraires.setTransportType([...new Set(type)]);
+        if(vectorSource.getFeatures().length) {
+          initialData = vectorSource.getFeatures();
+        }
         ol.Observable.unByKey(evt);
       }
     });
     return {
         layer: vectorLayer,
         getInitialData: () => {return initialData},
+        getReceiptData: () => {return receiptData},
         setSource: setSource
     }
   }());
