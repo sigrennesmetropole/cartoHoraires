@@ -218,7 +218,7 @@ const cartohoraires = (function() {
         if(value &&value.length > 3) {
             // Ajax request
             var xhr = new XMLHttpRequest();
-            var url = `${outils.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
+            var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
             xhr.open('GET', url);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
@@ -287,7 +287,6 @@ const cartohoraires = (function() {
 
     /**
      * Get config file to get API key and others RVA params
-     * TODO : pass this file info from addon config
      * @param {String} conf 
      */
     var initRvaConf = function (conf) {
@@ -659,7 +658,7 @@ const cartohoraires = (function() {
             } else {
                 layer.layer.once('postrender', function() {
                     moveBehavior();
-                })
+                });
             }
         }
     }
