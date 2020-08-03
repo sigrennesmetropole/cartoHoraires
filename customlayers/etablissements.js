@@ -135,14 +135,15 @@ mviewer.customLayers.etablissements = (function () {
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
      */
-    var evt = vectorSource.on('change', function(e) {
+    var evt = vectorLayer.once('postrender', function(e) {
       // only for ready state
-      if(cartohoraires && cartohoraires.setTransportType) {
+      if(cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
         var type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
         cartohoraires.setTransportType([...new Set(type)]);
         if(vectorSource.getFeatures().length) {
           initialData = vectorSource.getFeatures();
         }
+        cartohoraires.initOnDataLoad();
         ol.Observable.unByKey(evt);
       }
     });
