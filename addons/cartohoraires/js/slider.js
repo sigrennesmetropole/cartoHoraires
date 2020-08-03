@@ -25,7 +25,13 @@ class Slider {
             value: 480,
             formatter: (e) => {return this.timeConvert(e)}
         });
+
         $('#'+target).on('slideStop', function(e){
+            /**
+             * Update map data only.
+             * Chart could not take into account this info because chart display all available hours not only one.
+             * @param {Object} e event target - slider
+             */
             slider.formatTime = slider.timeConvert(e.target.value);
             slider.time = e.target.value;
             $('#slider-info').text(slider.formatTime);
