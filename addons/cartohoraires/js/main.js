@@ -379,7 +379,6 @@ const cartohoraires = (function() {
             success: function (results) {
                 if(results.features && results.features.length) {
 
-                    console.log(results.features[0]);
                     if(results.features[0].properties.nomza) {
                        $('#zac-info').text('');
                        $('#zac-info').text(results.features[0].properties.nomza);
