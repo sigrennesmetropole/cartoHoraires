@@ -379,6 +379,10 @@ const cartohoraires = (function() {
             success: function (results) {
                 if(results.features && results.features.length) {
 
+                    if(results.features[0].properties.nomza) {
+                       $('#zac-info').text('');
+                       $('#zac-info').text(results.features[0].properties.nomza);
+                    }
                     // add to layer to highlight feature
                     let zac3857 = new ol.Feature(
                         new ol.geom.Polygon(results.features[0].geometry.coordinates[0]).clone().transform('EPSG:'+options.defaultSRS,'EPSG:3857')
@@ -441,6 +445,7 @@ const cartohoraires = (function() {
         if(zacLayer) {
             zacLayer.getSource().clear(); // remove all features
             $('#temp-infos').text('');
+            $('#zac-info').text('Aucune ZAC');
         }
         if(graph) {
             graph.getChart().destroy();
@@ -454,7 +459,6 @@ const cartohoraires = (function() {
             mviewer.getLayers().etablissements.layer.getSource().getSource().clear();
         }
         if( isAutorizedZoom() ) {
-            console.log('cleaan info show zoom msg');
             $('#zoomMsg').show();
             $('#zoomMsg').children().show();
             return;
