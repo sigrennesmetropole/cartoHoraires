@@ -13,6 +13,7 @@
         "mapWidth": 60,
         "templateWidth": 40,
         "sireneZoom": 12,
-        "requestLayer": "etablissements"
+        "requestLayer": "etablissements",
+        "zoomLvl" : 12
     }
 }
