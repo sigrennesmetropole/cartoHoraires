@@ -46,6 +46,9 @@ class Graph {
         };
     }
     
+    /**
+     * Create graph
+     */
     createGraph() {
         this.dataSet = mviewer.customLayers.etablissements.getReceiptData();
         this.infos = this.getInfos()
@@ -88,6 +91,9 @@ class Graph {
         $('.emptyGraph').hide();
     }
 
+    /**
+     * return chart
+     */
     getChart = function() {
         if(this.chart) {
             return this.chart;

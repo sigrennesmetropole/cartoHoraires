@@ -138,7 +138,7 @@ const cartohoraires = (function() {
     * @param {String} coord as xxx.xxx,yyy.yyy expected by select func.
      */
     function getLiRVA(text, coord){
-        coord = ol.proj.transform(coord.split(','),'EPSG:3948','EPSG:4326').join(',');        
+        coord = ol.proj.transform(coord.split(','),options.defaultSRS,'EPSG:4326').join(',');        
         return `<div style='overflow-x:hidden;'>
         <a href="#" onclick='cartohoraires.select("${coord}","${text}")'>${text}</a>
         <input type='hidden' value='${coord}'>
@@ -218,7 +218,7 @@ const cartohoraires = (function() {
         if(value &&value.length > 3) {
             // Ajax request
             var xhr = new XMLHttpRequest();
-            var url = `https://data.rennesmetropole.fr/api/records/1.0/search?q=denominationunitelegale = ${value}&rows=5&dataset=base-sirene-v3-ss`;
+            var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
             xhr.open('GET', url);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
@@ -287,7 +287,6 @@ const cartohoraires = (function() {
 
     /**
      * Get config file to get API key and others RVA params
-     * TODO : pass this file info from addon config
      * @param {String} conf 
      */
     var initRvaConf = function (conf) {
@@ -303,8 +302,10 @@ const cartohoraires = (function() {
      */
     function initSearchItem() {
         if(document.getElementById('search-input') && !load) {
-            // TODO : pass this file as addon param
-            initRvaConf(configuration.getConfiguration().searchparameters.searchRMConf)
+            let RVAConfigFile = options.rvaConfigFile || configuration.getConfiguration().searchparameters.searchRMConf;
+            if(RVAConfigFile) {
+                initRvaConf(RVAConfigFile)
+            }
             
             load = true;
             autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
@@ -327,7 +328,6 @@ const cartohoraires = (function() {
      * From geom we retrieve geoserver data by contains method
      * @param {String} wkt as geom string
      * @param {Array} coordinates 
-     * TODO : replace this by turf operation to select info from map data directly and avoid server call
      */
     function getDataByGeom(type, coordinates) {
         // use turf.js
@@ -343,8 +343,6 @@ const cartohoraires = (function() {
             });
         }
         if(!containsData.length) {
-            console.log('no layers data');
-            console.log(type);
             cleanInfos(type);
         }
         reloadChart(containsData);
@@ -367,25 +365,23 @@ const cartohoraires = (function() {
         if(!center.length) {
             return;
         }
-        var cc48Center = ol.proj.transform([center[0],center[1]], 'EPSG:3857', 'EPSG:3948');
+        var cc48Center = ol.proj.transform([center[0],center[1]], 'EPSG:3857', options.defaultSRS);
         let request = createRequest({
-            url: 'https://public.sig.rennesmetropole.fr/geoserver/ows',
+            url: options.geoserver,
             data: {
                 SERVICE: "WFS",
                 VERSION: "1.1.0",
                 REQUEST: "GetFeature",
-                TYPENAME: `eco_comm:v_za_terminee`,
+                TYPENAME: options.za_layer,
                 OUTPUTFORMAT: "application/json",
                 CQL_FILTER: `Intersects(shape, POINT(${cc48Center[0]} ${cc48Center[1]}))`
             },
             success: function (results) {
                 if(results.features && results.features.length) {
-                    // get geom coordinates as string
-                    let wktGeom = coordinatesToWKT(results.features[0].geometry.coordinates[0][0], 'POLYGON');
 
                     // add to layer to highlight feature
                     let zac3857 = new ol.Feature(
-                        new ol.geom.Polygon(results.features[0].geometry.coordinates[0]).clone().transform('EPSG:3948','EPSG:3857')
+                        new ol.geom.Polygon(results.features[0].geometry.coordinates[0]).clone().transform(options.defaultSRS,'EPSG:3857')
                     );
                     zacLayer.getSource().clear(); // cremove all features
                     zacLayer.getSource().addFeature(zac3857); // add this
@@ -416,6 +412,11 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * 1 - Clean infos
+     * 2 - Get vector layer data from extent or ZAC geom
+     * 3 - Update chart bar
+     */
     function moveBehavior() {
         cleanInfos();
         if($('#switch').is(':checked')) {
@@ -447,14 +448,16 @@ const cartohoraires = (function() {
 
         $('.panelResult').hide();
 
-        if( mviewer.getMap().getView().getZoom() < options.zoomLvl ) {
-            $('#zoomMsg').show();
-            $('#zoomMsg').children().show()
-        }
 
         if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() ) {
             type = null;
             mviewer.getLayers().etablissements.layer.getSource().getSource().clear();
+        }
+        if( isAutorizedZoom() ) {
+            console.log('cleaan info show zoom msg');
+            $('#zoomMsg').show();
+            $('#zoomMsg').children().show();
+            return;
         }
         switch(type) {
             case 'zac':
@@ -639,7 +642,7 @@ const cartohoraires = (function() {
         // always trigger by event on switch click, day or transport change event
         manageZACUi();
         manageDateInfosUi();
-        if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() ) {
+        if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() || isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
             if(graph) {
                 graph.getChart().destroy();
@@ -650,11 +653,35 @@ const cartohoraires = (function() {
             // il all filters are selected we update map layer and create or restart chart
             var layer = mviewer.customLayers.etablissements;
             layer.setSource();
-            moveBehavior();
-            /*mviewer.customLayers.etablissements.layer.once('postrender', function(e) {
+            if(layer.layer.getSource().getSource().getFeatures().length) {
                 moveBehavior();
-            })*/
+            } else {
+                layer.layer.once('postrender', function() {
+                    moveBehavior();
+                });
+            }
         }
+    }
+
+    /**
+     * Return current map zoom level
+     */
+    function getZoom() {
+        return mviewer.getMap().getView().getZoom();
+    }
+
+    /**
+     * Control if map zoom is autorhized from zoomLvl addon config param
+     */
+    function isAutorizedZoom() {
+        return options.zoomLvl ? getZoom() < options.zoomLvl : true;
+    }
+
+    /**
+     * Return default zoom from config or from mviewer config directly if "zoom" param is not exists
+     */
+    function zoomToDefaultLvl() {
+        return mviewer.getMap().getView().setZoom(options.zoomLvl || configuration.getConfiguration().mapoptions.zoom)
     }
 
     /**
@@ -663,9 +690,13 @@ const cartohoraires = (function() {
 
     return {
         init: () => {
+            // trigger with map postrender event to be sur IHM was loaded and exists
             mviewer.getMap().once('postrender', m => {
                 // create SRS 3948 use by sigrennesmetropole as default SRS
-                initSRS3948();
+                if(options.defaultSRS === '3948') {
+                    initSRS3948();
+                }
+                
                 // get template to display info panel
                 initTemplate();
                 // force some mviewer's components display
@@ -677,11 +708,17 @@ const cartohoraires = (function() {
                 // init behavior on map move
                 initMoveBehavior();
                 // init get data by extent by default
-                getDataByExtent();          
+                getDataByExtent();
+                // init default zoom level
+                zoomToDefaultLvl();
             });
             
         },
 
+        /**
+         * Init when vector layer is postrender to be sur data was loaded
+         * trigger by customLayer
+         */
         initOnDataLoad: function() {
             // to manage switch because this component is load late
             let i = 0;
