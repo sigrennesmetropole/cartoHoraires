@@ -12,8 +12,14 @@
         "template": "apps/cartoHoraires/addons/cartohoraires/templates/cartohoraires.mst",
         "mapWidth": 60,
         "templateWidth": 40,
-        "sireneZoom": 12,
         "requestLayer": "etablissements",
-        "zoomLvl" : 12
+        "zoomLvl" : 14,
+        "zoom": 12,
+        "rvaConfigFile": "apps/georm/addons/data/searchConf.json",
+        "za_layer": "eco_comm:v_za_terminee",
+        "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
+        "sirene_table": "base-sirene-v3-ss",
+        "open_data_service": "https://data.rennesmetropole.fr/api/records/1.0/search",
+        "defaultSRS": "3948"
     }
 }

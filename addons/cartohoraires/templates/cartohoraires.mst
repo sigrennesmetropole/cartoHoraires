@@ -126,10 +126,10 @@
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
-                <div id="extentResult" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
+                <div id="zoomMsg" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
-                    <h5 class="subText emptyGraph" style="margin-top:20px">Veuillez zoomer sur les données.</h5>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Zoomer sur la carte.</h5>
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
