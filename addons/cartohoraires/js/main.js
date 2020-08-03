@@ -138,7 +138,7 @@ const cartohoraires = (function() {
     * @param {String} coord as xxx.xxx,yyy.yyy expected by select func.
      */
     function getLiRVA(text, coord){
-        coord = ol.proj.transform(coord.split(','),options.defaultSRS,'EPSG:4326').join(',');        
+        coord = ol.proj.transform(coord.split(','),'EPSG:'+options.defaultSRS,'EPSG:4326').join(',');        
         return `<div style='overflow-x:hidden;'>
         <a href="#" onclick='cartohoraires.select("${coord}","${text}")'>${text}</a>
         <input type='hidden' value='${coord}'>
@@ -365,7 +365,7 @@ const cartohoraires = (function() {
         if(!center.length) {
             return;
         }
-        var cc48Center = ol.proj.transform([center[0],center[1]], 'EPSG:3857', options.defaultSRS);
+        var cc48Center = ol.proj.transform([center[0],center[1]], 'EPSG:3857', 'EPSG:'+options.defaultSRS);
         let request = createRequest({
             url: options.geoserver,
             data: {
@@ -381,7 +381,7 @@ const cartohoraires = (function() {
 
                     // add to layer to highlight feature
                     let zac3857 = new ol.Feature(
-                        new ol.geom.Polygon(results.features[0].geometry.coordinates[0]).clone().transform(options.defaultSRS,'EPSG:3857')
+                        new ol.geom.Polygon(results.features[0].geometry.coordinates[0]).clone().transform('EPSG:'+options.defaultSRS,'EPSG:3857')
                     );
                     zacLayer.getSource().clear(); // cremove all features
                     zacLayer.getSource().addFeature(zac3857); // add this
