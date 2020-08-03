@@ -218,7 +218,7 @@ const cartohoraires = (function() {
         if(value &&value.length > 3) {
             // Ajax request
             var xhr = new XMLHttpRequest();
-            var url = `${open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
+            var url = `${outils.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
             xhr.open('GET', url);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
@@ -303,7 +303,7 @@ const cartohoraires = (function() {
      */
     function initSearchItem() {
         if(document.getElementById('search-input') && !load) {
-            let RVAConfigFile = optiosn.rvaConfigFile || configuration.getConfiguration().searchparameters.searchRMConf;
+            let RVAConfigFile = options.rvaConfigFile || configuration.getConfiguration().searchparameters.searchRMConf;
             if(RVAConfigFile) {
                 initRvaConf(RVAConfigFile)
             }
