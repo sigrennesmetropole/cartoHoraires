@@ -103,7 +103,7 @@ input[type='radio']:after {
 }
 
 #switch:checked + .toggle-label {
-	background: rgb(83,179,184);
+	background: #f0ad4e;
 }
 
 #switch:checked + .toggle-label:after {

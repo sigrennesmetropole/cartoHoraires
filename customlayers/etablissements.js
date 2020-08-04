@@ -93,7 +93,8 @@ mviewer.customLayers.etablissements = (function () {
           distance: 0,
           source: vectorSource
       }),
-      style: clusterStyle
+      style: clusterStyle,
+      zIndex:3
     });
     
 
