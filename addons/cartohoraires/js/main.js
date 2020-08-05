@@ -466,7 +466,7 @@ const cartohoraires = (function() {
         $('.panelResult').hide();
 
 
-        if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() ) {
+        if(!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() ) {
             type = null;
             mviewer.getLayers().etablissements.layer.getSource().getSource().clear();
         }
@@ -662,14 +662,21 @@ const cartohoraires = (function() {
         }
     }
 
+    function clearAll(type) {
+        if(graph) {
+            graph.getChart().destroy();
+        }
+        cleanInfos(type || 'filters');
+    }
+
     /**
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
     function setInfosPanel (isEvent, features) {
         // only trigger by init function - deactivate because of loop bug
+        var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
         if(!sourceInitialized) {
-            var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
             mviewer.customLayers.etablissements.setSource();
             sourceInitialized = features.length || false;
         }
@@ -677,12 +684,9 @@ const cartohoraires = (function() {
         // always trigger by event on switch click, day or transport change event
         manageZACUi();
         manageDateInfosUi();
-        if(!$('.btn-day.btn-selected').attr('day') || !$('#modal-select').val() || !$('#timeSlider').val() || isAutorizedZoom()) {
+        if(!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
-            if(graph) {
-                graph.getChart().destroy();
-            }
-            cleanInfos('filters');
+            clearAll();
             return
         } else if (isEvent) {
             // il all filters are selected we update map layer and create or restart chart
@@ -691,6 +695,7 @@ const cartohoraires = (function() {
             if(layer.layer.getSource().getSource().getFeatures().length) {
                 moveBehavior();
             } else {
+                clearAll('extent');
                 layer.layer.once('postrender', function() {
                     moveBehavior();
                 });
@@ -743,10 +748,9 @@ const cartohoraires = (function() {
                 // init behavior on map move
                 initMoveBehavior();
                 // init get data by extent by default
-                moveBehavior()
+                getDataByExtent();
                 // init default zoom level
                 zoomToDefaultLvl();
-                initTimeSlider();
             });
             
         },
@@ -756,8 +760,6 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function() {
-            // Display modal on mobile device
-            initModalBehavior();
             // to manage switch because this component is load late
             let i = 0;
 
@@ -798,7 +800,7 @@ const cartohoraires = (function() {
             transportType = types;
         },
         getTransportValue: function () {
-            return $('#modal-select').val();
+            return $( "#modal-select option:selected" ).val();
         },
         getDateValue: function () {
             return $('.btn-day.btn-selected').attr('dayName');

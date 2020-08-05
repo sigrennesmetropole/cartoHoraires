@@ -2,11 +2,13 @@ mviewer.customLayers.etablissements = (function () {
     let id = 'etablissements';
     let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
-    var initialData = [];
-    let receiptData = [];
+    // we need all initial data set to avoid to call geo server on each filter
+    // we user Fuse engine to filter data on fields
+    let initialData = [];
 
-    let newSource;  
-  
+    // we use this data set to create grah according to date and transport filters
+    let receiptData = [];
+ 
     /**
      * To style cluster
      * @param {Number} radius 
@@ -34,7 +36,7 @@ mviewer.customLayers.etablissements = (function () {
      * @param {String} color 
      */
     function pointStyle (color) {
-      var style =  new ol.style.Style({
+      let style =  new ol.style.Style({
         image: new ol.style.Circle({
           radius: 5,
           fill: new ol.style.Fill({color: color}),
@@ -51,12 +53,12 @@ mviewer.customLayers.etablissements = (function () {
      * @param {ol.Feature} feature
      */
     function clusterStyle (feature) {
-      var size = feature.get('features').length;
-      var max_radius = 25;
-      var max_value = 500;
-      var radius = 10 + Math.sqrt(size)*(max_radius / Math.sqrt(max_value));
+      let size = feature.get('features').length;
+      let max_radius = 25;
+      let max_value = 500;
+      let radius = 10 + Math.sqrt(size)*(max_radius / Math.sqrt(max_value));
       radius = radius * 0.4;
-      var color = '#53B3B8';
+      let color = '#53B3B8';
 
       if(size > 1) {
         return manyStyle(radius, color);
@@ -69,12 +71,12 @@ mviewer.customLayers.etablissements = (function () {
      * Convert mintues number to hh:mm:ssZ format
      * @param {Integer} n as minutes number
      */
-    var convertMinToZ = function (n) {
-        var num = n;
-        var hours = (num / 60);
-        var rhours = Math.floor(hours);
-        var minutes = (hours - rhours) * 60;
-        var rminutes = Math.round(minutes);
+    let convertMinToZ = function (n) {
+        let num = n;
+        let hours = (num / 60);
+        let rhours = Math.floor(hours);
+        let minutes = (hours - rhours) * 60;
+        let rminutes = Math.round(minutes);
         rminutes = rminutes == 0 ? '00' : rminutes;
         rhours = rhours > 10 ? rhours : `0${rhours}`;
         return rhours + ':' + rminutes + ':00Z';
@@ -83,12 +85,12 @@ mviewer.customLayers.etablissements = (function () {
     /**
      * create vector source, cluster source and vector layer
      */
-    var vectorSource = new ol.source.Vector({
+    let vectorSource = new ol.source.Vector({
       url: data,
       format: new ol.format.GeoJSON()
     });
 
-    var vectorLayer = new ol.layer.Vector({
+    let vectorLayer = new ol.layer.Vector({
       source: new ol.source.Cluster({
           distance: 0,
           source: vectorSource
@@ -96,49 +98,50 @@ mviewer.customLayers.etablissements = (function () {
       style: clusterStyle,
       zIndex:3
     });
+
+    /**
+     * We search field vaule in a feature dataset
+     * @param {String} field to filter
+     * @param {String} value to search
+     * @param {Array} dataSet features dataset used
+     */
+    function filterDataset(field, value, dataSet) {
+      if(!value) return;
+      // filter from initialData set with simle condition
+      let filter = dataSet.filter(e => e.getProperties()[field] == value);
+      result = filter.map(e => e.getProperties().id);
+      result = initialData.filter(e => result.indexOf(e.getProperties().id)>-1);
+      vectorLayer.getSource().getSource().clear();
+      vectorLayer.getSource().getSource().addFeatures(result);
+    }
     
 
     /**
      * Update cluster source
      */
-    var setSource = function() {
+    let setSource = function() {
       // create new source
-      if(!$('.btn-day.btn-selected').attr('day') || !cartohoraires.getTransportValue() || !$('#timeSlider').val()) {
+      
+      if(!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val()) {
         return
       }
 
-      var url = data + 
-      '&CQL_FILTER='+
-      `transport_lib IN ('${cartohoraires.getTransportValue()}')` + 
-      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')`;
-
-      newSource = new ol.source.Cluster({
-        distance: 0,
-        source: new ol.source.Vector({
-          url: url,
-          format: new ol.format.GeoJSON()
-        })
-      });
-      // parse feature from initial vector
-      // update cluster with new source and last 7days features
-      vectorLayer.setSource(newSource);
-      vectorLayer.once('postrender', function(e) {
-        receiptData = newSource.getSource().getFeatures();
-        vectorLayer.getSource().getSource().getFeatures().forEach(e => {
-          if(e.getProperties().horaire != convertMinToZ($('#timeSlider').val())) { // remove features without correct time
-            vectorLayer.getSource().getSource().removeFeature(e);
-          }
-        });
-      })
+      filterDataset('jour', $('.btn-day.btn-selected').attr('day'), initialData);
+      filterDataset('transport_lib', cartohoraires.getTransportValue(), vectorLayer.getSource().getSource().getFeatures());
+      // we need features before time filter to create chart
+      // because we display all data for each hours
+      receiptData = vectorLayer.getSource().getSource().getFeatures();
+      // now we could filter with time slider
+      filterDataset('horaire', convertMinToZ($('#timeSlider').val()), vectorLayer.getSource().getSource().getFeatures());
     }
     
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
      */
-    var evt = vectorLayer.once('postrender', function(e) {
+    let evt = vectorLayer.once('postrender', function(e) {
       // only for ready state
       if(cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
-        var type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
+        let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
         cartohoraires.setTransportType([...new Set(type)]);
         if(vectorSource.getFeatures().length) {
           initialData = vectorSource.getFeatures();
