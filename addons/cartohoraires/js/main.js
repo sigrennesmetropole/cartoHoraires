@@ -345,6 +345,15 @@ const cartohoraires = (function() {
     }
 
     /**
+     * Set info about presents and absents people
+     * @param {String} present value
+     * @param {String} absent value
+     */
+    function setAbsentPresent(present=false, absent=false) {
+        $('#input-number').text(present || ' - ');
+        $('#absent-number').text(absent || ' - ');
+    }
+    /**
      * From geom we retrieve geoserver data by contains method
      * @param {String} wkt as geom string
      * @param {Array} coordinates 
@@ -364,8 +373,12 @@ const cartohoraires = (function() {
         }
         if (!containsData.length) {
             cleanInfos(type);
+            setAbsentPresent();
         }
         reloadChart(containsData);
+        // get absent
+        // get present and absent
+        setAbsentPresent(containsData.length, containsData.filter(a => a.getProperties().absence).length);
     };
 
     /**
@@ -693,6 +706,7 @@ const cartohoraires = (function() {
         // always trigger by event on switch click, day or transport change event
         manageZACUi();
         manageDateInfosUi();
+        setAbsentPresent();
         if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
             clearAll();
