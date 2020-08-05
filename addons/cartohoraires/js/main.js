@@ -389,6 +389,7 @@ const cartohoraires = (function() {
                 CQL_FILTER: `Intersects(shape, POINT(${cc48Center[0]} ${cc48Center[1]}))`
             },
             success: function (results) {
+                
                 if(results.features && results.features.length) {
 
                     if(results.features[0].properties.nomza) {
