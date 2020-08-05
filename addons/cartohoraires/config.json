@@ -7,7 +7,8 @@
         "js/lib/lodash.js",
         "js/lib/bootstrap-autocomplete.js",
         "js/lib/chart.js@2.8.0.js",
-        "js/lib/turf.min.js"
+        "js/lib/turf.min.js",
+        "js/lib/moment.js"
     ],
     "css": "css/main.css",
     "html": "cartohoraires.html",

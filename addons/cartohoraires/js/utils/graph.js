@@ -41,7 +41,6 @@ class Graph {
         let labels = Object.keys(horairesCount).sort();
         let values = labels.map(e => horairesCount[e]);
 
-        console.log(labels);
         return {
             labels: labels,
             values: values
