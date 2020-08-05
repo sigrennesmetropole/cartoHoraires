@@ -115,7 +115,7 @@
                 <div id="zacResult" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
-                    <h5 class="subText emptyGraph" style="margin-top:20px">Aucune ZAC n'a été trouvée.</h5>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Aucune ZAC ou aucune données pour cette ZAC.</h5>
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
