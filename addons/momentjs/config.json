@@ -1,8 +1,0 @@
-{
-    "js": [
-        "js/moment.js"
-    ],
-    "html": "html/empty.html",
-    "target": "main",
-    "options": {}
-}

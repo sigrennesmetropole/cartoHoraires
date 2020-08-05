@@ -3,7 +3,10 @@
     right: 0px;
     width: 40%;
     background-color: white;
-    height: 100%;
+	height: 100%;
+	overflow: auto;
+	max-height: 100%;
+	
 }
 
 .cartohoraires-panel>.panel-body{
@@ -103,7 +106,7 @@ input[type='radio']:after {
 }
 
 #switch:checked + .toggle-label {
-	background: rgb(83,179,184);
+	background: #f0ad4e;
 }
 
 #switch:checked + .toggle-label:after {
@@ -223,3 +226,8 @@ input[type='radio']:after {
 .no-border>.panel-heading{
 	border: 1px transparent solid !important;
 }
+
+.row{
+	margin-top: 10px;
+}
+

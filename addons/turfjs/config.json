@@ -1,8 +1,0 @@
-{
-    "js": [
-        "turf.min.js"
-    ],
-    "html": "empty.html",
-    "target": "main",
-    "options": {}
-}

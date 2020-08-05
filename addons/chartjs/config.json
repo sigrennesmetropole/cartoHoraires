@@ -1,8 +1,0 @@
-{
-    "js": [
-        "js/chart.js@2.8.0.js"
-    ],
-    "html": "html/empty.html",
-    "target": "main",
-    "options": {}
-}

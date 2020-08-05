@@ -4,6 +4,7 @@ const cartohoraires = (function() {
     const mapWidth = options.mapWidth;
     const itemsRight = options.templateWidth + 2;
     let zacLayer = null;
+    let allZacLayer = null;
     let load = false;
     let autocomplete;
     let rvaConf;
@@ -28,6 +29,16 @@ const cartohoraires = (function() {
         }),
         stroke: new ol.style.Stroke({
           color: 'rgba(255, 145, 0)',
+          width: 2,
+        })
+    });
+
+    const zacBaseStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(255, 255, 255, 0)',
+        }),
+        stroke: new ol.style.Stroke({
+          color: 'rgba(62,158,206)',
           width: 2,
         })
     });
@@ -114,6 +125,7 @@ const cartohoraires = (function() {
             $('#map').attr('style', `width:${mapWidth}% !important`);
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('#toolstoolbar').attr('style', `right: ${itemsRight}% !important`);
+            $('.cartohoraires-panel').attr('style', `width: ${options.templateWidth}% !important`);
         }
     }
 
@@ -482,6 +494,22 @@ const cartohoraires = (function() {
      * Create zac layer to display if map center intersect zac entity
      */
     function initZacLayer() {
+        // display zac layer temporary
+        var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
+        
+        allZacLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: data,
+                format: new ol.format.GeoJSON()
+            }),
+            style: function (feature) {
+                return zacBaseStyle;
+            },            
+            visible: false,
+            zIndex:0
+        });
+        mviewer.getMap().addLayer(allZacLayer);
+
         if(!zacLayer) {
             zacLayer = new ol.layer.Vector({
                 source: new ol.source.Vector({
@@ -489,7 +517,8 @@ const cartohoraires = (function() {
                 }),
                 style: function (feature) {
                   return zacHighlightStyle;
-                }
+                },
+                zIndex:1
             });
             if(mviewer.getMap()) {
                 mviewer.getMap().addLayer(zacLayer);
@@ -502,9 +531,11 @@ const cartohoraires = (function() {
      */
     function manageZACUi(){
         if($('#switch').is(':checked') && mir) {
+            allZacLayer.setVisible(true);
             mir.activate();
             $('#zac-infos-panel').show();
         } else if(mir) {
+            allZacLayer.setVisible(false);
             mir.deactivate();
             $('#zac-infos-panel').hide();
         }
@@ -558,11 +589,11 @@ const cartohoraires = (function() {
             transportType = transportType.filter(e => e);
             // create select options
             let optionsSelect = transportType.map(e => `
-                <option>${e}</option>
+                <option value="${e}">${e}</option>
             `);
             // insert select options
             $('#modal-select').empty();
-            $('#modal-select').append('<option></option>');
+            $('#modal-select').append('<option value="">Tous</option>');
             $('#modal-select').append(optionsSelect);
 
             transportSelected = $('#modal-select').val();
@@ -712,9 +743,10 @@ const cartohoraires = (function() {
                 // init behavior on map move
                 initMoveBehavior();
                 // init get data by extent by default
-                getDataByExtent();
+                moveBehavior()
                 // init default zoom level
                 zoomToDefaultLvl();
+                initTimeSlider();
             });
             
         },
@@ -724,6 +756,8 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function() {
+            // Display modal on mobile device
+            initModalBehavior();
             // to manage switch because this component is load late
             let i = 0;
 
