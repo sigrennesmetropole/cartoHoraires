@@ -4,7 +4,6 @@
  * Needs JQUERY >=1.1 and bootstrap-slider librairie already lodaded by Mviewer index.html.
  * https://github.com/seiyria/bootstrap-slider
  */
-
 class Slider {
     target = null;
     formatTime = null;
@@ -14,19 +13,21 @@ class Slider {
      * Constructor
      * @param {String} target id to target HTML with JQuery
      */
-    constructor (target, callback) {
+    constructor(target, callback) {
         this.target = target || null;
         let slider = this;
         this.callback = callback;
-        $('#'+target).slider({
+        $('#' + target).slider({
             min: 0,
             max: 1425,
             step: 15,
             value: 480,
-            formatter: (e) => {return this.timeConvert(e)}
+            formatter: (e) => {
+                return this.timeConvert(e)
+            }
         });
 
-        $('#'+target).on('slideStop', function(e){
+        $('#' + target).on('slideStop', function(e) {
             /**
              * Update map data only.
              * Chart could not take into account this info because chart display all available hours not only one.
@@ -45,7 +46,7 @@ class Slider {
      * Convert minutes to h:min format
      * @param {Integer} n as minutes
      */
-    timeConvert = function (n) {
+    timeConvert = function(n) {
         var num = n;
         var hours = (num / 60);
         var rhours = Math.floor(hours);
@@ -55,11 +56,11 @@ class Slider {
         rhours = rhours > 9 ? rhours : `0${rhours}`;
         return rhours + ' h ' + rminutes + ' min';
     }
-    
+
     /**
      * Return date formated as xx h yy min
      */
-    getFormatTime = function () {
+    getFormatTime = function() {
         return this.timeConvert($('#timeSlider').val());
     }
 
@@ -70,7 +71,7 @@ class Slider {
      * Use timeConvert function to get minutes as formated date as 00 h 15 min 
      * instead of simple 15 value.
      */
-    getTime = function () {
+    getTime = function() {
         return $('#timeSlider').val();
     }
 }

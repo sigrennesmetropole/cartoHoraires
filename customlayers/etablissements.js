@@ -1,129 +1,132 @@
-mviewer.customLayers.etablissements = (function () {
-    let id = 'etablissements';
-    let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
+mviewer.customLayers.etablissements = (function() {
+  let id = 'etablissements';
+  let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
-    // we need all initial data set to avoid to call geo server on each filter
-    // we user Fuse engine to filter data on fields
-    let initialData = [];
+  // we need all initial data set to avoid to call geo server on each filter
+  // we user Fuse engine to filter data on fields
+  let initialData = [];
 
-    // we use this data set to create grah according to date and transport filters
-    let receiptData = [];
- 
-    /**
-     * To style cluster
-     * @param {Number} radius 
-     * @param {String} color 
-     */
-    function manyStyle (radius, color) {
+  // we use this data set to create grah according to date and transport filters
+  let receiptData = [];
+
+  /**
+   * To style cluster
+   * @param {Number} radius 
+   * @param {String} color 
+   */
+  function manyStyle(radius, color) {
       return [
-        new ol.style.Style({
+          new ol.style.Style({
+              image: new ol.style.Circle({
+                  radius: radius,
+                  fill: new ol.style.Fill({
+                      color: color
+                  }),
+                  stroke: new ol.style.Stroke({
+                      width: 1.8,
+                      color: 'white'
+                  })
+              })
+          })
+      ];
+  };
+
+  /**
+   * Style uniq feature
+   * @param {String} color 
+   */
+  function pointStyle(color) {
+      let style = new ol.style.Style({
           image: new ol.style.Circle({
-              radius: radius,
+              radius: 5,
               fill: new ol.style.Fill({
                   color: color
               }),
               stroke: new ol.style.Stroke({
-                width: 1.8,
-                color: 'white'
+                  color: 'white',
+                  width: 1.5
               })
           })
-        })
-      ];
-    };
-
-    /**
-     * Style uniq feature
-     * @param {String} color 
-     */
-    function pointStyle (color) {
-      let style =  new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 5,
-          fill: new ol.style.Fill({color: color}),
-          stroke: new ol.style.Stroke({
-            color: 'white', width: 1.5
-          })
-        })
       });
       return [style];
-    }
+  }
 
-    /**
-     * To detect and style cluster features
-     * @param {ol.Feature} feature
-     */
-    function clusterStyle (feature) {
+  /**
+   * To detect and style cluster features
+   * @param {ol.Feature} feature
+   */
+  function clusterStyle(feature) {
       let size = feature.get('features').length;
       let max_radius = 25;
       let max_value = 500;
-      let radius = 10 + Math.sqrt(size)*(max_radius / Math.sqrt(max_value));
+      let radius = 10 + Math.sqrt(size) * (max_radius / Math.sqrt(max_value));
       radius = radius * 0.4;
       let color = '#53B3B8';
 
-      if(size > 1) {
-        return manyStyle(radius, color);
+      if (size > 1) {
+          return manyStyle(radius, color);
       } else {
-        return pointStyle(color);
+          return pointStyle(color);
       }
-    }
+  }
 
-    /**
-     * Convert mintues number to hh:mm:ssZ format
-     * @param {Integer} n as minutes number
-     */
-    let convertMinToZ = function (n) {
-        let num = n;
-        let hours = (num / 60);
-        let rhours = Math.floor(hours);
-        let minutes = (hours - rhours) * 60;
-        let rminutes = Math.round(minutes);
-        rminutes = rminutes == 0 ? '00' : rminutes;
-        rhours = rhours > 10 ? rhours : `0${rhours}`;
-        return rhours + ':' + rminutes + ':00Z';
-    }
+  /**
+   * Convert mintues number to hh:mm:ssZ format
+   * @param {Integer} n as minutes number
+   */
+  let convertMinToZ = function(n) {
+      let num = n;
+      let hours = (num / 60);
+      let rhours = Math.floor(hours);
+      let minutes = (hours - rhours) * 60;
+      let rminutes = Math.round(minutes);
+      rminutes = rminutes == 0 ? '00' : rminutes;
+      rhours = rhours > 10 ? rhours : `0${rhours}`;
+      return rhours + ':' + rminutes + ':00Z';
+  }
 
-    /**
-     * create vector source, cluster source and vector layer
-     */
-    let vectorSource = new ol.source.Vector({
+  /**
+   * create vector source, cluster source and vector layer
+   */
+  let vectorSource = new ol.source.Vector({
       url: data,
       format: new ol.format.GeoJSON()
-    });
+  });
 
-    let vectorLayer = new ol.layer.Vector({
+  let vectorLayer = new ol.layer.Vector({
       source: new ol.source.Cluster({
           distance: 0,
           source: vectorSource
       }),
       style: clusterStyle,
-      zIndex:3
-    });
+      zIndex: 3
+  });
 
-    /**
-     * We search field vaule in a feature dataset
-     * @param {String} field to filter
-     * @param {String} value to search
-     * @param {Array} dataSet features dataset used
-     */
-    function filterDataset(field, value, dataSet) {
-      if(!value) return;
+  /**
+   * We search field vaule in a feature dataset
+   * @param {String} field to filter
+   * @param {String} value to search
+   * @param {Array} dataSet features dataset used
+   */
+  function filterDataset(field, value, dataSet) {
+      if (!value) return;
       // filter from initialData set with simle condition
       let filter = dataSet.filter(e => e.getProperties()[field] == value);
       result = filter.map(e => e.getProperties().id);
-      result = initialData.filter(e => result.indexOf(e.getProperties().id)>-1);
+      result = initialData.filter(e => result.indexOf(e.getProperties().id) > -1);
       vectorLayer.getSource().getSource().clear();
       vectorLayer.getSource().getSource().addFeatures(result);
-    }
-    
+  }
 
-    /**
-     * Update cluster source
-     */
-    let setSource = function() {
+
+  /**
+   * Update cluster source
+   */
+  let setSource = function() {
       // create new source
-      
-      if(!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val()) {
-        return
+
+      if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val()) {
+          return
       }
 
       filterDataset('jour', $('.btn-day.btn-selected').attr('day'), initialData);
@@ -133,27 +136,31 @@ mviewer.customLayers.etablissements = (function () {
       receiptData = vectorLayer.getSource().getSource().getFeatures();
       // now we could filter with time slider
       filterDataset('horaire', convertMinToZ($('#timeSlider').val()), vectorLayer.getSource().getSource().getFeatures());
-    }
-    
-    /**
-     * Init event on layer ready state and remove it after process with unByKey ol method
-     */
-    let evt = vectorLayer.once('postrender', function(e) {
+  }
+
+  /**
+   * Init event on layer ready state and remove it after process with unByKey ol method
+   */
+  let evt = vectorLayer.once('postrender', function(e) {
       // only for ready state
-      if(cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
-        let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
-        cartohoraires.setTransportType([...new Set(type)]);
-        if(vectorSource.getFeatures().length) {
-          initialData = vectorSource.getFeatures();
-        }
-        cartohoraires.initOnDataLoad();
-        ol.Observable.unByKey(evt);
+      if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
+          let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
+          cartohoraires.setTransportType([...new Set(type)]);
+          if (vectorSource.getFeatures().length) {
+              initialData = vectorSource.getFeatures();
+          }
+          cartohoraires.initOnDataLoad();
+          ol.Observable.unByKey(evt);
       }
-    });
-    return {
-        layer: vectorLayer,
-        getInitialData: () => {return initialData},
-        getReceiptData: () => {return receiptData},
-        setSource: setSource
-    }
-  }());
+  });
+  return {
+      layer: vectorLayer,
+      getInitialData: () => {
+          return initialData
+      },
+      getReceiptData: () => {
+          return receiptData
+      },
+      setSource: setSource
+  }
+}());
