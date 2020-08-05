@@ -18,7 +18,10 @@ const cartohoraires = (function() {
 
     let slider;
     let graph;
-
+    
+    /**
+    * PRIVATE
+    */
 
     /**
      * Default style to highlight ZAC on center hover
@@ -43,10 +46,10 @@ const cartohoraires = (function() {
         })
     });
 
-    /**
-    * PRIVATE
-    */
 
+    /**
+     * Register SRS 3948 to OL
+     */
     function initSRS3948() {
         proj4.defs("EPSG:3948","+proj=lcc +lat_1=47.25 +lat_2=48.75 +lat_0=48 +lon_0=3 +x_0=1700000 +y_0=7200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         ol.proj.proj4.register(proj4);
@@ -57,7 +60,7 @@ const cartohoraires = (function() {
      * @param {Object} infos as data params
      * @param {*} successFunc as callback function
      */
-    function createRequest (infos, successFunc) {
+    function createRequest (infos) {
         return {
             url: infos.url,
             data: infos.data,
