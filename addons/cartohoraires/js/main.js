@@ -87,6 +87,8 @@ const cartohoraires = (function() {
      * @param {Object} configuration - Mviewer configuration
      */
     function displayTemplate(template) {
+        // we use CSS to add others rules about nativ Mviewer UI
+
         // render mustache file
         var panelContent = Mustache.render(template);
         if (configuration.getConfiguration().mobile) {
@@ -96,6 +98,7 @@ const cartohoraires = (function() {
             $("#cartohoraires-modal .modal-body").children().remove();
             // add to modal
             $("#cartohoraires-modal .modal-body").append(panelContent);
+            // hide navbar useless button
         } else {
             // close modal if visible
             if ($("#cartohoraires-modal").is(':visible')) {
@@ -218,7 +221,9 @@ const cartohoraires = (function() {
                         break;
                 }
             })
-        })
+        });
+        let result = htmlAddress.concat(htmCities,htmLane).join('');
+        if(!result.length) return '<span style="padding-top:5px;padding-bottom:5px">Aucun résultat...</span>';
         return htmlAddress.concat(htmCities,htmLane).join('');
     }
 

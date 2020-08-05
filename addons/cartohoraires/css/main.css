@@ -138,6 +138,8 @@ input[type='radio']:after {
 	z-index: 1;
 	border: 1px #eeeeee solid;
 	border-radius: 4px;
+	padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .form-autocomplete {
@@ -231,3 +233,12 @@ input[type='radio']:after {
 	margin-top: 10px;
 }
 
+
+/* HIDE NATIV MVIEWER UI*/
+
+#searchtool, .navbar-form, .navbar-brand.menu-toggle, #sidebar-wrapper, #backgroundlayersbtn, .ol-attribution, .navbar-toggle{
+	display:none !important;
+}
+#map {
+	left: 0px;
+}
