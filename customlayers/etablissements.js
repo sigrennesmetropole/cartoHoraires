@@ -110,8 +110,7 @@ mviewer.customLayers.etablissements = (function () {
       var url = data + 
       '&CQL_FILTER='+
       `transport_lib IN ('${cartohoraires.getTransportValue()}')` + 
-      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')` /*+
-      ` AND horaire IN ('${convertMinToZ($('#timeSlider').val())}')`*/;
+      ` AND jour IN ('${$('.btn-day.btn-selected').attr('day')}')`;
 
       newSource = new ol.source.Cluster({
         distance: 0,

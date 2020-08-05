@@ -125,6 +125,7 @@ const cartohoraires = (function() {
             $('#map').attr('style', `width:${mapWidth}% !important`);
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('#toolstoolbar').attr('style', `right: ${itemsRight}% !important`);
+            $('.cartohoraires-panel').attr('style', `width: ${options.templateWidth}% !important`);
         }
     }
 
@@ -588,11 +589,11 @@ const cartohoraires = (function() {
             transportType = transportType.filter(e => e);
             // create select options
             let optionsSelect = transportType.map(e => `
-                <option>${e}</option>
+                <option value="${e}">${e}</option>
             `);
             // insert select options
             $('#modal-select').empty();
-            $('#modal-select').append('<option></option>');
+            $('#modal-select').append('<option value="">Tous</option>');
             $('#modal-select').append(optionsSelect);
 
             transportSelected = $('#modal-select').val();
@@ -742,9 +743,10 @@ const cartohoraires = (function() {
                 // init behavior on map move
                 initMoveBehavior();
                 // init get data by extent by default
-                getDataByExtent();
+                moveBehavior()
                 // init default zoom level
                 zoomToDefaultLvl();
+                initTimeSlider();
             });
             
         },
@@ -754,6 +756,8 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function() {
+            // Display modal on mobile device
+            initModalBehavior();
             // to manage switch because this component is load late
             let i = 0;
 

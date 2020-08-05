@@ -1,8 +1,0 @@
-{
-    "js": [
-        "js/bootstrap-autocomplete.js"
-    ],
-    "html": "html/empty.html",
-    "target": "main",
-    "options": {}
-}
