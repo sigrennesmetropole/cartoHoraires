@@ -123,8 +123,8 @@ const cartohoraires = (function() {
                         displayPanel(e.template);
                         break;
                     case 'form':
-                        $('#form-modal').find('.modal-body').empty();
-                        $('#form-modal').find('.modal-body').append(e.template);
+                        //$('#form-modal').find('.modal-body').empty();
+                        //$('#form-modal').find('.modal-body').append(e.template);
                         break;
                     case 'formBtn':
                         $(document.getElementById('iconhelp').parentNode).prepend(e.template);
@@ -748,10 +748,10 @@ const cartohoraires = (function() {
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
-    function setInfosPanel(isEvent, features) {
+    function setInfosPanel(isEvent, reloadGraph = true) {
         // only trigger by init function - deactivate because of loop bug
         var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
-        if (!sourceInitialized) {
+        if (!sourceInitialized && !isEvent) {
             mviewer.customLayers.etablissements.setSource();
             sourceInitialized = features.length || false;
         }
@@ -764,19 +764,22 @@ const cartohoraires = (function() {
             // if filters are not all selected we just destroy chart
             clearAll();
             return
-        } else if (isEvent) {
-            // il all filters are selected we update map layer and create or restart chart
-            var layer = mviewer.customLayers.etablissements;
-            layer.setSource();
-            if (layer.layer.getSource().getSource().getFeatures().length) {
-                moveBehavior();
-            } else {
-                clearAll('extent');
-                layer.layer.once('postrender', function() {
-                    moveBehavior();
-                });
-            }
         }
+            
+        // il all filters are selected we update map layer and create or restart chart
+        var layer = mviewer.customLayers.etablissements;
+        layer.setSource();
+        if(!reloadGraph) return;
+
+        if (layer.layer.getSource().getSource().getFeatures().length) {
+            moveBehavior();
+        } else {
+            clearAll('extent');
+            layer.layer.once('postrender', function() {
+                moveBehavior();
+            });
+        }
+        
     }
 
     /**

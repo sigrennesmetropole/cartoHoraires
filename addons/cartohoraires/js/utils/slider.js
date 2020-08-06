@@ -38,6 +38,17 @@ class Slider {
             $('#slider-info').text(slider.formatTime);
             callback(e, false);
         });
+
+        $('#' + target).on('slide', function(e) {
+            /**
+             * Update map data only.
+             * Chart could not take into account this info because chart display all available hours not only one.
+             * @param {Object} e event target - slider
+             */
+            slider.formatTime = slider.timeConvert(e.target.value);
+            slider.time = e.target.value;
+            $('#slider-info').text(slider.formatTime);
+        });
         slider.formatTime = this.timeConvert($('#timeSlider').val());
         $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
     }
