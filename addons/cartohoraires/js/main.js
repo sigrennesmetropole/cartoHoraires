@@ -73,27 +73,80 @@ const cartohoraires = (function() {
     /**
      * Request to call Mustache template from server or local path.
      */
-    function initTemplate() {
-        let req = createRequest({
-            url: options.template,
-            success: function(template) {
-                config.template = template;
-                displayTemplate(template);
-            }
+    function initTemplates() {
+        // main panel contain
+        const promiseMain = new Promise((resolve, reject) => {
+            let req = createRequest({
+                url: options.template,
+                success: function(template) {
+                    resolve({
+                        type:'panel',
+                        template
+                    });
+                }
+            });
+            $.ajax(req);
         });
-        $.ajax(req);
+        // btn to hide or show input form
+        const promiseFormBtn = new Promise((resolve, reject) => {
+            let req = createRequest({
+                url: options.templateFormBtn,
+                success: function(template) {
+                    resolve({
+                        type:'formBtn',
+                        template
+                    });
+                }
+            });
+            $.ajax(req);
+        });
+
+        // input form
+        const promiseForm = new Promise((resolve, reject) => {
+            let req = createRequest({
+                url: options.templateForm,
+                success: function(template) {
+                    resolve({
+                        type:'form',
+                        template
+                    });
+                }
+            });
+            $.ajax(req);
+        });
+
+        // if all ajax request  resolve 
+        Promise.all([promiseMain, promiseFormBtn, promiseForm]).then( (value) => {
+            value.forEach(e => {
+                switch(e.type) {
+                    case 'panel':
+                        displayPanel(e.template);
+                        break;
+                    case 'form':
+                        //$('#form-modal').find('.modal-body').empty();
+                        //$('#form-modal').find('.modal-body').append(e.template);
+                        break;
+                    case 'formBtn':
+                        $(document.getElementById('iconhelp').parentNode).prepend(e.template);
+                        break;
+                    default:
+                        break;
+                }
+            })
+        })
     }
+
     /**
      * Method from Mviewer from features to template.
      * Manage display / hide and content from mustache template.
      * @param {Array} features - Array of OpenLayers features
      * @param {Object} configuration - Mviewer configuration
      */
-    function displayTemplate(template) {
+    function displayPanel(template) {
         // we use CSS to add others rules about nativ Mviewer UI
 
         // render mustache file
-        var panelContent = Mustache.render(template);
+        var panelContent = template;
         if (configuration.getConfiguration().mobile) {
             // hide classic panel
             $('.cartohoraires-panel').hide();
@@ -695,10 +748,10 @@ const cartohoraires = (function() {
      * Trigger data layer source update from fitlers and trigger infos update
      * @param {Boolean} isEvent 
      */
-    function setInfosPanel(isEvent, features) {
+    function setInfosPanel(isEvent, reloadGraph = true) {
         // only trigger by init function - deactivate because of loop bug
         var features = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
-        if (!sourceInitialized) {
+        if (!sourceInitialized && !isEvent) {
             mviewer.customLayers.etablissements.setSource();
             sourceInitialized = features.length || false;
         }
@@ -711,19 +764,22 @@ const cartohoraires = (function() {
             // if filters are not all selected we just destroy chart
             clearAll();
             return
-        } else if (isEvent) {
-            // il all filters are selected we update map layer and create or restart chart
-            var layer = mviewer.customLayers.etablissements;
-            layer.setSource();
-            if (layer.layer.getSource().getSource().getFeatures().length) {
-                moveBehavior();
-            } else {
-                clearAll('extent');
-                layer.layer.once('postrender', function() {
-                    moveBehavior();
-                });
-            }
         }
+            
+        // il all filters are selected we update map layer and create or restart chart
+        var layer = mviewer.customLayers.etablissements;
+        layer.setSource();
+        if(!reloadGraph) return;
+
+        if (layer.layer.getSource().getSource().getFeatures().length) {
+            moveBehavior();
+        } else {
+            clearAll('extent');
+            layer.layer.once('postrender', function() {
+                moveBehavior();
+            });
+        }
+        
     }
 
     /**
@@ -760,8 +816,8 @@ const cartohoraires = (function() {
                     initSRS3948();
                 }
 
-                // get template to display info panel
-                initTemplate();
+                // get templates to display UIs
+                initTemplates();
                 // force some mviewer's components display
                 initDisplayComponents();
                 // Display modal on mobile device
