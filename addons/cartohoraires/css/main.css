@@ -242,3 +242,14 @@ input[type='radio']:after {
 #map {
 	left: 0px;
 }
+
+/**
+FORM AND FORM BUTTON
+*/
+.formBtn {
+	background-color: #fed500;
+	border: 1px transparent solid;
+	margin-right: 10px;
+	color: #3f007d;
+	font-weight: bold;
+}
