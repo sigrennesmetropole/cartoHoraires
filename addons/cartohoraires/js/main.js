@@ -123,8 +123,7 @@ const cartohoraires = (function() {
                         displayPanel(e.template);
                         break;
                     case 'form':
-                        //$('#form-modal').find('.modal-body').empty();
-                        //$('#form-modal').find('.modal-body').append(e.template);
+                        $('#main').prepend(e.template);
                         break;
                     case 'formBtn':
                         $(document.getElementById('iconhelp').parentNode).prepend(e.template);
@@ -154,7 +153,6 @@ const cartohoraires = (function() {
             $("#cartohoraires-modal .modal-body").children().remove();
             // add to modal
             $("#cartohoraires-modal .modal-body").append(panelContent);
-            // hide navbar useless button
         } else {
             // close modal if visible
             if ($("#cartohoraires-modal").is(':visible')) {

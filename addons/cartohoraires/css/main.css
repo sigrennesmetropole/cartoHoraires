@@ -241,15 +241,81 @@ input[type='radio']:after {
 }
 #map {
 	left: 0px;
+	margin-left: 0px !important;
 }
 
 /**
 FORM AND FORM BUTTON
 */
+
+.form-modal-content {
+	position: absolute;
+	border-radius: 6px;
+}
 .formBtn {
 	background-color: #fed500;
 	border: 1px transparent solid;
 	margin-right: 10px;
 	color: #3f007d;
 	font-weight: bold;
+}
+
+.form-modal-body, .form-template {
+	padding:0px;
+	overflow: auto;
+	border-radius: 3px;
+}
+
+.connect-zone {
+	border-top-right-radius: 3px;
+}
+
+.connect-zone>* {
+	color: white;
+	background-color: #353350;
+	font: normal 1.2em "Trebuchet MS", sans-serif;
+}
+
+.connect-zone h3 {
+	color:#55B3B9;
+}
+
+.connect-zone input {
+	border-radius: 10px;
+}
+
+.connect-zone h4 {
+	margin-top: 20px;
+}
+
+.connect-zone .row {
+	margin-top: 10px;
+	padding: 15px;
+}
+
+.btn-connect {
+	background-color: #55B3B9;
+	color:white;
+}
+
+.link-code {
+	padding-left: 5px;
+	font-style: italic;
+	text-decoration: underline dotted;
+}
+
+.connect-text {
+	font: italic 13px "Trebuchet MS", sans-serif;
+	text-justify: auto !important;
+}
+
+
+/*Day zone*/
+.day-info {
+	background-color: whitesmoke;
+	border-radius: 5px;
+}
+
+.no-border {
+	border:0;
 }

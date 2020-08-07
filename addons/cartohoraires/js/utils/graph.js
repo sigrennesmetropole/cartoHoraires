@@ -74,7 +74,7 @@ class Graph {
             }]
         }
         var options = {
-            responsive: true,
+            //responsive: true,
             animation: {
                 duration: 5000
             },
