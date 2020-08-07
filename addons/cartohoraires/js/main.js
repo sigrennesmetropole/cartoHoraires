@@ -124,6 +124,12 @@ const cartohoraires = (function() {
                         break;
                     case 'form':
                         $('#main').prepend(e.template);
+                        // init clock picker
+                        $('.clockpicker').clockpicker({
+                            placement: 'bottom',
+                            align: 'left',
+                            donetext: 'Valider'
+                        });
                         break;
                     case 'formBtn':
                         $(document.getElementById('iconhelp').parentNode).prepend(e.template);

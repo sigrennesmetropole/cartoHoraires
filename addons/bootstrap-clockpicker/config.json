@@ -1,0 +1,8 @@
+{
+    "js": [
+        "bootstrap-clockpicker.min.js"
+    ],
+    "css": "bootstrap-clockpicker.min.css",
+    "html": "main.html",
+    "target": "mouse-position"
+}
