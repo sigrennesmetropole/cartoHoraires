@@ -26,6 +26,7 @@
 	</baselayers>
 
 	<extensions>
+		<extension type="component" id="bootstrap-clockpicker" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
 		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
