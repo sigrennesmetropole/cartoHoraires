@@ -253,10 +253,10 @@ FORM AND FORM BUTTON
 	border-radius: 6px;
 }
 .formBtn {
-	background-color: #fed500;
+	background-color: #55B3B9;
 	border: 1px transparent solid;
 	margin-right: 10px;
-	color: #3f007d;
+	color: white;
 	font-weight: bold;
 }
 
@@ -281,7 +281,7 @@ FORM AND FORM BUTTON
 }
 
 .connect-zone input {
-	border-radius: 10px;
+	border-radius: 4px;
 }
 
 .connect-zone h4 {
@@ -318,4 +318,21 @@ FORM AND FORM BUTTON
 
 .no-border {
 	border:0;
+}
+
+
+/* HELP BUTTON */
+#iconhelp {
+	color: #55B3B9;
+	border-radius: 4px;
+	padding: 0;
+}
+
+/**NAVBAR 
+
+TODO : remove that and use specific mviewer.css style version
+
+*/
+.navbar, .navbar-header, .navbar-default, .navbar-brand {
+	background-color: #353350 !important;
 }
