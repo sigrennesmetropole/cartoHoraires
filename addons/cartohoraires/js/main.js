@@ -178,6 +178,9 @@ const cartohoraires = (function() {
      * Force display component for desktop device only
      */
     function initDisplayComponents() {
+        $('#iconhelp').empty();
+        $('#iconhelp').append('<i class="fas fa-home"></i>');
+
         if (!configuration.getConfiguration().mobile) {
             $('#map').attr('style', `width:${mapWidth}% !important`);
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
