@@ -10,12 +10,15 @@
         "js/lib/turf.min.js",
         "js/lib/moment.js"
     ],
-    "css": "css/main.css",
+    "css": [
+        "css/main.css", 
+        "css/loader.css"
+    ],
     "html": "cartohoraires.html",
     "target": "page-content-wrapper",
     "options": {
         "template": "apps/cartoHoraires/addons/cartohoraires/templates/cartohoraires.html",
-        "templateForm": "apps/cartoHoraires/addons/cartohoraires/templates/form.html",
+        "templateForm": "apps/cartoHoraires/addons/cartohoraires/templates/form.mst",
         "templateFormBtn": "apps/cartoHoraires/addons/cartohoraires/templates/formBtn.html",
         "mapWidth": 50,
         "templateWidth": 50,
