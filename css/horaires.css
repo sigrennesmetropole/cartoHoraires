@@ -55,7 +55,7 @@ background-color: #36334F;
 
 #mv-navbar a.navbar-brand, .mv-title{
 color:#ffffff!important;	
-font-size: 20px;
+font-size: 18px;
 font-family: 'VistaSansOT_regular','roboto_bold', Arial, Sans-serif;
 }
 
@@ -148,6 +148,11 @@ background: #36334F;
 /*******************************
 -------------LEGEND LAYER
 ********************************/
+
+/* Position de la légende lorsque le menu thématique est innexistant*/
+#layers-container-box{
+    margin-left: -2%!important;
+    }
 
 #layers-container a {
 color: #36334F;
