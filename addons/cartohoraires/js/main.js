@@ -169,6 +169,7 @@ const cartohoraires = (function() {
             // add to classic panel
             $(".cartohoraires-panel .panel-body").append(panelContent);
         }
+        $(".cartohoraires-panel .row").hide();
     }
 
     /**
