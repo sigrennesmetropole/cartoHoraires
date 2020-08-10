@@ -340,12 +340,6 @@ input[type='radio']:after {
 	padding: 0;
 }
 
-/**NAVBAR 
-TODO : remove that and use specific mviewer.css style version
-*/
-.navbar, .navbar-header, .navbar-default, .navbar-brand {
-	background-color: #353350 !important;
-}
 
 /**
 LOADER
