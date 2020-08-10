@@ -2,9 +2,685 @@
 ---------- CSS THEME MVIEWER / CARTE PARTICIPATIVE DES HORAIRES -----------------
 ********************************************************************************/
 
-/*  Import du style du site internet  */
-@import url("../../site_internet/css/site_internet_gris.css");
+/* Import des fonts*/
+@font-face {
+    font-family: 'roboto_black';
+    src: url('../font/Roboto/Roboto-Black.ttf');
+}
+@font-face {
+    font-family: 'roboto_bold';
+    src: url('../font/Roboto/Roboto-Bold.ttf');
+}
+@font-face {
+    font-family: 'roboto_regular';
+    src: url('../font/Roboto/Roboto-Regular.ttf');
+}
+/* Debut modif CT 24/10/2019 */
+@font-face {
+    font-family: 'VistaSansOT_black';
+    src: url('../font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bold';
+    src: url('../font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_italic';
+    src: url('../font/Vista_Sans-OT/VistaSansOT-RegItalic.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bolditalic';
+    src: url('../font/Vista_Sans-OT/VistaSansOT-BoldItalic.otf');
+}
+/* Fin */
+/*******************************
+------------- NAVBAR 
+********************************/
+.navbar-default{
+border-color:#36334F;
+}
 
+#mv-navbar{
+border-color:#36334F;
+background-color: #36334F;
+}
+
+.navbar-header.fixed-brand{
+background-color: #36334F;
+}
+
+#mv-navbar a.navbar-brand, .mv-title{
+color:#ffffff!important;	
+font-size: 20px;
+}
+
+p.navbar-text.mv-title{
+font-size: 18px;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/* fin */
+letter-spacing: 0.5px;
+}
+
+.navbar-default .navbar-toggle{
+border-color: #ffffff;
+}
+
+.glyphicon-th-large:before{
+color:#ffffff;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
+background-color:#36334F;
+}
+
+.ol-control button {
+color: #fff!important;
+background-color: #36334F!important;
+}
+
+.ol-control button:focus, .ol-control button:hover {  
+background-color: #36334F;
+}
+
+.gml-item-title {    
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+color:#36334F;
+font-size: 24px;
+}
+
+.popup-content .nav-tabs > li.active > a, .popup-content .nav-tabs > li.active > a:hover, .popup-content .nav-tabs > li.active > a:focus { 
+border-left: thick solid #36334F!important;
+}
+
+#right-panel .mv-header {  
+background-color: #36334F;
+color: #fff;  
+}
+
+#right-panel .mv-header h5{  
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', sans-serif;
+/* fin */
+font-size: 13px;
+}
+
+/*******************************
+------------- MENU
+********************************/
+
+#sidebar-wrapper a{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/*fin */
+}
+
+#menu>li>a{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/* fin */
+}
+
+#menu li a:hover{
+border-left:#36334F 0px solid;
+background:#36334F;
+color: #f8f8f8;
+}
+
+/*******************************
+------------- BOTTOM PANEL
+********************************/
+#bottom-panel .mv-header h5{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/* fin */
+color: #36334F;	
+font-size:13px;
+}
+
+.fa-chevron-down{
+color:#fff;
+}
+#bottom-panel-btn .fa-chevron-down { 
+background: #36334F;
+}
+
+/*******************************
+-------------LEGEND LAYER
+********************************/
+
+#layers-container a {
+color: #36334F;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/*fin*/
+}
+
+.form-group label {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/* fin*/
+}
+
+#layers-container .mv-layer-options p {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+.form-control{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+color:#555!important;
+}
+
+.mv-layer-options{
+color:#555!important;
+}
+
+/* Sub-title layers */
+.selected-sld.fa span{
+font-style: italic;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+/*Filtres*/
+.selected-attribute.fa span{
+font-style: italic;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+/* OpacitÃ© */
+.mv-layer-options  .slider-selection{
+background:#36334F;	
+}
+
+.mv-layer-options .slider-handle {
+background: #36334F;
+}
+
+.mv-layer-options .tooltip-inner{
+background-color:#36334F;
+border-radius: 4px;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+.mv-layer-options .tooltip.top .tooltip-arrow{
+border-top-color:#36334F;
+}
+
+/* TemporalitÃ© */ 
+
+.mv-layer-options  .form-group-timer .slider-selection{
+background:#36334F;
+-webkit-box-shadow:inset 0 0px 0 rgba(0,0,0,0);
+}
+
+.slider.slider-horizontal .slider-tick-label-container{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+.slider-tick.round.in-selection{
+background: #36334F;
+background-image: none;
+-webkit-box-shadow:inset 0 0px 0 rgba(0,0,0,0);
+}
+
+.form-group-timer .slider-tick.round{
+background:#36334F;
+background-image:none;
+-webkit-box-shadow:inset 0 0px 0 rgba(0,0,0,0);
+opacity: 1;
+}
+
+.form-group-timer .tooltip.bottom .tooltip-arrow{
+border-bottom-color:#36334F;
+}
+
+.mv-layer-options  .form-group-timer .slider-track-high{
+background:#36334F;	
+}
+
+#layers-container-box-header {
+background-color: #36334F;
+}
+
+span.mv-time-player-selection {
+color: #fff;
+font-size: 13px;
+background-color: #36334F;
+}
+
+/* debut modif CT 15/01/2020 */
+span.text-big-legend {
+color: #36334F !important;
+}
+/* fin */
+
+/*******************************
+------------- BASEMAP
+********************************/
+
+ul#basemapslist p {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+ul#basemapslist  li.active{    
+box-shadow: 0px 0px 2px 2px #36334F, 0px 0px 3px 3px rgba(200, 200, 200, 0.5);
+}
+
+.ol-scale-line-inner{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+/*******************************
+------------- RIGHT PANEL
+********************************/
+
+h3.title{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+font-size: 24px;
+color:#36334F;
+}
+
+h4.title{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+font-size: 16px;
+color:#36334F;
+}
+
+.info{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/*fin*/
+}
+
+/*******************************
+------------- POPOVER
+********************************/
+.popover-content{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', sans-serif!important;
+/* fin */
+}
+
+.popover-title{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', sans-serif!important;
+/* fin */
+}	
+
+/*******************************
+------------- POPUP
+********************************/
+.popup-content {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;  
+/* fin */
+}
+
+
+/*******************************
+------------- BUTTON RIGHT TOOLBAR
+********************************/
+#toolstoolbar.btn-warning{
+background-color: #36334F;
+border-color: #36334F;
+}
+
+#toolstoolbar.btn-warning:hover{
+background-color: #36334F;
+border-color: #36334F;
+}
+
+#alerts-zone .alert.alert-info {
+background-color: #36334F;
+color: #fff;
+}
+
+#alerts-zone .close {  
+color: #fff;
+text-shadow: 0 1px 0 #000;  
+}
+
+.datepicker .active {
+background-color: #36334F!important;
+}
+
+.leftpanel-btn:hover {
+color: #36334F;
+}
+
+/* Buttons tools*/
+#drawtoolsoptions .btn-default.active, #drawtoolsoptions .btn-default:active, #drawtoolsoptions .btn-default.focus, #drawtoolsoptions .btn-default:focus {
+background-color:#36334F;
+border-color:#36334F;
+}
+
+/* Tooltip measure */
+
+.tooltip2 {
+background: #36334F;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/*fin*/
+}
+
+.tooltip-measure-static {
+background-color: #36334F;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+.tooltip-measure:before,
+.tooltip-measure-static:before {
+border-top: 6px solid #36334F;
+}
+
+.tooltip-measure-static:before {
+border-top-color: #36334F;
+}
+
+/* custom-tooltip-feature */
+.tooltip-feature.tooltip-inner {
+background-color: rgba(51, 51, 51, 0.95);
+padding: 8px 8px 8px;
+color: #fff;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+font-size: 12px;
+letter-spacing: 1;
+}
+
+.tooltip.right .tooltip-feature.tooltip-arrow {
+border-right-color: rgba(51, 51, 51, 0.95);
+}
+
+.tooltip.top .tooltip-feature.tooltip-arrow {
+border-top-color: rgba(51, 51, 51, 0.95);
+}
+
+.tooltip.left .tooltip-feature.tooltip-arrow {
+border-left-color: rgba(51, 51, 51, 0.95);
+}
+
+.tooltip-feature h5 {
+margin-bottom: 0;
+}
+
+.tooltip-feature.tooltip.in {
+opacity: 1;
+}
+
+/* Custom-tooltip-infopanel */
+.mv-tooltip.tooltip-inner {
+background-color: #36334F;
+padding: 8px 8px 8px;
+color: #fff;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+font-size: 11px;
+letter-spacing: 1;
+}
+
+.tooltip.right .mv-tooltip.tooltip-arrow {
+border-right-color: #36334F; 
+}
+
+.tooltip.top .mv-tooltip.tooltip-arrow {
+border-top-color: #36334F; 
+}
+
+.tooltip.left .mv-tooltip.tooltip-arrow {
+border-left-color: #36334F; 
+}
+
+/*******************************
+------------- SEARCH TOOLBAR
+********************************/
+
+/* Searchresult */
+
+#searchresults{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular',Arial, Sans-serif!important;
+/* fin */
+color: #555!important;
+}
+
+ul#searchparameters{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular',Arial, Sans-serif;
+/* fin */
+}
+
+/* Search toolbar */
+
+#searchresults li.list-group-item.disabled {
+background-color: #36334F;
+border-color: #36334F;
+color: white!important;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif!important;
+/* fin */
+}
+
+#searchresults li a:hover {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif!important;
+/* fin */
+color: #36334F!important;
+}
+
+.popup-content .nav-tabs .active .glyphicon, .popup-content .nav-tabs .active .fa {
+color: #36334F;  
+}
+
+a:hover{
+color: #36334F;
+}
+
+#searchtool .btn-default{
+color:#36334F;
+}
+
+#parameterspanel .modal-header{
+color: #333;
+font-size: 13px;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif!important;
+/* fin */
+}
+
+/*******************************
+------------- MAP OPTIONS
+********************************/
+
+/* Partager la carte*/
+#sharepanel{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+a#permalinklink{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+.modal-content{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+/*******************************
+------------- HELP / DOCUMENTATION
+********************************/
+
+/* Help button */
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn{
+border-radius:50%;
+width:34px;
+height:34px;
+min-width:34px;
+border: 0px!important;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_black','roboto_black', Arial, Sans-serif;
+/* fin */
+color:#36334F;
+font-size: 15px;
+}
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn:hover{
+background-color: rgba(255, 255, 255, 0.89);
+}
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn:focus{
+background-color: rgba(255, 255, 255, 255);
+}
+
+/* Help panel */
+
+#help .modal-content{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif!important;
+/* fin */
+height: auto;
+}
+
+#help .nav-tabs{
+border-bottom: 2px solid #36334F;
+}
+
+#help .nav-tabs>li>a{
+border-radius: 0px 0px 0 0px!important;
+color: #555;
+}
+
+#help .nav-tabs>li.active>a{
+background-color: #36334F;
+border-color: #36334F;
+color: white!important;
+}
+
+#help .nav-tabs>li>a:hover{
+border-color: #eee #eee #36334F!important;
+}
+
+#help a:hover{
+color: #36334F!important;
+}
+
+#help .modal-title{
+font-size: 25px;
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/* fin */
+color: #36334F;
+}
+
+#help .tab-pane h4{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/*fin*/
+color: #36334F;
+font-size: 22px;
+margin-top: 20px;
+}
+
+#help .tab-pane h5{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/*fin*/
+color: #36334F;
+font-size: 16px;
+margin-bottom: 2px;
+}
+
+#help .tab-pane h6{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
+/*fin*/
+color: #36334F;
+font-size: 14px;
+margin-bottom: 2px;
+}
+
+#help .tab-pane p{
+color: #555;
+font-size: 13px;
+text-align: justify;
+}
+
+#help .tab-pane .visuel_tx{
+color: #555;
+font-size: 13px;
+}
+
+#help .tab-pane .visuel{
+text-align: center;
+}
+
+/*******************************
+-------------CSS Fiche info GML
+********************************/
+.gml-item-field-name {
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/*fin*/
+}
+
+.gml-item-field-value{
+/* Debut modif CT 24/10/2019 */
+font-family: 'VistaSansOT_regular','roboto_regular', Arial, Sans-serif;
+/* fin */
+}
+
+/*******************************
+-------------LOADER INDICATOR
+********************************/
+.mv-layer-indicator .loader {    
+border-top: 1.1em solid rgba(3, 46, 70, 0.2);
+border-right: 1.1em solid rgba(3, 46, 70, 0.2);
+border-bottom: 1.1em solid rgba(3, 46, 70, 0.2);
+border-left: 1.1em solid #36334F;
+}
+
+.mv-iframe-indicator .loader {     
+border-top: 1.1em solid rgba(3, 46, 70, 0.2);
+border-right: 1.1em solid rgba(3, 46, 70, 0.2);
+border-bottom: 1.1em solid rgba(3, 46, 70, 0.2);
+border-left: 1.1em solid #36334F;
+}
 
 
 
