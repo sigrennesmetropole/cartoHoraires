@@ -10,7 +10,9 @@
         "js/lib/turf.min.js",
         "js/lib/moment.js"
     ],
-    "css": "css/main.css",
+    "css": [ 
+        "css/main.css"
+    ],
     "html": "cartohoraires.html",
     "target": "page-content-wrapper",
     "options": {

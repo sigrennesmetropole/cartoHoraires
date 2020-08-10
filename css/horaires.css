@@ -18,23 +18,23 @@
 /* Debut modif CT 24/10/2019 */
 @font-face {
     font-family: 'VistaSansOT_black';
-    src: url('../font/Vista_Sans-OT/VistaSansOT-Black.otf');
+    src: url('https://testapp.sig.rennesmetropole.fr/mviewer/apps/site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_bold';
-    src: url('../font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+    src: url('https://testapp.sig.rennesmetropole.fr/mviewer/apps/site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_regular';
-    src: url('../font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+    src: url('https://testapp.sig.rennesmetropole.fr/mviewer/apps/site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_italic';
-    src: url('../font/Vista_Sans-OT/VistaSansOT-RegItalic.otf');
+    src: url('https://testapp.sig.rennesmetropole.fr/mviewer/apps/site_internet/css/font/Vista_Sans-OT/VistaSansOT-RegItalic.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_bolditalic';
-    src: url('../font/Vista_Sans-OT/VistaSansOT-BoldItalic.otf');
+    src: url('https://testapp.sig.rennesmetropole.fr/mviewer/apps/site_internet/css/font/Vista_Sans-OT/VistaSansOT-BoldItalic.otf');
 }
 /* Fin */
 /*******************************
@@ -56,15 +56,9 @@ background-color: #36334F;
 #mv-navbar a.navbar-brand, .mv-title{
 color:#ffffff!important;	
 font-size: 20px;
+font-family: 'VistaSansOT_regular','roboto_bold', Arial, Sans-serif;
 }
 
-p.navbar-text.mv-title{
-font-size: 18px;
-/* Debut modif CT 24/10/2019 */
-font-family: 'VistaSansOT_bold','roboto_bold', Arial, Sans-serif;
-/* fin */
-letter-spacing: 0.5px;
-}
 
 .navbar-default .navbar-toggle{
 border-color: #ffffff;
