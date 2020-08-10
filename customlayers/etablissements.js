@@ -152,6 +152,10 @@ mviewer.customLayers.etablissements = (function() {
           cartohoraires.initOnDataLoad();
           ol.Observable.unByKey(evt);
       }
+      // hide loader and display panel
+      $('.load-panel').hide();
+      $(".cartohoraires-panel .row").show();
+      
   });
   return {
       layer: vectorLayer,
