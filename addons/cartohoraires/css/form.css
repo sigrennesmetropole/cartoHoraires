@@ -1,0 +1,129 @@
+/**
+========================= INPUT ZONE
+*/
+.input-zone .row {
+    margin-top: 10px;
+    margin-bottom: 10%;
+}
+
+.input-day-zone {
+	background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
+.no-border {
+	border:0;
+}
+
+.input-style{
+	border-radius: 4px;
+	border: 1px #55B3B9 solid;
+	background-color: whitesmoke;
+}
+
+
+/* HELP BUTTON */
+#iconhelp {
+	color: #55B3B9;
+	border-radius: 4px;
+	padding: 0;
+}
+
+/**
+========================= CONNECT ZONE
+*/
+.form-modal-content {
+	/*position: absolute;*/
+	border-radius: 6px;
+}
+.formBtn {
+	background-color: #55B3B9;
+	border: 1px transparent solid;
+	margin-right: 10px;
+	color: white;
+	font-weight: bold;
+}
+
+.form-modal-body, .form-template {
+	padding:0px;
+	overflow: auto;
+    border-radius: 3px;
+    border: 1px #353350 solid
+}
+
+.connect-zone {
+    border-top-right-radius: 3px;
+    padding-top: 20px;
+}
+
+.connect-zone>* {
+	color: white;
+	background-color: #353350;
+	font: normal 1.2em "Trebuchet MS", sans-serif;
+}
+
+.connect-zone h3 {
+	color:#55B3B9;
+}
+
+.connect-zone input {
+	border-radius: 4px;
+}
+
+.connect-zone h4 {
+	margin-top: 20px;
+}
+
+.connect-zone .row {
+	margin-top: 10px;
+	padding: 15px;
+}
+
+.btn-connect {
+	background-color: #55B3B9;
+	color:white;
+}
+
+.link-code {
+	padding-left: 5px;
+	font-style: italic;
+	text-decoration: underline dotted;
+}
+
+.connect-text {
+	font: italic 13px "Trebuchet MS", sans-serif;
+	text-justify: auto !important;
+}
+
+/**
+    BUTTONS TO CLEAR OR VALID FORM
+*/
+
+.btn-valid {
+    background-color: #353350;
+    color:white;
+    margin-left: 5px;
+}
+
+.btn-clear {
+    background-color: #55B3B9;
+    color:white;
+}
+
+.btn-form-action {
+    margin-bottom: 1em;
+}
+
+
+.form-row .no-float {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+}
+
+.form-modal-body>.row {
+    height: 100%;
+    display: table-row;
+}

@@ -12,7 +12,9 @@
     ],
     "css": [
         "css/main.css", 
-        "css/loader.css"
+        "css/loader.css",
+        "css/clockpicker.css",
+        "css/form.css"
     ],
     "html": "cartohoraires.html",
     "target": "page-content-wrapper",

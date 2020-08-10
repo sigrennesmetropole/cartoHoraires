@@ -74,6 +74,31 @@ const cartohoraires = (function() {
      * Request to call Mustache template from server or local path.
      */
     function initTemplates() {
+        var dayView = {
+            days: [
+            {   id: '1',
+                name:'Lundi'
+            },
+            {   id: '2',
+                name:'Mardi'
+            },
+            {   id: '3',
+                name:'Mercredi'
+            },
+            {   id: '4',
+                name:'Jeudi'
+            },
+            {   id: '5',
+                name:'Vendredi'
+            },
+            {   id: '5',
+                name:'Samedi'
+            },
+            {   id: '5',
+                name:'Dimanche'
+            }
+            ]};
+
         // main panel contain
         const promiseMain = new Promise((resolve, reject) => {
             let req = createRequest({
@@ -123,7 +148,8 @@ const cartohoraires = (function() {
                         displayPanel(e.template);
                         break;
                     case 'form':
-                        $('#main').prepend(e.template);
+                        let template = Mustache.to_html(e.template, dayView);
+                        $('#main').prepend(template);
                         // init clock picker
                         $('.clockpicker').clockpicker({
                             placement: 'bottom',
@@ -159,6 +185,7 @@ const cartohoraires = (function() {
             $("#cartohoraires-modal .modal-body").children().remove();
             // add to modal
             $("#cartohoraires-modal .modal-body").append(panelContent);
+
         } else {
             // close modal if visible
             if ($("#cartohoraires-modal").is(':visible')) {
@@ -178,6 +205,9 @@ const cartohoraires = (function() {
     function initModalBehavior() {
         $('#mobilebtn-el').on('click', function() {
             $("#cartohoraires-modal").modal('toggle');
+            if($('.form-row').length) {
+                $('.form-row').removeClass('form-row'); // force mobile display;
+            }
         });
     }
 
