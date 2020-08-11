@@ -180,6 +180,10 @@ p.subText {
 	line-height: 1.2;
 }
 
+.title-zae .subText {
+    font-style: oblique;
+}
+
 /**
 * TITLE FILTER
 */
@@ -244,19 +248,6 @@ select#modal-select {
     box-sizing: border-box;
     -webkit-appearance: none;
     -moz-appearance: none;
-}
-
-/**
-* INFOS ICONS
-*/
-.infos {
-	margin-right:10px;
-	font-weight: bold;
-	color: grey;
-}
-
-.infos>i {
-	padding-right:5px;
 }
 
 /**
@@ -325,6 +316,69 @@ select#modal-select {
     font-family: var(--font_regular);
 }
 
+/** DATAVISUALISATION **/
+
+#titleDataV h4 {
+    font-size: 20px;
+}
+
+
+
+/**
+* INFOS ICONS
+*/
+#recapInfos {
+    font-family: var(--font_regular);
+    color: #777;
+}
+
+.infos {
+	margin-right:20px;
+}
+
+.infos>i {
+	padding-right:5px;
+}
+
+/* GRAPH */
+#panelGraph .panel-heading.no-border {
+	background-color: #f2f2f2;
+	padding: 15px 25px 0px;
+}
+
+#panelGraph {
+    background-color: #eeec;
+}
+
+p.titleGraph {
+    font-family: var(--font_bold);
+    color: #777;
+    font-size: 15px;
+    margin: 0;
+}
+
+p.subtitleGraph {
+    font-family: var(--font_regular);
+    color: #777;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* EMPTY GRAPH */
+
+i.emptyGraph {
+    color: #56b3ba;
+    font-size: 18px;
+    background-color: #56b3ba73;
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+.subText.emptyGraph {
+    font-family: var(--font_regular);
+    color: #999;
+    font-size: 13px;
+}
 
 /**
 * CARD INFO
@@ -478,8 +532,8 @@ LOADER
 */
 .load-panel {
 	margin-top: 30%;
-	color: grey;
-	font: normal 1.2em "Trebuchet MS", sans-serif;	
+	color: #777;
+	font-family: var(--font_regular);
 }
 .loader-sig{
 	width: 100px;
