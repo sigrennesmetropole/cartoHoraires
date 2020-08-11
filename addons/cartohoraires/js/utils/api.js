@@ -10,6 +10,11 @@
         // This variable will be inaccessible to the user, only can be visible in the scope of your library.
         const api = 'http://testapp.sig.rennesmetropole.fr/api-horaires/public/'
         
+        const getUrlCreator = function (reqUrl, data) {
+            let urlParam = [Object.keys(data).map(e => `${e}=${data[e]}`).join('&')];
+            return [reqUrl].concat(urlParam).join('/');
+        }
+        
         const url = {
             getTransport: api+  'moytransp',
             getTransports: api + 'getTransport',
@@ -35,12 +40,13 @@
          * @param {Function} callback to execute on query response
          * @param {String} type as HTTP requet type
          */
-        _cartoHoraireApi.getTransports = function(data = {}, callback, type = 'GET'){
-            if(!callback) return;
-
+        _cartoHoraireApi.request = function(data = {}, callback, type = 'GET', name){
             const promise = new Promise((resolve, reject) => {
+                if(!name || !url[name]) return reject('Method name missing or not exists !');
+                let requestUrl = url[name];
+                if(type === 'GET' && data) requestUrl = getUrlCreator(requestUrl,data);
                 $.ajax({
-                    url: url.getTransports,
+                    url: requestUrl,
                     type: type,
                     data: data,
                     datatype: 'json',
@@ -53,12 +59,37 @@
                 });
             })
             promise.then((v) => {
+                if(!callback) return v;
                 callback(v);
             }).catch((e) => {
+                if(!callback) return e;
                 callback(e);
             })
         };
 
+        _cartoHoraireApi.createNewPassword = function (resp = false, userEmail = false) {
+            //return;
+            if(resp) resp = resp[0];
+            if(!userEmail) userEmail = $('#fst-email-form').val();
+            if(resp && resp.success && resp.exist && validators.isMailValid(userEmail)) {
+                _cartoHoraireApi.request(
+                    {email: userEmail},
+                    function(e) {
+                        if(e && e[0].success) $('.createUserMsg').removeClass('hide').show().text('Votre compte existe déjà. Un nouveau mot de passe vous sera envoyé par email !');
+                        setTimeout(function() {
+                            $('.createUserMsg').fadeOut(1000);
+                        }, 5000);
+                    },
+                    'GET',
+                    'updateUserPassword'
+                )
+            } else if(resp && !resp.exist) {
+                $('.createUserMsg').removeClass('hide').show().text('Un mot de passe de connexion vous sera envoyé par email !');
+                setTimeout(function() {
+                    $('.createUserMsg').fadeOut(2000);
+                }, 10000);
+            }
+        }
         return _cartoHoraireApi;
     }
   

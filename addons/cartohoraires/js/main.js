@@ -700,7 +700,7 @@ const cartohoraires = (function() {
      * Get transport values from layer's data and create select options
      */
     function initTransportList() {
-        cartoHoraireApi.getTransports(null, function(res) {
+        cartoHoraireApi.request(null, function(res) {
             if(res.length && transportSelectEmpty) {
                 // init all list for form and info panel
                 let optionsSelect = res.map(e => `
@@ -718,7 +718,7 @@ const cartohoraires = (function() {
                 });
                 transportSelectEmpty = false;
             }
-        }, 'GET');
+        }, 'GET', 'getTransports');
     }
 
     /**
@@ -857,6 +857,13 @@ const cartohoraires = (function() {
         })
     }
 
+    function initFormInputs() {
+            // init behaviors on input
+            validators.validInput('fst-email-form');
+            validators.validInput('email-form');
+            validators.validInput('code-form');
+    }
+
     /**
      * PUBLIC
      */
@@ -916,6 +923,8 @@ const cartohoraires = (function() {
 
             // list for transport type value
             initTransportList();
+
+            initFormInputs();
         },
 
         /**

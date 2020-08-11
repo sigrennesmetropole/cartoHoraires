@@ -19,12 +19,12 @@
                             <!--INPUT MAIL-->
                             <span classe="row">
                                 <h4>Adresse mail</h4>
-                                <input type="text" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form">
+                                <input type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form" required>
                             </span>
                             <!--INPUT CODE PASSWORD-->
                             <span classe="row">
                                 <h4>Code</h4>
-                                <input type="text" placeholder="*******" class="form-control" name="code-form" id="code-form">
+                                <input type="password" placeholder="*******" class="form-control" name="code-form" id="code-form" required>
                             </span>
                             <!--CODE FORGET-->
                             <div class="row">
@@ -37,11 +37,17 @@
                             <h3>1ère connexion</h3>
                             <span classe="col-sm-12">
                                 <h4>Adresse mail</h4>
-                                <input type="text" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form">
+                                <input required type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="fst-email-form">
+                                <span class="createUserMsg hide"></span>
                             </span>
                             <!--1st CONNEXION VALID BUTTON-->
                             <div class="row">
-                                <button type="btn" class="btn btn-default btn-connect no-border">Obtenir le code</button>
+                                <button
+                                    onclick="validators.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
+                                    type="btn" 
+                                    id="firstConnectBtn" 
+                                    class="btn btn-default btn-connect no-border">Obtenir le code
+                                </button>
                             </div>
                         </div>
                     </div>
