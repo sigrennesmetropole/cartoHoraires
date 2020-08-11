@@ -6,7 +6,7 @@
 }
 @font-face {
     font-family: 'VistaSansOT_bold';
-    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_regular';
@@ -163,9 +163,20 @@ input[type='radio']:after {
 	transform: translateX(-100%);
 }
 
-.subText{
-	color: grey;
-	font-weight: bold;
+/* Title ZAE*/
+.title-zae {
+    color: #777;
+    font-family: var(--font_regular);
+}
+
+p.Text {
+    font-size: 14px;
+    margin: 0;
+}
+
+p.subText {
+    font-size: 12px;
+    margin: 0;
 }
 
 /**
