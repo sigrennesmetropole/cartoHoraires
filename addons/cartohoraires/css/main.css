@@ -381,21 +381,43 @@ i.emptyGraph {
 }
 
 /**
-* CARD INFO
+* CARD INFO - NUMBERKEYS
 */
+.cardNumber{
+	padding:0px;
+}
+
 .card-info {
-	background-color: whitesmoke;
+	background-color: #eeec;
 	border: 1px transparent solid;
-	font-weight: bold;
 	border-radius: 4px;
 	padding: 15px;
+	font-family: var(--font_regular);
+	margin-bottom: 10px;
 }
+
 .input-info {
 	color: var(--turquoise);
+	font-family: var(--font_bold);
+	font-size: 16px;
 }
+
 .input-number {
 	font-size: 30px;
-	color: var(--jaune);
+}
+
+.titleNumb {
+    font-family: var(--font_regular);
+    color: #777;
+    margin: 0;
+}
+
+.subtitleNumb {
+    font-family: var(--font_regular);
+    color: #777;
+    margin: 0;
+    font-size: 11px;
+    font-style: oblique;
 }
 
 /**
