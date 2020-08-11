@@ -1,0 +1,182 @@
+/**
+========================= INPUT ZONE
+*/
+.input-zone .row {
+    margin-top: 10px;
+    margin-bottom: 2%;
+}
+
+.input-day-zone {
+	background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
+.no-border {
+	border:0;
+}
+
+.input-style{
+	border-radius: 4px;
+	border: 1px #55B3B9 solid;
+	background-color: whitesmoke;
+}
+
+
+/* HELP BUTTON */
+#iconhelp {
+	color: #55B3B9;
+	border-radius: 4px;
+	padding: 0;
+}
+
+/**
+========================= CONNECT ZONE
+*/
+.form-modal-content {
+	/*position: absolute;*/
+	border-radius: 6px;
+}
+.formBtn {
+	background-color: #55B3B9;
+	border: 1px transparent solid;
+	margin-right: 10px;
+	color: white;
+	font-weight: bold;
+}
+
+.form-modal-body, .form-template {
+	padding:0px;
+	overflow: auto;
+    border-radius: 3px;
+    border: 1px #353350 solid
+}
+
+#form-modal {
+	overflow-y: auto;
+	z-index: 10000;
+}
+
+.connect-zone {
+    border-top-right-radius: 3px;
+    padding-top: 20px;
+}
+
+.connect-zone>* {
+	color: white;
+	background-color: #353350;
+	font: normal 1.2em "Trebuchet MS", sans-serif;
+}
+
+.connect-zone h3 {
+	color:#55B3B9;
+}
+
+.connect-zone input {
+	border-radius: 4px;
+}
+
+.connect-zone h4 {
+	margin-top: 20px;
+}
+
+.connect-zone .row {
+	margin-top: 10px;
+	padding: 15px;
+}
+
+.btn-connect {
+	background-color: #55B3B9;
+	color:white;
+}
+
+.link-code {
+	padding-left: 5px;
+	font-style: italic;
+	text-decoration: underline dotted;
+}
+
+.connect-text {
+	font: italic 13px "Trebuchet MS", sans-serif;
+	text-justify: auto !important;
+}
+
+/**
+    BUTTONS TO CLEAR OR VALID FORM
+*/
+
+.btn-valid {
+    background-color: #353350;
+    color:white;
+    margin-left: 5px;
+}
+
+.btn-clear {
+    background-color: #55B3B9;
+    color:white;
+}
+
+.btn-form-action {
+    margin-bottom: 1em;
+}
+
+
+.form-row .no-float {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+}
+
+.form-modal-body>.row {
+    height: 100%;
+    display: table-row;
+}
+
+.btn-up,.btn-up:hover, .btn-up:focus, .btn-up:active {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	z-index: 10000 !important;
+	color: white;
+	margin-bottom: 0;
+	right:15px;
+	background-color: rgba(52,50,80,0.8) !important;
+	box-shadow: 0px 1px 10px 0px rgba(220,170,20,0.8);
+	margin: 0 auto;
+}
+.btn-up.btn-lg {
+	width: 50px;
+	height: 50px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
+}
+.btn-up.btn-xl {
+	width: 70px;
+	height: 70px;
+	font-size: 24px;
+	line-height: 1.33;
+	border-radius: 35px;
+}
+
+.btn-up>span {
+	left: -1px;
+}
+
+
+/**
+* FORM VALIDATION
+*/
+
+.invalid{
+	border: 2px solid red;
+	border-radius: 4px;
+}
+
+.createUserMsg {
+	display: block;
+	margin-top: 15px;
+	color: #fed500;
+}

@@ -8,14 +8,21 @@
         "js/lib/bootstrap-autocomplete.js",
         "js/lib/chart.js@2.8.0.js",
         "js/lib/turf.min.js",
-        "js/lib/moment.js"
+        "js/lib/moment.js",
+        "js/utils/api.js",
+        "js/utils/validators.js"
     ],
-    "css": "css/main.css",
+    "css": [
+        "css/main.css", 
+        "css/loader.css",
+        "css/clockpicker.css",
+        "css/form.css"
+    ],
     "html": "cartohoraires.html",
     "target": "page-content-wrapper",
     "options": {
         "template": "apps/cartoHoraires/addons/cartohoraires/templates/cartohoraires.html",
-        "templateForm": "apps/cartoHoraires/addons/cartohoraires/templates/form.html",
+        "templateForm": "apps/cartoHoraires/addons/cartohoraires/templates/form.mst",
         "templateFormBtn": "apps/cartoHoraires/addons/cartohoraires/templates/formBtn.html",
         "mapWidth": 50,
         "templateWidth": 50,

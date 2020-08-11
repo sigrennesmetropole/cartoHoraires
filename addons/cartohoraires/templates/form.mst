@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content no-border form-modal-content">
             <div class="modal-body form-modal-body">
-                <button type="button" class="close hidden" data-dismiss="modal">×</button>
-                <div class="form-template col-sm-12">
-                    <div class="col-sm-12 col-md-4 connect-zone" style="background-color:#353350">
-                        <div class="row">
-                            <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
+                <div class="row form-row">
+                    <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
+                        <div class="col-sm-12">
+                            
                             <!--TITLE AND DETAILS ABOUT CONNEXION-->
                             <span classe="row" style="margin-bottom: 10px;">
+                            <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
                                 <h3>Connexion</h3>
                                 <span class="connect-text">
                                     Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
@@ -19,79 +19,90 @@
                             <!--INPUT MAIL-->
                             <span classe="row">
                                 <h4>Adresse mail</h4>
-                                <input type="text" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form">
+                                <input autocomplete="false" type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form" required>
                             </span>
                             <!--INPUT CODE PASSWORD-->
                             <span classe="row">
                                 <h4>Code</h4>
-                                <input type="text" placeholder="*******" class="form-control" name="code-form" id="code-form">
+                                <input autocomplete="false" type="password" placeholder="*******" class="form-control" name="code-form" id="code-form" required>
                             </span>
                             <!--CODE FORGET-->
                             <div class="row">
                                 <button type="btn" class="btn btn-default btn-connect no-border">S'identifier</button>
                                 <span class="link-code"> Code oublié ?</span>
-                            </div> 
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="col-sm-12">
                             <!--1st CONNEXION-->
                             <h3>1ère connexion</h3>
                             <span classe="col-sm-12">
                                 <h4>Adresse mail</h4>
-                                <input type="text" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form">
+                                <input autocomplete="false" required type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="fst-email-form">
+                                <span class="createUserMsg hide"></span>
                             </span>
                             <!--1st CONNEXION VALID BUTTON-->
                             <div class="row">
-                                <button type="btn" class="btn btn-default btn-connect no-border">Obtenir le code</button>
+                                <button
+                                    onclick="validators.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
+                                    type="btn" 
+                                    id="firstConnectBtn" 
+                                    class="btn btn-default btn-connect no-border">Obtenir le code
+                                </button>
                             </div>
                         </div>
                     </div>
-
                     <!--INPUT ZONE-->
-                    <div class="col-sm-12 col-md-8 input-zone">
+                    <div class="col-sm-12 col-md-8 no-float input-zone">
                         <h2>Saisissez vos horaires</h2>
                         <!--INPUT DATA-->
                         <div class="col-sm-12">
                             <h3>Votre lieu de travail</h3>
-                            <div class="input-day-zone">
-                                <h4>Lundi</h4>
+                            {{#days}}
+                            <div class="row input-day-zone">
+                                <h4>{{name}}</h4>
                                 <div>
-                                    <input type="checkbox" id="scales" name="scales" checked>
-                                    <label for="scales">Je ne suis pas présent sur mon lieu de travail (je télétravail ou je suis absent)</label>
+                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" checked>
+                                    <label for="checkbox-{{id}}">Je ne suis pas présent sur mon lieu de travail (je télétravail ou je suis absent)</label>
                                 </div>
                                 <div class="row">
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Arrivée au lieu de travail</span>
                                         <div class="input-group clockpicker">
-                                            <input type="text" class="form-control input-style" value="08:00">
+                                            <input type="text" id="clockpicker-in-{{id}}" class="form-control input-style" value="08:00">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>
                                         </div>
                                     </div>
                                     <!--TRANSPORT SELECTOR-->
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport d'arrivé</span>
-                                        <select class="form-control input-style" id="Transport-arr-select">
+                                        <select class="form-control input-style transpor-list" id="transport-arr-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Départ du lieu de travail</span>
                                         <div class="input-group clockpicker">
-                                            <input type="text" class="form-control input-style" value="08:00">
+                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control input-style" value="08:00">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>
                                         </div>
                                     </div>
                                     <!--TRANSPORT SELECTOR-->
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport du départ</span>
-                                        <select class="form-control input-style" id="Transport-out-select">
+                                        <select class="form-control input-style transpor-list" id="transport-out-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            {{/days}}
+                            <div class="row text-right">
+                                <button type="btn" class="btn btn-default btn-clear">Tout supprimer</button>
+                                <button type="btn" class="btn btn-default btn-valid">Valider</button>                            
                             </div>
                         </div>
                     </div>
