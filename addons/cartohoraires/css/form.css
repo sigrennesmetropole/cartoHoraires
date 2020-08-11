@@ -3,7 +3,7 @@
 */
 .input-zone .row {
     margin-top: 10px;
-    margin-bottom: 10%;
+    margin-bottom: 2%;
 }
 
 .input-day-zone {
@@ -51,6 +51,11 @@
 	overflow: auto;
     border-radius: 3px;
     border: 1px #353350 solid
+}
+
+#form-modal {
+	overflow-y: auto;
+	z-index: 10000;
 }
 
 .connect-zone {
@@ -126,4 +131,36 @@
 .form-modal-body>.row {
     height: 100%;
     display: table-row;
+}
+
+.btn-up,.btn-up:hover, .btn-up:focus, .btn-up:active {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	z-index: 10000 !important;
+	color: white;
+	margin-bottom: 0;
+	right:15px;
+	background-color: rgba(52,50,80,0.8) !important;
+	box-shadow: 0px 1px 10px 0px rgba(220,170,20,0.8);
+	margin: 0 auto;
+}
+.btn-up.btn-lg {
+	width: 50px;
+	height: 50px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
+}
+.btn-up.btn-xl {
+	width: 70px;
+	height: 70px;
+	font-size: 24px;
+	line-height: 1.33;
+	border-radius: 35px;
+}
+
+.btn-up>span {
+	left: -1px;
 }

@@ -4,6 +4,10 @@
     color: white;
 }
 
+.clockpicker {
+    width: 100%;
+}
+
 .clockpicker-button{
     background-color: #55B3B9;
     color: white;
@@ -27,4 +31,8 @@
 .clockpicker-plate {
     background-color: white;
     border: 0px;
+}
+
+.clockpicker-popover {
+    z-index: 100000;
 }

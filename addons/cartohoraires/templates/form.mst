@@ -30,7 +30,7 @@
                             <div class="row">
                                 <button type="btn" class="btn btn-default btn-connect no-border">S'identifier</button>
                                 <span class="link-code"> Code oublié ?</span>
-                            </div> 
+                            </div>
                         </div>
                         <div class="col-sm-12">
                             <!--1st CONNEXION-->
@@ -59,7 +59,7 @@
                                     <label for="checkbox-{{id}}">Je ne suis pas présent sur mon lieu de travail (je télétravail ou je suis absent)</label>
                                 </div>
                                 <div class="row">
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Arrivée au lieu de travail</span>
                                         <div class="input-group clockpicker">
                                             <input type="text" id="clockpicker-in-{{id}}" class="form-control input-style" value="08:00">
@@ -69,13 +69,13 @@
                                         </div>
                                     </div>
                                     <!--TRANSPORT SELECTOR-->
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport d'arrivé</span>
-                                        <select class="form-control input-style" id="transport-arr-select-{{id}}">
+                                        <select class="form-control input-style transpor-list" id="transport-arr-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Départ du lieu de travail</span>
                                         <div class="input-group clockpicker">
                                             <input  id="clockpicker-out-{{id}}" type="text" class="form-control input-style" value="08:00">
@@ -85,15 +85,19 @@
                                         </div>
                                     </div>
                                     <!--TRANSPORT SELECTOR-->
-                                    <div class="arrive col-sm-3">
+                                    <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport du départ</span>
-                                        <select class="form-control input-style" id="transport-out-select-{{id}}">
+                                        <select class="form-control input-style transpor-list" id="transport-out-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             {{/days}}
+                            <div class="row text-right">
+                                <button type="btn" class="btn btn-default btn-clear">Tout supprimer</button>
+                                <button type="btn" class="btn btn-default btn-valid">Valider</button>                            
+                            </div>
                         </div>
                     </div>
                 </div>

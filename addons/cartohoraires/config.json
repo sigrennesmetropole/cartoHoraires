@@ -8,7 +8,8 @@
         "js/lib/bootstrap-autocomplete.js",
         "js/lib/chart.js@2.8.0.js",
         "js/lib/turf.min.js",
-        "js/lib/moment.js"
+        "js/lib/moment.js",
+        "js/utils/api.js"
     ],
     "css": [
         "css/main.css", 

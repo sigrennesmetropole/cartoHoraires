@@ -208,6 +208,9 @@ const cartohoraires = (function() {
             if($('.form-row').length) {
                 $('.form-row').removeClass('form-row'); // force mobile display;
             }
+            $('#form-modal').css('overflow','auto !important');
+            $('#form-modal').attr('style','overflow-y: auto !important; z-index:10000;');
+            $('.clockpicker-popover').attr('style','z-index:100000 !important');
         });
     }
 
@@ -697,29 +700,25 @@ const cartohoraires = (function() {
      * Get transport values from layer's data and create select options
      */
     function initTransportList() {
-        if (transportType.length && transportSelectEmpty) {
-            // delete null infos
-            transportType = transportType.filter(e => e);
-            // create select options
-            let optionsSelect = transportType.map(e => `
-                <option value="${e}">${e}</option>
-            `);
-            // insert select options
-            $('#modal-select').empty();
-            $('#modal-select').append('<option value="">Tous</option>');
-            $('#modal-select').append(optionsSelect);
-
-            transportSelected = $('#modal-select').val();
-            // init event
-            $('#modal-select').on('change', function(e) {
+        cartoHoraireApi.getTransports(null, function(res) {
+            if(res.length && transportSelectEmpty) {
+                // init all list for form and info panel
+                let optionsSelect = res.map(e => `
+                    <option value="${e.libelle}">${e.libelle}</option>
+                `);
+                let contain = ['<option value="">Tous</option>'].concat(optionsSelect).join('');
+                $('.transpor-list').empty();
+                $('.transpor-list').append(contain);
+                
+                // only for info panel selector
                 transportSelected = $('#modal-select').val();
-                setInfosPanel(e);
-                //manageDateInfosUi();
-            })
-
-            // to do that once
-            transportSelectEmpty = false;
-        }
+                $('#modal-select').on('change', function(e) {
+                    transportSelected = $('#modal-select').val();
+                    setInfosPanel(e);
+                });
+                transportSelectEmpty = false;
+            }
+        }, 'GET');
     }
 
     /**
@@ -841,6 +840,23 @@ const cartohoraires = (function() {
         return mviewer.getMap().getView().setZoom(options.zoomLvl || configuration.getConfiguration().mapoptions.zoom)
     }
 
+    function initScrollBehavior() {
+        $('#main').append('<button type="btn" id="btn-up" class="btn-default btn-lg btn btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>');
+
+        $('.btn-up').on('click', () => {
+            $('#form-modal').scrollTop(0);
+            $('.btn-up').hide();
+        });
+
+        $('#form-modal').on('scroll', function(){
+            if(document.getElementById('form-modal').scrollTop > 0) {
+                $('.btn-up').show();
+            } else {
+                $('.btn-up').hide();
+            }
+        })
+    }
+
     /**
      * PUBLIC
      */
@@ -877,11 +893,12 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function() {
-            // to manage switch because this component is load late
+            // init time slider component
             let i = 0;
-
-            // list for transport type value
-            initTransportList();
+            if (i == 0 && $('#timeSlider').length) {
+                initTimeSlider();
+                i = 1;
+            }
 
             // button for day selection
             initBtnDay();
@@ -893,13 +910,12 @@ const cartohoraires = (function() {
             }
             $('#searchtool').hide();
 
-            // init time slider component
-            if (i == 0 && $('#timeSlider').length) {
-                initTimeSlider();
-                i = 1;
-            }
-
             setInfosPanel(false);
+
+            initScrollBehavior();
+
+            // list for transport type value
+            initTransportList();
         },
 
         /**
