@@ -219,7 +219,7 @@ p.subText {
 #modal-select {
 	background-color: #eee;
     border: 1px #57b3b900 solid;
-    border-radius: 9px;
+    border-radius: 8px;
     margin-top: 10px;
     font-family: var(--font_regular);
     color: #777!important;
@@ -263,25 +263,25 @@ select#modal-select {
 * BUTTON DAYS
 */
 .btn-day {
-	background-color: var(--turquoise);
-	border: 1px transparent solid;
-	height: 3.5em;
-	width: 2.5em;
-	color: white;
-	font-weight: bold;
+	background-color: #e4e4e4;
+    border: 1px transparent solid;
+    height: 3.5em;
+    width: 2.5em;
+    color: #777;
+    font-family: var(--font_regular);
 }
 
 .btn-selected, .btn-day:focus, .btn-day:active {
-	background-color: whitesmoke;
-	color: var(--turquoise);
-	border: 1px var(--turquoise) solid;
+	background-color: #57b3b9;
+    color: #ffffff;
+    border: 1px #57b3b9 solid;
 }
 
 
 .btn-day:hover {
-	background-color: whitesmoke;
-	border: 1px rgba(0,0,0,0.1) solid;
-	color: var(--turquoise);
+	background-color: #57b3b9a6;
+    border: none;
+    color: #f9f9f9;
 }
 
 /**
