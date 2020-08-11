@@ -1,3 +1,35 @@
+/** Import des fonts **/
+
+@font-face {
+    font-family: 'VistaSansOT_black';
+    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bold';
+    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+	--font_bold: 'VistaSansOT_bold', Arial, sans-serif;
+	--font_black: 'VistaSansOT_black', Arial, sans-serif;
+}
+
+/* Colors */
+:root {
+	--bleu: #36334F;
+	--turquoise: #57B3B9;
+	--jaune: #F1BD68;	
+}
+
+/* ------ */  
+
 .cartohoraires-panel {
     position: fixed;
     right: 0px;
@@ -23,7 +55,7 @@
 .search-picto{
     border-right: none;
 	color:white;
-	background-color: rgb(83,179,184);
+	background-color: var(--turquoise);
 	border:none;
 }
 .search-input,.search-input:focus{
@@ -47,7 +79,7 @@ input[type='radio']:checked:after {
 	border-radius: 15px;
 	left: -1px;
 	position: relative;
-	background-color: rgb(83,179,184);
+	background-color: var(--turquoise);
 	content: '';
 	display: inline-block;
 	visibility: visible;
@@ -106,7 +138,7 @@ input[type='radio']:after {
 }
 
 #switch:checked + .toggle-label {
-	background: #f0ad4e;
+	background: var(--jaune);
 }
 
 #switch:checked + .toggle-label:after {
@@ -124,7 +156,7 @@ input[type='radio']:after {
 */
 
 .title-zone{
-	color:#353350;
+	color:var(--bleu);
 	font-weight: bold;
 }
 
@@ -152,7 +184,7 @@ input[type='radio']:after {
 */
 #modal-select {
 	background-color: whitesmoke ;
-	border: 1px #53b3b8 solid ;
+	border: 1px var(--turquoise) solid ;
 	border-radius: 4px;
 	color: grey;
 	font-weight: bold;
@@ -175,7 +207,7 @@ input[type='radio']:after {
 * BUTTON DAYS
 */
 .btn-day {
-	background-color: #53b3b8;
+	background-color: var(--turquoise);
 	border: 1px transparent solid;
 	height: 3.5em;
 	width: 2.5em;
@@ -185,15 +217,15 @@ input[type='radio']:after {
 
 .btn-selected, .btn-day:focus, .btn-day:active {
 	background-color: whitesmoke;
-	color: #53b3b8;
-	border: 1px #53b3b8 solid;
+	color: var(--turquoise);
+	border: 1px var(--turquoise) solid;
 }
 
 
 .btn-day:hover {
 	background-color: whitesmoke;
 	border: 1px rgba(0,0,0,0.1) solid;
-	color: #53b3b8;
+	color: var(--turquoise);
 }
 
 /**
@@ -207,11 +239,11 @@ input[type='radio']:after {
 	padding: 15px;
 }
 .input-info {
-	color: #53b3b8;
+	color: var(--turquoise);
 }
 .input-number {
 	font-size: 30px;
-	color: #f0ad4e;
+	color: var(--jaune);
 }
 
 /**
@@ -252,11 +284,11 @@ input[type='radio']:after {
 	border-radius: 6px;
 }
 .formBtn {
-	background-color: #55B3B9;
+	background-color: var(--turquoise);
 	border: 1px transparent solid;
 	margin-right: 10px;
 	color: white;
-	font-weight: bold;
+	font-family: var(--font_regular);
 }
 
 .form-modal-body, .form-template {
@@ -271,12 +303,12 @@ input[type='radio']:after {
 
 .connect-zone>* {
 	color: white;
-	background-color: #353350;
+	background-color: var(--bleu);
 	font: normal 1.2em "Trebuchet MS", sans-serif;
 }
 
 .connect-zone h3 {
-	color:#55B3B9;
+	color:var(--turquoise);
 }
 
 .connect-zone input {
@@ -293,7 +325,7 @@ input[type='radio']:after {
 }
 
 .btn-connect {
-	background-color: #55B3B9;
+	background-color: var(--turquoise);
 	color:white;
 }
 
@@ -328,14 +360,14 @@ input[type='radio']:after {
 
 .input-style{
 	border-radius: 4px;
-	border: 1px #55B3B9 solid;
+	border: 1px var(--turquoise) solid;
 	background-color: whitesmoke;
 }
 
 
 /* HELP BUTTON */
 #iconhelp {
-	color: #55B3B9;
+	color: var(--turquoise);
 	border-radius: 4px;
 	padding: 0;
 }
@@ -366,7 +398,7 @@ LOADER
 	display: inline-block;
 	width: 5px;
 	height: 20px;
-	background-color: #353350;
+	background-color: var(--bleu);
   }
   
   #loader-6 span:nth-child(1){
