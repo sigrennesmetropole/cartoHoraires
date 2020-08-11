@@ -85,13 +85,13 @@
     </div>
 
     <!--GRAPH & INFOS-->
-    <div class="row">
+    <div class="row" id="titleDataV">
         <h4 class="col-sm-12 title-zone">
-            Les déplacements sur la zone sélectionnées   
+            Les déplacements sur la zone sélectionnée   
         </h4>
     </div>
     <!--RECAP INFOS-->
-    <div class="row">
+    <div class="row" id="recapInfos">
         <span class="col-sm-12">
             <span class="infos" style="display:none" id="clock-info">
                 <i class="fas fa-clock"></i> 
@@ -110,34 +110,33 @@
     <!--GRAPH PANEL-->
     <div class="row" style="margin-top:15px;">
         <div class="col-sm-12">
-            <div class="panel panel-default no-border">
-                <div class="panel-heading no-border" style="background-color:whitesmoke;">
-                    <strong class="title-zone">Répartition des arrivées sur une journée</strong>
-                    <br>
-                    <small class="subText">Pour la journée et la zone sélectionnée</small>
+            <div class="panel panel-default no-border" id="panelGraph">
+                <div class="panel-heading no-border">
+                    <p class="titleGraph">Répartition des arrivées sur une journée</p>
+                    <p class="subtitleGraph">Pour la journée, l'heure et la zone sélectionnée</p>
                 </div>
-                <div id="noFilters" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke;">
+                <div id="noFilters" class="panel-body no-border text-center panelResult">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
                     <h5 class="subText emptyGraph" style="margin-top:20px">Vous devez sélectionner tous les filtres pour afficher le graphique.</h5>
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
-                <div id="zacResult" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
+                <div id="zacResult" class="panel-body no-border text-center panelResult" style=" display:none;">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
                     <h5 class="subText emptyGraph" style="margin-top:20px">Aucune ZAC ou aucune données pour cette ZAC.</h5>
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
-                <div id="extentResult" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
+                <div id="extentResult" class="panel-body no-border text-center panelResult" style="display:none;">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
                     <h5 class="subText emptyGraph" style="margin-top:20px">Aucune données sur la carte à utiliser.</h5>
                     <!--CHART BAR-->
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
-                <div id="zoomMsg" class="panel-body no-border text-center panelResult" style="background-color:whitesmoke; display:none;">
+                <div id="zoomMsg" class="panel-body no-border text-center panelResult" style="display:none;">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
                     <br>
                     <h5 class="subText emptyGraph" style="margin-top:20px">Veuillez zoomer sur la carte pour consulter les informations.</h5>
