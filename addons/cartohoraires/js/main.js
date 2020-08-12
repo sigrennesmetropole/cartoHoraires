@@ -9,7 +9,7 @@ const cartohoraires = (function() {
     let autocomplete;
     let rvaConf;
 
-    let transportType = [];
+    let transports = [];
     let transportSelectEmpty = true;
     let transportSelected = '';
 
@@ -18,7 +18,6 @@ const cartohoraires = (function() {
 
     let slider;
     let graph;
-
     /**
      * PRIVATE
      */
@@ -212,7 +211,7 @@ const cartohoraires = (function() {
             $('.clockpicker-popover').attr('style','z-index:100000 !important');
         });
         $("#form-modal").on("hidden.bs.modal", function () {
-            $('#btn-up').hide();
+            $('#btn-up').fadeOut(300);
         });
     }
 
@@ -712,6 +711,7 @@ const cartohoraires = (function() {
         cartoHoraireApi.request(null, function(res) {
             if(res.length && transportSelectEmpty) {
                 // init all list for form and info panel
+                transports = res;
                 let optionsSelect = res.map(e => `
                     <option value="${e.libelle}">${e.libelle}</option>
                 `);
@@ -727,7 +727,7 @@ const cartohoraires = (function() {
                 });
                 transportSelectEmpty = false;
             }
-        }, 'GET', 'getTransports');
+        }, 'GET', 'getMoyenTransports');
     }
 
     /**
@@ -869,7 +869,6 @@ const cartohoraires = (function() {
             // init behaviors on input
             validators.validInput('fst-email-form');
             validators.validInput('email-form');
-            validators.validInput('code-form');
     }
 
     /**
@@ -958,6 +957,9 @@ const cartohoraires = (function() {
         },
         getSlider: function() {
             return slider;
+        },
+        getTransportList: function() {
+            return transports
         }
     };
 })();
