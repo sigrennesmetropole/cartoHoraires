@@ -175,7 +175,6 @@ const cartohoraires = (function() {
      */
     function displayPanel(template) {
         // we use CSS to add others rules about nativ Mviewer UI
-
         // render mustache file
         var panelContent = template;
         if (configuration.getConfiguration().mobile) {
@@ -211,6 +210,9 @@ const cartohoraires = (function() {
             $('#form-modal').css('overflow','auto !important');
             $('#form-modal').attr('style','overflow-y: auto !important; z-index:10000;');
             $('.clockpicker-popover').attr('style','z-index:100000 !important');
+        });
+        $("#form-modal").on("hidden.bs.modal", function () {
+            $('#btn-up').hide();
         });
     }
 
@@ -887,8 +889,6 @@ const cartohoraires = (function() {
                 initTemplates();
                 // force some mviewer's components display
                 initDisplayComponents();
-                // Display modal on mobile device
-                initModalBehavior();
                 // create ZAC layer
                 initZacLayer();
                 // init behavior on map move
@@ -931,6 +931,9 @@ const cartohoraires = (function() {
             initTransportList();
 
             initFormInputs();
+
+            // Display modal on mobile device
+            initModalBehavior();
         },
 
         /**
