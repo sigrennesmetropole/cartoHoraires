@@ -25,7 +25,7 @@
             modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid === i.id)[0].libelle;
             
             // to detect format as HH:mm:ss or HH:mm
-            if((el.horaire.split(':').length > 2) {
+            if((el.horaire.split(':').length > 2)) {
                 horaire = moment(el.horaire, 'HH:mm:ss').format('HH:mm');
             } else {
                 horaire = moment(el.horaire, 'HH:mm').format('HH:mm');
