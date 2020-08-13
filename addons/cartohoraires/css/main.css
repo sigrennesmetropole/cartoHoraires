@@ -387,14 +387,35 @@ i.emptyGraph {
 	padding:0px;
 }
 
+.card1{
+	padding: 0 6px 0px 0px;
+}
+
+.card2{
+	padding: 0 0px 0px 6px;
+}
+
 .card-info {
 	background-color: #eeec;
 	border: 1px transparent solid;
 	border-radius: 4px;
-	padding: 15px;
 	font-family: var(--font_regular);
+}
+
+/* En version mobile */
+#cartohoraires-modal .card-info{
 	margin-bottom: 10px;
 }
+
+#cartohoraires-modal .card1{
+	padding: 0!important;
+}
+
+#cartohoraires-modal .card2{
+	padding: 0!important;
+}
+
+/**/
 
 .input-info {
 	color: var(--turquoise);
@@ -418,6 +439,23 @@ i.emptyGraph {
     margin: 0;
     font-size: 11px;
     font-style: oblique;
+}
+
+/* Illustration */
+.number1 {
+	background-image: url(../../../img/numberkey_1.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 10em;
+}
+
+.number2 {
+	background-image: url(../../../img/numberkey_2.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 7em;
 }
 
 /**
