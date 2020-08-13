@@ -91,10 +91,10 @@ const cartohoraires = (function() {
             {   id: '5',
                 name:'Vendredi'
             },
-            {   id: '5',
+            {   id: '6',
                 name:'Samedi'
             },
-            {   id: '5',
+            {   id: '7',
                 name:'Dimanche'
             }
             ]};
@@ -334,7 +334,8 @@ const cartohoraires = (function() {
         if (value && value.length > 3) {
             // Ajax request
             var xhr = new XMLHttpRequest();
-            var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
+            //var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
+            var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&dataset=${options.sirene_table}`;
             xhr.open('GET', url);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
@@ -356,18 +357,21 @@ const cartohoraires = (function() {
      * @param {Array} results 
      */
     function formatSIRENEesult(results) {
+        let i = 0
         let listed = [];
         let html = [];
         results.forEach(record => {
-            if (listed.indexOf(record.fields.siren) < 0) {
-                listed.push(record.fields.siren);
-                let txt = [record.fields.denominationunitelegale, record.fields.libellecommuneetablissement].join(', ');
+            if (listed.indexOf(record.fields.siret) < 0 && i < options.maxsiren) {
+                let props = record.fields;
+                listed.push(props.siren);
+                let txt = [props.denominationunitelegale,' - ',props.adresseetablissement, ' ', props.libellecommuneetablissement].join('')
                 let coord = record.geometry.coordinates.join(',');
                 html.push(`
                     <div style='overflow-x:hidden;'>
                     <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${txt}")'>${txt}</a>
                     <input type='hidden' value='${coord}'>
                     </div>`);
+                i = i + 1;
             }
         })
         return html.join('');
