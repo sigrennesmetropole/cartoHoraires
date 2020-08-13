@@ -129,6 +129,7 @@ input[type='radio']:after {
 
 .toggle-zone{
 	padding-left:0;
+	margin-bottom: 10px;
 }
 #switch[type=checkbox]{
 	height: 0;
@@ -200,6 +201,16 @@ p.subText {
     margin: 0px 0px 3px 0px;
 }
 
+#titleConfig {
+    margin: 0;
+}
+
+.title-zone-config{
+	color: var(--bleu);
+    font-family: var(--font_bold);
+    font-size: 20px;
+    margin: 0px 0px 10px 0px;
+}
 /**
 * AUTOCOMPLETE
 */
@@ -334,7 +345,8 @@ select#modal-select {
 */
 #recapInfos {
     font-family: var(--font_regular);
-    color: #777;
+	color: #777;
+	display: none!important;
 }
 
 .infos {
@@ -343,6 +355,15 @@ select#modal-select {
 
 .infos>i {
 	padding-right:5px;
+}
+
+/* Version 2 ZAC */
+#zac-infos-panel {
+    background-color: #f1bd68;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 15px;
 }
 
 /* GRAPH */
@@ -372,9 +393,9 @@ p.subtitleGraph {
 /* EMPTY GRAPH */
 
 i.emptyGraph {
-    color: #56b3ba;
+    color: #36344f;
     font-size: 18px;
-    background-color: #56b3ba73;
+    background-color: #36344f8a;
     padding: 10px 12px;
     border-radius: 4px;
 }
@@ -423,7 +444,7 @@ i.emptyGraph {
 /**/
 
 .input-info {
-	color: var(--turquoise);
+	color: var(--bleu);
 	font-family: var(--font_bold);
 	font-size: 16px;
 }

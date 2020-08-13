@@ -68,8 +68,8 @@ class Graph {
         var data = {
             labels: this.infos.labels,
             datasets: [{
-                backgroundColor: "rgba(83,179,184,0.8)",
-                strokeColor: "rgba(83,179,184,0.8)",
+                backgroundColor: "rgba(54,51,79,0.8)",
+                strokeColor: "rgba(54,51,79,0.8)",
                 data: this.infos.values
             }]
         }
