@@ -29,7 +29,12 @@
 }
 
 /* ------ */  
+/* Page de chargement du mviewer */
+div#loading-page {
+    font-family: var(--font_regular)!important;
+}
 
+/**/
 .cartohoraires-panel {
     position: fixed;
     right: 0px;
