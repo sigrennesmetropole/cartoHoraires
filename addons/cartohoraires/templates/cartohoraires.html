@@ -14,7 +14,7 @@
    <!--SEARCH FIELD & SEARCH TYPE RADIO-->
    <div class="row top-form">
         <!--JE CONTRIBUE / DEKSTOP-->
-        <div class="contributionBox_dekstop col-sm-12 col-md-12">
+        <div class="contributionBox_mobile col-sm-12 col-md-12">
             <div class="contributionPanel">
                 <p class="titlePanel">Renseignez vos horaires</p>
                 <p class="textPanel">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -146,7 +146,7 @@
             <div class="panel panel-default no-border" id="panelGraph">
                 <div class="panel-heading no-border">
                     <p class="titleGraph">Répartition des arrivées sur une journée</p>
-                    <p class="subtitleGraph">Pour la journée, l'heure et la zone sélectionnée</p>
+                    <p class="subtitleGraph">Pour la journée et la zone sélectionnée</p>
                 </div>
                 <div id="noFilters" class="panel-body no-border text-center panelResult">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
@@ -177,6 +177,16 @@
                     <canvas id="myChart" class="col-sm-12"></canvas>
                 </div>
             </div>
+        </div>
+    </div>
+    <!--JE CONTRIBUE / DEKSTOP-->
+    <div class="contributionBox_dekstop col-sm-12 col-md-12">
+        <div class="contributionPanel">
+            <p class="titlePanel">Renseignez vos horaires</p>
+            <p class="textPanel">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
+                Je contribue
+            </button>
         </div>
     </div>
 </div>

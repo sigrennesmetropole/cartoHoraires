@@ -496,18 +496,40 @@ p.titlePanel {
     font-size: 17px;
 }
 
-/* Dekstop */
-.contributionBox_dekstop {
-    margin-bottom: 2em;
-}
-
 .contributionPanel {
 	background-color: #37344f;
-	background-image: url(../../../img/illu_jecontribue.png);
 	background-repeat: no-repeat;
     background-size: contain;
-	background-position: 0% 100%;
     border-radius: 10px;
-    color: white;
+	color: white;
+	font-family: var(--font_regular);
+}
+
+/* Dekstop */
+#cartohoraires-modal .contributionBox_dekstop {
+    display: none;
+}
+
+.contributionBox_dekstop {
+    margin: 1em 0em 2em 0em;
+    padding: 0;
+}
+
+.contributionBox_dekstop .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue.png);
+	background-position: 0% 100%;
     padding: 2em 2em 2em 16em;
+}
+
+/* Mobile*/
+.cartohoraires-panel .contributionBox_mobile {
+    display: none;
+}
+
+.contributionBox_mobile .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue_mobile.png);
+	background-position: 100% 0%;
+	padding: 17em 2em 2em 2em;
+	text-align: center;
+	margin-bottom: 10%;
 }
