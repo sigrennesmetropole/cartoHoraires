@@ -1,17 +1,32 @@
 /**
 LOADER
 */
+
+/** Import des fonts **/
+
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+}
+
 .load-panel {
 	margin-top: 30%;
-	color: grey;
-	font: normal 1.2em "Trebuchet MS", sans-serif;	
+	color:#777;
+	font: normal 1.2em var(--font_regular);
 }
+
 .loader-sig{
 	width: 100px;
 	height: 100px;
 	border-radius: 100%;
 	position: relative;
-	margin: 0 auto;
+	margin: 0 auto;	
   }
 
   #loader-6{

@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'VistaSansOT_black';
-    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_bold';
@@ -10,7 +10,7 @@
 }
 @font-face {
     font-family: 'VistaSansOT_regular';
-    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
 }
 
 /** Déclaration des propriétés de styles sous forme de variables **/
