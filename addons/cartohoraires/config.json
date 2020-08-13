@@ -34,6 +34,7 @@
         "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
         "sirene_table": "base-sirene-v3-ss",
         "open_data_service": "https://data.rennesmetropole.fr/api/records/1.0/search",
-        "defaultSRS": "3948"
+        "defaultSRS": "3948",
+        "maxsiren": 10
     }
 }
