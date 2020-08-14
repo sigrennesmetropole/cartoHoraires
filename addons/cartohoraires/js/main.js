@@ -476,7 +476,10 @@ const cartohoraires = (function() {
         reloadChart(containsData);
         // get absent
         // get present and absent
-        setAbsentPresent(containsData.length, containsData.filter(a => a.getProperties().absence).length);
+        if(containsData) {
+            setAbsentPresent(containsData.length, containsData.filter(a => a.getProperties().absence).length);
+        }
+        
     };
 
     /**
@@ -800,7 +803,6 @@ const cartohoraires = (function() {
         // always trigger by event on switch click, day or transport change event
         manageZACUi();
         manageDateInfosUi();
-        setAbsentPresent();
         if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
             clearAll();
