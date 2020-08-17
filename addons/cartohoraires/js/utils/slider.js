@@ -5,17 +5,15 @@
  * https://github.com/seiyria/bootstrap-slider
  */
 class Slider {
-    target = null;
-    formatTime = null;
-    time = null;
-    callback = null;
     /**
      * Constructor
      * @param {String} target id to target HTML with JQuery
      */
     constructor(target, callback) {
-        this.target = target || null;
         let slider = this;
+        this.time = null;
+        this.formatTime = null;
+        this.target = target || null;
         this.callback = callback;
         $('#' + target).slider({
             min: 0,
@@ -57,7 +55,7 @@ class Slider {
      * Convert minutes to h:min format
      * @param {Integer} n as minutes
      */
-    timeConvert = function(n) {
+    timeConvert(n) {
         var num = n;
         var hours = (num / 60);
         var rhours = Math.floor(hours);
@@ -71,7 +69,7 @@ class Slider {
     /**
      * Return date formated as xx h yy min
      */
-    getFormatTime = function() {
+    getFormatTime() {
         return this.timeConvert($('#timeSlider').val());
     }
 
@@ -82,7 +80,7 @@ class Slider {
      * Use timeConvert function to get minutes as formated date as 00 h 15 min 
      * instead of simple 15 value.
      */
-    getTime = function() {
+    getTime() {
         return $('#timeSlider').val();
     }
 }

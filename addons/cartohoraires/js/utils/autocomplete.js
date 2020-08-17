@@ -6,10 +6,6 @@
  * Needs JQUERY >=1.2.
  */
 class Autocomplete {
-    target = null;
-    search = null;
-    html = null;
-    listTarget = null;
     /**
      * Constructor
      * @param {Object} target as Jquery HTML component
@@ -24,28 +20,28 @@ class Autocomplete {
         this.html = html;
     }
 
-    setSearch(func) {
+    set Search(func) {
         this.search = func;
     }
-    setTarget(func) {
+    set Target(func) {
         this.target = func;
     }
-    setListTarget(func) {
+    set ListTarget(func) {
         this.listTarget = func;
     }
-    setHtml(func) {
+    set Html(func) {
         this.html = func;
     }
-    getSearch() {
+    get Search() {
         return this.search
     }
-    getHtml() {
+    get Html() {
         return this.html
     }
-    getListTarget() {
+    get ListTarget() {
         return this.listTarget
     }
-    getTarget() {
+    get Target() {
         return this.target
     }
 
@@ -75,7 +71,7 @@ class Autocomplete {
      * Display list result
      * @param {Object} results from JSON parsed response
      */
-    displayList = function(results) {
+    displayList(results) {
         // parse results
         if (this.html) {
             this.listTarget.append(this.html(results));
@@ -87,7 +83,7 @@ class Autocomplete {
     /**
      * Close all autocomplete lists in the document
      */
-    closeAllLists = function() {
+    closeAllLists() {
         this.listTarget.empty();
         this.listTarget.hide();
     }
@@ -106,7 +102,7 @@ class Autocomplete {
      * Selected list value to display into input search field
      * @param {String} val 
      */
-    select = function(val) {
+    select(val) {
         $(this.target).val(val);
     }
 }

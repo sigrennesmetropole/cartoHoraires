@@ -3,26 +3,24 @@
  * 
  * Needs JQUERY >=1.2.
  */
-class Graph {
-    target = null;
-    chart = null;
-    features = null;
-    dataSet = [];
+class Graph {   
     /**
      * Constructor
      * @param {Object} target as Jquery HTML component
      * @param {Array} features features to send to bar chart
      */
     constructor(target, features) {
+        this.chart = null;
         this.target = target;
         this.features = features || null;
+        this.dataSet = [];
         this.createGraph();
     }
 
     /**
      * Prepare data to display into chart bar
      */
-    getInfos() {
+    getInfos = function () {
         let horairesCount = {};
         let data = this.features || this.dataSet;
         data.forEach(e => {
@@ -94,7 +92,7 @@ class Graph {
     /**
      * return chart
      */
-    getChart = function() {
+    getChart() {
         if (this.chart) {
             return this.chart;
         }
