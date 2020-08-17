@@ -2,7 +2,7 @@
 <config>
 	<application
 		title="Carte participative des horaires"
-		logo="https://public.sig.rennesmetropole.fr/ressources/img/logos/rm/logo_mviewer_gris_inverse.png"
+		logo="https://public.sig.rennesmetropole.fr/ressources/img/logos/rm/logo_mviewer_blanc_transparent.png"
         titlehelp="À propos de la carte des horaires" 
 		help="apps/cartoHoraires/html/help_horaires.html"
 		showhelp="false"

@@ -10,11 +10,24 @@
         </div>
         <p>Chargement des données ...</p>
     </div>
-    <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
-        Je contribue
-    </button>
+
    <!--SEARCH FIELD & SEARCH TYPE RADIO-->
    <div class="row top-form">
+        <!--JE CONTRIBUE / DEKSTOP-->
+        <div class="contributionBox_mobile col-sm-12 col-md-12">
+            <div class="contributionPanel">
+                <p class="titlePanel">Renseignez vos horaires</p>
+                <p class="textPanel">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
+                    Je contribue
+                </button>
+            </div>
+        </div> 
+        <div class="row" id="titleConfig">
+            <h4 class="col-sm-12 title-zone-config">
+                Configurer la carte   
+            </h4>
+        </div>
       <!--INPUT FIELD-->
       <div class="col-sm-10 col-md-6 autocomplete" id="search-input">
          <div class="form-group form-autocomplete">
@@ -47,6 +60,12 @@
             <div class="title-zae" class="col-sm-8 col-md-9">
                 <p class="Text">Afficher les zones d'activité sur la carte</p>
                 <p class="subText">Voir uniquement les informations par zone d'activité vue sur la carte</p>
+                <div class="row" id="recapZAC">
+                        <span class="infos" style="display:none" id="zac-infos-panel"> 
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="zac-info">zac</span>
+                        </span>
+                </div>
             </div>    
             
       </div>
@@ -87,11 +106,11 @@
     <!--GRAPH & INFOS-->
     <div class="row" id="titleDataV">
         <h4 class="col-sm-12 title-zone">
-            Les déplacements sur la zone sélectionnée   
+            Visualiser les déplacements sur la zone sélectionnée   
         </h4>
     </div>
     <!--RECAP INFOS-->
-    <div class="row" id="recapInfos">
+    <div class="row" id="recapInfos" >
         <span class="col-sm-12">
             <span class="infos" style="display:none" id="clock-info">
                 <i class="fas fa-clock"></i> 
@@ -107,13 +126,38 @@
             </span>
         </span>
     </div>
+    <!--NUMBERS KEYS-->
+    <div class="row" style="margin: 15px 0px 30px 0px;">
+        <div class="col-sm-12 cardNumber">
+            <div class="card1 col-sm-6">
+                <div class="card-info number1">
+                    <span class="input-info">
+                        <span id="input-number" class="input-number">45</span> pers.
+                    </span>
+                    <br>
+                    <p class="titleNumb"> ont saisis leurs horaires</p>
+                    <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
+                </div>
+            </div>
+            <div class="card2 col-sm-6">
+                <div class="card-info number2">
+                    <span class="input-info">
+                        <span id="absent-number" class="input-number">3</span> pers.
+                    </span>
+                    <br>
+                    <p class="titleNumb">sont en télétravail ou absentes</p>
+                    <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
+                </div>
+            </div> 
+        </div>
+    </div>
     <!--GRAPH PANEL-->
-    <div class="row" style="margin-top:15px;">
+    <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default no-border" id="panelGraph">
                 <div class="panel-heading no-border">
                     <p class="titleGraph">Répartition des arrivées sur une journée</p>
-                    <p class="subtitleGraph">Pour la journée, l'heure et la zone sélectionnée</p>
+                    <p class="subtitleGraph">Pour la journée, le mode de transport et la zone sélectionné</p>
                 </div>
                 <div id="noFilters" class="panel-body no-border text-center panelResult">
                     <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
@@ -146,24 +190,14 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin: 15px 0px 30px 0px;">
-        <div class="col-sm-12 cardNumber">
-            <div class="card-info col-sm-6">
-                <span class="input-info">
-                    <span id="input-number" class="input-number">45</span> personnes
-                </span>
-                <br>
-                <p class="titleNumb"> ont saisis leurs horaires</p>
-                <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
-            </div>
-            <div class="card-info col-sm-5" style="margin-left: 10px;">
-                <span class="input-info">
-                    <span id="absent-number" class="input-number">3</span> personnes
-                </span>
-                <br>
-                <p class="titleNumb">sont en télétravail ou absentes</p>
-                <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
-            </div>
+    <!--JE CONTRIBUE / DEKSTOP-->
+    <div class="contributionBox_dekstop col-sm-12 col-md-12">
+        <div class="contributionPanel">
+            <p class="titlePanel">Renseignez vos horaires</p>
+            <p class="textPanel">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
+                Je contribue
+            </button>
         </div>
     </div>
 </div>

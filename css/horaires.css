@@ -40,6 +40,13 @@
 /*******************************
 ------------- NAVBAR 
 ********************************/
+
+/* Adaptation cartoHoraire */
+.mv-title {
+    padding: 15px 5px!important;
+}
+/**/
+
 .navbar-default{
 border-color:#36334F;
 }

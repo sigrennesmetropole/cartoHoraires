@@ -1,3 +1,18 @@
+/** STYLE DU FORMULAIRE **/ 
+
+/** Import des fonts **/
+
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+}
+
 /**
 ========================= INPUT ZONE
 */
@@ -43,7 +58,7 @@
 	border: 1px transparent solid;
 	margin-right: 10px;
 	color: white;
-	font-weight: bold;
+	font-family: var(--font_regular);
 }
 
 .form-modal-body, .form-template {

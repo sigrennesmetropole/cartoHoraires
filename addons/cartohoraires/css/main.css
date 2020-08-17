@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'VistaSansOT_black';
-    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
 }
 @font-face {
     font-family: 'VistaSansOT_bold';
@@ -10,7 +10,7 @@
 }
 @font-face {
     font-family: 'VistaSansOT_regular';
-    src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
 }
 
 /** Déclaration des propriétés de styles sous forme de variables **/
@@ -29,7 +29,12 @@
 }
 
 /* ------ */  
+/* Page de chargement du mviewer */
+div#loading-page {
+    font-family: var(--font_regular)!important;
+}
 
+/**/
 .cartohoraires-panel {
     position: fixed;
     right: 0px;
@@ -55,7 +60,7 @@
 .search-picto{
     border-right: none;
 	color:white;
-	background-color: var(--turquoise);
+	background-color: var(--bleu);
 	border:none;
 }
 .search-input,.search-input:focus{
@@ -83,7 +88,7 @@
 }
 
 #search-input a:hover{
-	color: var(--turquoise);
+	color: var(--bleu);
 }
 
 /**
@@ -96,7 +101,7 @@ input[type='radio']:checked:after {
 	border-radius: 15px;
 	left: -1px;
 	position: relative;
-	background-color: var(--turquoise);
+	background-color: var(--bleu);
 	content: '';
 	display: inline-block;
 	visibility: visible;
@@ -124,6 +129,7 @@ input[type='radio']:after {
 
 .toggle-zone{
 	padding-left:0;
+	margin-bottom: 10px;
 }
 #switch[type=checkbox]{
 	height: 0;
@@ -195,6 +201,16 @@ p.subText {
     margin: 0px 0px 3px 0px;
 }
 
+#titleConfig {
+    margin: 0;
+}
+
+.title-zone-config{
+	color: var(--bleu);
+    font-family: var(--font_bold);
+    font-size: 20px;
+    margin: 0px 0px 10px 0px;
+}
 /**
 * AUTOCOMPLETE
 */
@@ -233,7 +249,7 @@ select#modal-select {
     background-image:
     linear-gradient(45deg, transparent 50%, #ffffff 50%),
     linear-gradient(135deg, #ffffff 50%, transparent 50%),
-    linear-gradient(to right, var(--turquoise), var(--turquoise));
+    linear-gradient(to right, var(--bleu), var(--bleu));
     background-position:
     calc(100% - 15px) calc(1em + 2px),
     calc(100% - 10px) calc(1em + 2px),
@@ -263,14 +279,14 @@ select#modal-select {
 }
 
 .btn-selected, .btn-day:focus, .btn-day:active {
-	background-color: #57b3b9;
+	background-color: var(--bleu);
     color: #ffffff;
-    border: 1px #57b3b9 solid;
+    border: 1px var(--bleu) solid;
 }
 
 
 .btn-day:hover {
-	background-color: #57b3b9a6;
+	background-color: #36334fe0;
     border: none;
     color: #f9f9f9;
 }
@@ -299,16 +315,16 @@ select#modal-select {
 }
 
 #slider-zone .slider-handle.min-slider-handle.round {
-    background: var(--turquoise);
+    background: var(--bleu);
     width: 15px;
 	height: 15px;
-	box-shadow: 0px 0px 13px 4px rgba(87, 179, 185, 0.6);
-	-moz-box-shadow: 0px 0px 13px 4px rgba(87, 179, 185, 0.6);
-	-webkit-box-shadow: 0px 0px 13px 4px rgba(87, 179, 185, 0.6);
+	box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
+	-moz-box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
+	-webkit-box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
 }
 
 #slider-info {
-    background-color: var(--turquoise);
+    background-color: var(--bleu);
     padding: 6px 10px;
     border-radius: 4px;
     margin: 0px 0px 0px 10px;
@@ -329,7 +345,8 @@ select#modal-select {
 */
 #recapInfos {
     font-family: var(--font_regular);
-    color: #777;
+	color: #777;
+	display: none!important;
 }
 
 .infos {
@@ -338,6 +355,15 @@ select#modal-select {
 
 .infos>i {
 	padding-right:5px;
+}
+
+/* Version 2 ZAC */
+#zac-infos-panel {
+    background-color: #f1bd68;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 15px;
 }
 
 /* GRAPH */
@@ -367,9 +393,9 @@ p.subtitleGraph {
 /* EMPTY GRAPH */
 
 i.emptyGraph {
-    color: #56b3ba;
+    color: #36344f;
     font-size: 18px;
-    background-color: #56b3ba73;
+    background-color: #36344f8a;
     padding: 10px 12px;
     border-radius: 4px;
 }
@@ -387,14 +413,35 @@ i.emptyGraph {
 	padding:0px;
 }
 
+.card1{
+	padding: 0 6px 0px 0px;
+}
+
+.card2{
+	padding: 0 0px 0px 6px;
+}
+
 .card-info {
 	background-color: #eeec;
 	border: 1px transparent solid;
 	border-radius: 4px;
-	padding: 15px;
 	font-family: var(--font_regular);
+}
+
+/* En version mobile */
+#cartohoraires-modal .card-info{
 	margin-bottom: 10px;
 }
+
+#cartohoraires-modal .card1{
+	padding: 0!important;
+}
+
+#cartohoraires-modal .card2{
+	padding: 0!important;
+}
+
+/**/
 
 .input-info {
 	color: var(--turquoise);
@@ -418,6 +465,23 @@ i.emptyGraph {
     margin: 0;
     font-size: 11px;
     font-style: oblique;
+}
+
+/* Illustration */
+.number1 {
+	background-image: url(../../../img/numberkey_1.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 10em;
+}
+
+.number2 {
+	background-image: url(../../../img/numberkey_2.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 7em;
 }
 
 /**
@@ -450,4 +514,48 @@ i.emptyGraph {
 #map {
 	left: 0px;
 	margin-left: 0px !important;
+}
+
+/* BOX JE CONTRIBUE */
+
+p.titlePanel {
+    font-size: 17px;
+}
+
+.contributionPanel {
+	background-color: #37344f;
+	background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10px;
+	color: white;
+	font-family: var(--font_regular);
+}
+
+/* Dekstop */
+#cartohoraires-modal .contributionBox_dekstop {
+    display: none;
+}
+
+.contributionBox_dekstop {
+    margin: 1em 0em 2em 0em;
+    padding: 0;
+}
+
+.contributionBox_dekstop .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue.png);
+	background-position: 0% 100%;
+    padding: 2em 2em 2em 16em;
+}
+
+/* Mobile*/
+.cartohoraires-panel .contributionBox_mobile {
+    display: none;
+}
+
+.contributionBox_mobile .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue_mobile.png);
+	background-position: 100% 0%;
+	padding: 17em 2em 2em 2em;
+	text-align: center;
+	margin-bottom: 10%;
 }
