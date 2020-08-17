@@ -16,8 +16,7 @@
         }
         
         const url = {
-            getTransport: api+  'moytransp',
-            getTransports: api + 'getTransport',
+            getMoyenTransports: api + 'getMoyenTransports',
             logoutUser: api + 'logoutUser',
             deleteUserInfos : api + 'deleteUserInfos',
             loginUser: api + 'loginUser',
@@ -67,6 +66,11 @@
             })
         };
 
+        /**
+         * To create new code or generate new code if already user exists
+         * @param {Object} resp from serveur
+         * @param {String} userEmail 
+         */
         _cartoHoraireApi.createNewPassword = function (resp = false, userEmail = false) {
             //return;
             if(resp) resp = resp[0];
@@ -80,7 +84,7 @@
                             $('.createUserMsg').fadeOut(1000);
                         }, 5000);
                     },
-                    'GET',
+                    'POST',
                     'updateUserPassword'
                 )
             } else if(resp && !resp.exist) {

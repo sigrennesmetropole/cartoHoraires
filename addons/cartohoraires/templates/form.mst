@@ -19,16 +19,19 @@
                             <!--INPUT MAIL-->
                             <span classe="row">
                                 <h4>Adresse mail</h4>
-                                <input autocomplete="off" type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="email-form" required>
+                                <input id="email-form" autocomplete="false" type="email" placeholder="email@mail.com" class="form-control" name="email-form" required>
                             </span>
                             <!--INPUT CODE PASSWORD-->
                             <span classe="row">
                                 <h4>Code</h4>
-                                <input autocomplete="off" type="password" placeholder="*******" class="form-control" name="code-form" id="code-form" required>
+                                <input id="code-form" type="password" autocomplete="false" type="text" placeholder="*******" class="form-control" name="code-form" required>
                             </span>
                             <!--CODE FORGET-->
                             <div class="row">
-                                <button type="btn" class="btn btn-default btn-connect no-border">S'identifier</button>
+                                <button
+                                    onclick="validators.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
+                                    type="btn" class="btn btn-default btn-connect no-border">S'identifier
+                                </button>
                                 <span class="link-code"> Code oublié ?</span>
                             </div>
                         </div>
@@ -58,7 +61,7 @@
                         <div class="col-sm-12">
                             <h3>Votre lieu de travail</h3>
                             {{#days}}
-                            <div class="row input-day-zone">
+                            <div class="row input-day-zone" id={{id}}>
                                 <h4>{{name}}</h4>
                                 <div>
                                     <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" checked>
