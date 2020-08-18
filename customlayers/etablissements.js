@@ -82,7 +82,7 @@ mviewer.customLayers.etablissements = (function() {
       let rminutes = Math.round(minutes);
       rminutes = rminutes == 0 ? '00' : rminutes;
       rhours = rhours > 10 ? rhours : `0${rhours}`;
-      return rhours + ':' + rminutes + ':00Z';
+      return rhours + ':' + rminutes;
   }
 
   /**
