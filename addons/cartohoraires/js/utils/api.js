@@ -25,10 +25,10 @@
             verifyIndividu: api + 'individu',
             getUserId: api + 'individu' + '/id',
             verifyMail: api + 'individu' + '/existemail',
-            horaire: api + '/horaire',
-            getUserInfos: api + '/getUserInfos',
-            updateUserInfos: api + '/updateUserInfos',
-            absence: api + '/absence',
+            horaire: api + 'horaire',
+            getUserInfos: api + 'getUserInfos',
+            updateUserInfos: api + 'updateUserInfos',
+            absence: api + 'absence',
             getAbsenceType: api + 'getTypesAbsences'
         };
         
