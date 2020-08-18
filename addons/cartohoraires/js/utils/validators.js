@@ -89,14 +89,22 @@
                 callback(
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
                     function(e) {
+                        if(e.length && e[0]) e = e[0];
                         if(e.err) {
                             // code or email is not valid
                             alert('Code ou email erroné !');
                         } else {
+                            $('.anonymous').hide();
+                            $('.authent').show();
+                            $('#email-id').text($('#'+inputMailId).val());
                             // user code exist and match we will request user's infos
                             cartoHoraireApi.request(
                                 {email: $('#'+inputMailId).val()},
                                 function(e) {
+                                    e = e.length && e[0] ?  e = e[0] : e;
+                                    if(!e.success) {
+                                        return alert('Vos informations n\'ont pas pu être récupérées');
+                                    }
                                     // we find data and load data
                                     if(e.success && e.horaire.length) {
                                         // we dispatch data info wit event
@@ -104,8 +112,6 @@
                                         document.dispatchEvent(event);
                                         // use this to listen => document.addEventListener('dateChange', function (e) {});
                                         setData(e.horaire);
-                                    } else {
-                                        alert('Vos informations n\'ont pas pu être récupérées');
                                     }
                                 },
                                 'GET',
@@ -120,7 +126,7 @@
         }
 
         _validators.validDataToServer = function(inputMailId) {
-            let horaire = [];
+            let data = [];
             // prepare data
             $('.input-day-zone').each((i, el) => {
                 let id = $(el).attr('id');
@@ -138,11 +144,13 @@
                 let modeInVal = modeIn.val();
                 let modeOutVal = modeOut.val();
 
-                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal)[0].id;
-                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal)[0].id;
+                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
+                modeInId = modeIn.length ? [0].id : '';
+                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
+                modeOutId = modeOutId.length ? [0].id : '';
 
-                horaire.push( {
-                    moytranspid: modeInId,
+                data.push( {
+                    moytranspid: modeInId || '',
                     jour: id,
                     horaire: hIn,  //clockIn.val(),
                     mouvement: "A",
@@ -150,7 +158,7 @@
                     caduc: false
                 },
                 {
-                    moytranspid: modeOutId,
+                    moytranspid: modeOutId || '',
                     jour: id,
                     horaire: hOut, // clockOut.val(),
                     mouvement: "D",
@@ -160,25 +168,24 @@
             })
 
             let mail = $('#'+inputMailId).val();
-            let data = {
-                email: mail,
-                horaire: horaire
-            };
+            let params = `email=${mail}&data=${JSON.stringify(data)}`;
+            
 
             // send data request
             cartoHoraireApi.request(
-                data,
+                params,
                 function(e) {
-                    if(e.success && valid) {
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && e.valid) {
                         alert('Informatios sauvegardées !');
-                    } else if(!valid) {
+                    } else if(!e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
                         alert('Vos informations n\'ont pas  pu être sauvegardées !');
                     }
                 },
-                'POST',
-                'getUserInfos'
+                'PUT',
+                'updateUserInfos'
             )
         }
 
@@ -193,6 +200,7 @@
                 data,
                 function(e) {
                     // we find data and load data
+                    if(e.length && e[0]) e = e[0];
                     if(e.success && e.horaire.length) {
                         // we dispatch data info wit event
                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
@@ -219,7 +227,7 @@
             if(_validators.isMailValid($(inputMail).val())) {
                 callback({
                     email:$(inputMail).val()
-                }, cartoHoraireApi.createNewPassword, 'GET', 'createUser');
+                }, cartoHoraireApi.createNewPassword, 'POST', 'createUser');
             }
         }
 

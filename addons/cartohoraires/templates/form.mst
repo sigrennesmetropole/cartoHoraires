@@ -4,11 +4,23 @@
             <div class="modal-body form-modal-body">
                 <div class="row form-row">
                     <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
-                        <div class="col-sm-12">
-                            
+                        <div class="row authent" style="display:none;">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <span class="id-els">Vous êtes identifié en tant que </span>
+                                    <br>
+                                    <span class="glyphicon glyphicon-user id-els"> </span><span id="email-id"></span>
+                                    <br>
+                                    <span class="col-sm-12 text-right">
+                                        <button type="btn" class="btn btn-default id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 anonymous">
                             <!--TITLE AND DETAILS ABOUT CONNEXION-->
                             <span classe="row" style="margin-bottom: 10px;">
-                            <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
+                                <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
                                 <h3>Connexion</h3>
                                 <span class="connect-text">
                                     Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
@@ -35,7 +47,7 @@
                                 <span class="link-code"> Code oublié ?</span>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 anonymous">
                             <!--1st CONNEXION-->
                             <h3>1ère connexion</h3>
                             <span classe="col-sm-12">
@@ -65,7 +77,7 @@
                                 <h4>{{name}}</h4>
                                 <div>
                                     <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" checked>
-                                    <label for="checkbox-{{id}}">Je ne suis pas présent sur mon lieu de travail (je télétravail ou je suis absent)</label>
+                                    <label for="checkbox-{{id}}">Télétravail ou absence</label>
                                 </div>
                                 <div class="row">
                                     <div class="arrive col-sm-12 col-md-3">

@@ -43,7 +43,7 @@
             const promise = new Promise((resolve, reject) => {
                 if(!name || !url[name]) return reject('Method name missing or not exists !');
                 let requestUrl = url[name];
-                if(type === 'GET' && data) requestUrl = getUrlCreator(requestUrl,data);
+               
                 $.ajax({
                     url: requestUrl,
                     type: type,

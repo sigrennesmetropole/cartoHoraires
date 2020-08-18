@@ -215,6 +215,22 @@
 }
 
 /**
+	ID ZONE WHEN USER IS CONNECTED
+*/
+
+.id-els {
+	margin-top: 10px;
+	color:rgba(52,50,80,0.8);
+}
+.id-els-btn {
+	color: white;
+}
+#email-id {
+	color: rgba(52,50,80);
+	margin-left: 5px;
+}
+
+/**
     BUTTONS TO CLEAR OR VALID FORM
 */
 
