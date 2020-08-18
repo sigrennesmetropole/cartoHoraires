@@ -61,6 +61,13 @@
 	font-family: var(--font_regular);
 }
 
+.formBtn:hover {
+    border: 1px transparent solid;
+    margin-right: 10px;
+    color: white;
+    background-color: #6cbec3;
+}
+
 .form-modal-body, .form-template {
 	padding:0px;
 	overflow: auto;
