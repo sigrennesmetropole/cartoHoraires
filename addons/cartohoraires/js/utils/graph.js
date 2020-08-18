@@ -30,7 +30,6 @@ class Graph {
             let p = e.properties || e.getProperties();
             if (p.horaire) {
                 let h = p.horaire;
-                h = moment(h, 'HH:mm:ssZ').subtract(2, 'hours').format('HH:mm');
                 if (!horairesCount[h]) {
                     horairesCount[h] = 0;
                 }
