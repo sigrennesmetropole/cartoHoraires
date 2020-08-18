@@ -765,8 +765,9 @@ const cartohoraires = (function() {
     /**
      * Get transport values from layer's data and create select options
      */
-    function initTransportList() {
+    function initTransportList(isReset=false) {
         cartoHoraireApi.request(null, function(res) {
+            transportSelectEmpty = isReset || transportSelectEmpty;
             if(res.length && transportSelectEmpty) {
                 // init all list for form and info panel
                 transports = res;
@@ -1044,7 +1045,8 @@ const cartohoraires = (function() {
         },
         getTransportList: function() {
             return transports
-        }
+        },
+        resetTransportList : function() {return initTransportList(true)}
     };
 })();
 

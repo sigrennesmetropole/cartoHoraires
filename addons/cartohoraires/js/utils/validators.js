@@ -1,5 +1,17 @@
 (function(window){
 
+    function resetForm() {
+        $('#form-modal').modal('toggle');
+        $('#email-id').text('');
+        $('.authent').hide();
+        $('.anonymous').show();
+        $('#btn-valid').addClass('disabled');
+        $('.reset').val('');
+        cartohoraires.resetTransportList();
+        $('.clock').val('08:00');
+        $('.ch-absent').prop('checked', false);
+    }
+
     function getHalf(min) {
         min = parseFloat(min);
         let def = 0;
@@ -151,7 +163,27 @@
             })
         }
 
-        _validators.deleteInfos = function(idInput) {
+        _validators.logout = function() {
+            let email = $('#email-id').text();
+            if(!email) return;
+            cartoHoraireApi.request(
+                {email: email},
+                function(e) {
+                    // we find data and load data
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && !e.err) {
+                        resetForm();
+                        alert('Deconnexion !');
+                    } else {
+                        alert('Une erreur technique s\'est produite !');
+                    }
+                },
+                'POST',
+                'logoutUser'
+            )
+        }
+
+        _validators.deleteInfos = function() {
             let email = $('#email-id').text();
             let code = prompt("Merci de confirmer votre code d'identification:", "*****");
             if(!code || !code.length) return;
@@ -162,11 +194,7 @@
                     if(e.length && e[0]) e = e[0];
                     if(e.success && !e.err) {
                         alert('Vos informations ont été supprimées !');
-                        $('#form-modal').modal('toggle');
-                        $('#email-id').text('');
-                        $('.authent').hide();
-                        $('.anonymous').show();
-                        $('#btn-valid').addClass('disabled');
+                        logout();
                     } else {
                         alert('Vos informations n\'ont pas pu être supprimées !');
                     }
