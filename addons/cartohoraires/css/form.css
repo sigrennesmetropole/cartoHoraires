@@ -61,7 +61,7 @@
 	font-family: var(--font_regular);
 }
 
-.formBtn:hover {
+.formBtn:hover, .formBtn:active, .formBtn:focus, .formBtn:visited {
     border: 1px transparent solid;
     margin-right: 10px;
     color: white;
