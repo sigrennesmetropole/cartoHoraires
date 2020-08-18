@@ -25,6 +25,7 @@ class Graph {
     getInfos() {
         let horairesCount = {};
         let data = this.features || this.dataSet;
+        
         data.forEach(e => {
             let p = e.properties || e.getProperties();
             if (p.horaire) {
@@ -35,7 +36,8 @@ class Graph {
                 }
                 horairesCount[h] += 1;
             }
-        });
+        });     
+        
 
         let labels = Object.keys(horairesCount).sort();
         let values = labels.map(e => horairesCount[e]);

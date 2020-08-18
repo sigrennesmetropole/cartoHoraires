@@ -23,7 +23,7 @@
         horaire.forEach((el) => {
             let id = el.id;
             modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid === i.id)[0].libelle;
-            
+
             // to detect format as HH:mm:ss or HH:mm
             if((el.horaire.split(':').length > 2)) {
                 horaire = moment(el.horaire, 'HH:mm:ss').format('HH:mm');
@@ -33,7 +33,7 @@
 
             if(el.mouvement === 'A') {
                 $('#clockpicker-in-' + id).val(horaire);
-                $('#transport-arr-select-' + id).val(modeVal);
+                $('#transport-in-select-' + id).val(modeVal);
             } else {
                 $('#clockpicker-out-' + id).val(horaire);
                 $('#transport-out-select-' + id).val(modeVal);
@@ -125,12 +125,62 @@
             }
         }
 
+        _validators.duplicateDay = function(idDay) {
+            let outClock = $('#clockpicker-out-' + idDay).val();
+            let outMode = $('#transport-out-select-' + idDay).val();
+            
+            let inClock = $('#clockpicker-in-' + idDay).val();
+            let inMode = $('#transport-in-select-' + idDay).val();
+
+            $('.input-day-zone').each((i, el) => {
+                let id = el.id ? el.id : 0;
+                if(parseFloat(id) > 1) {
+                    // A
+                    $('#clockpicker-in-' + id).val(inClock);
+                    $('#transport-in-select-' + id).val(inMode);
+                    // D
+                    $('#clockpicker-out-' + id).val(outClock);
+                    $('#transport-out-select-' + id).val(outMode);
+                }
+            })
+        }
+
+        _validators.getDayInfos = function(idDay) {
+            let modeOutVal, modeInVal;
+
+            let clockIn =  $('#clockpicker-in-' + idDay);
+            let clockOut = $('#clockpicker-out-' + idDay);
+            let modeIn = $('#transport-in-select-' + idDay);
+            let modeOut = $('#transport-out-select-' + idDay);
+
+            if(modeIn.length) {
+                modeInVal = modeIn.val();
+                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
+                modeInId = modeIn.length ? [0].id : '';
+            }
+            
+            if(modeOut.length) {
+                modeOutVal = modeOut.val();
+                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
+                modeOutId = modeOutId.length ? [0].id : '';
+            }
+
+            return {
+                modeInId: modeInId,
+                modeOutId: modeOutId,
+                clockIn: clockIn.val(),
+                clockOut: clockOut.val()
+            }
+        }
+
         _validators.validDataToServer = function(inputMailId) {
             let data = [];
             // prepare data
+            let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
+            let WKT = `POINT(${coord[0]} ${coord[1]})`;
             $('.input-day-zone').each((i, el) => {
                 let id = $(el).attr('id');
-                let clockIn =  $('#clockpicker-in-' + id);
+                /*let clockIn =  $('#clockpicker-in-' + id);
                 let clockOut = $('#clockpicker-out-' + id);
                 let modeIn = $('#transport-arr-select-' + id);
                 let modeOut = $('#transport-out-select-' + id);
@@ -147,23 +197,27 @@
                 modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
                 modeInId = modeIn.length ? [0].id : '';
                 modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
-                modeOutId = modeOutId.length ? [0].id : '';
+                modeOutId = modeOutId.length ? [0].id : '';*/
+
+                let infos = this.getDayInfos(id);
 
                 data.push( {
-                    moytranspid: modeInId || '',
+                    moytranspid: infos.modeInId || '',
                     jour: id,
-                    horaire: hIn,  //clockIn.val(),
+                    horaire: infos.clockIn,
                     mouvement: "A",
                     datesaisie: moment().format('HH:mm:ss'),
-                    caduc: false
+                    caduc: false,
+                    shape: $('#input-autocomplete-form').attr('coordinates')
                 },
                 {
-                    moytranspid: modeOutId || '',
+                    moytranspid: infos.modeOutId || '',
                     jour: id,
-                    horaire: hOut, // clockOut.val(),
+                    horaire: infos.clockOut,
                     mouvement: "D",
                     datesaisie: moment().format('HH:mm:ss'),
-                    caduc: false
+                    caduc: false,
+                    shape: `$('#input-autocomplete-form').attr('coordinates')`
                 })
             })
 
