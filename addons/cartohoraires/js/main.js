@@ -1025,6 +1025,9 @@ const cartohoraires = (function() {
             } else {
                 autocompleteForm.select(label);
                 $(autocompleteForm.getTarget()).attr('coordinates', `${e}`);
+                if($('.authent').is(':visible')) {
+                    $('#btn-valid').removeClass('disabled');
+                }
             }
         },
         setTransportType: function(types) {

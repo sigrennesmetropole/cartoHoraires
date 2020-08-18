@@ -97,6 +97,12 @@
                             $('.anonymous').hide();
                             $('.authent').show();
                             $('#email-id').text($('#'+inputMailId).val());
+                            
+                            // enable valid button if user have selected location to
+                            if($('#input-autocomplete-form').attr('coordinates')) {
+                                $('#btn-valid').removeClass('disabled');
+                            }
+
                             // user code exist and match we will request user's infos
                             cartoHoraireApi.request(
                                 {email: $('#'+inputMailId).val()},
@@ -134,7 +140,7 @@
 
             $('.input-day-zone').each((i, el) => {
                 let id = el.id ? el.id : 0;
-                if(parseFloat(id) > 1) {
+                if(parseFloat(id) != idDay) {
                     // A
                     $('#clockpicker-in-' + id).val(inClock);
                     $('#transport-in-select-' + id).val(inMode);
@@ -145,8 +151,33 @@
             })
         }
 
+        _validators.deleteInfos = function(idInput) {
+            let email = $('#email-id').text();
+            let code = prompt("Merci de confirmer votre code d'identification:", "*****");
+            if(!code || !code.length) return;
+            cartoHoraireApi.request(
+                {email: email, code: code},
+                function(e) {
+                    // we find data and load data
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && !e.err) {
+                        alert('Vos informations ont été supprimées !');
+                        $('#form-modal').modal('toggle');
+                        $('#email-id').text('');
+                        $('.authent').hide();
+                        $('.anonymous').show();
+                        $('#btn-valid').addClass('disabled');
+                    } else {
+                        alert('Vos informations n\'ont pas pu être supprimées !');
+                    }
+                },
+                'DELETE',
+                'deleteUserInfos'
+            )
+        }
+
         _validators.getDayInfos = function(idDay) {
-            let modeOutVal, modeInVal;
+            let modeOutId, modeInId;
 
             let clockIn =  $('#clockpicker-in-' + idDay);
             let clockOut = $('#clockpicker-out-' + idDay);
@@ -154,20 +185,20 @@
             let modeOut = $('#transport-out-select-' + idDay);
 
             if(modeIn.length) {
-                modeInVal = modeIn.val();
+                let modeInVal = modeIn.val();
                 modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
-                modeInId = modeIn.length ? [0].id : '';
+                modeIn = modeInId.length ? modeInId[0].id : '';
             }
             
             if(modeOut.length) {
                 modeOutVal = modeOut.val();
                 modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
-                modeOutId = modeOutId.length ? [0].id : '';
+                modeOut = modeOutId.length ? modeOutId[0].id : '';
             }
 
             return {
-                modeInId: modeInId,
-                modeOutId: modeOutId,
+                modeInId: modeIn,
+                modeOutId: modeOut,
                 clockIn: clockIn.val(),
                 clockOut: clockOut.val()
             }
@@ -177,27 +208,12 @@
             let data = [];
             // prepare data
             let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
+            coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3948');
+            
             let WKT = `POINT(${coord[0]} ${coord[1]})`;
+
             $('.input-day-zone').each((i, el) => {
                 let id = $(el).attr('id');
-                /*let clockIn =  $('#clockpicker-in-' + id);
-                let clockOut = $('#clockpicker-out-' + id);
-                let modeIn = $('#transport-arr-select-' + id);
-                let modeOut = $('#transport-out-select-' + id);
-
-                let hIn = moment(clockIn.val(), 'HH:mm');
-                hIn = hIn.format('HH') + getHalf(hIn.format('mm'));
-
-                let hOut = moment(clockOut.val(), 'HH:mm');
-                hOut = hOut.format('HH') + getHalf(hOut.format('mm'));
-                
-                let modeInVal = modeIn.val();
-                let modeOutVal = modeOut.val();
-
-                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
-                modeInId = modeIn.length ? [0].id : '';
-                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
-                modeOutId = modeOutId.length ? [0].id : '';*/
 
                 let infos = this.getDayInfos(id);
 
@@ -206,22 +222,22 @@
                     jour: id,
                     horaire: infos.clockIn,
                     mouvement: "A",
-                    datesaisie: moment().format('HH:mm:ss'),
+                    datesaisie: moment().format('HH:mm'),
                     caduc: false,
-                    shape: $('#input-autocomplete-form').attr('coordinates')
+                    shape: WKT
                 },
                 {
                     moytranspid: infos.modeOutId || '',
                     jour: id,
                     horaire: infos.clockOut,
                     mouvement: "D",
-                    datesaisie: moment().format('HH:mm:ss'),
+                    datesaisie: moment().format('HH:mm'),
                     caduc: false,
-                    shape: `$('#input-autocomplete-form').attr('coordinates')`
+                    shape: WKT
                 })
             })
 
-            let mail = $('#'+inputMailId).val();
+            let mail = $('#'+inputMailId).text();
             let params = `email=${mail}&data=${JSON.stringify(data)}`;
             
 
@@ -232,7 +248,7 @@
                     if(e.length && e[0]) e = e[0];
                     if(e.success && e.valid) {
                         alert('Informatios sauvegardées !');
-                    } else if(!e.valid) {
+                    } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
                         alert('Vos informations n\'ont pas  pu être sauvegardées !');
@@ -244,11 +260,9 @@
         }
 
         _validators.validServerToData = function(mail) {
-
             let data = {
                 email: mail,
             };
-
             // send data request
             cartoHoraireApi.request(
                 data,

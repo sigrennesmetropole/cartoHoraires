@@ -12,7 +12,11 @@
                                     <span class="glyphicon glyphicon-user id-els"> </span><span id="email-id"></span>
                                     <br>
                                     <span class="col-sm-12 text-right">
-                                        <button type="btn" class="btn btn-default id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires</button>
+                                        <button 
+                                            onclick="validators.deleteInfos('email-id')"
+                                            type="btn" 
+                                            class="btn btn-default id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
+                                        </button>
                                     </span>
                                 </div>
                             </div>
@@ -115,7 +119,6 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <!--TRANSPORT SELECTOR-->
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport d'arrivé</span>
                                         <select class="form-control input-style transpor-list" id="transport-in-select-{{id}}">
@@ -131,7 +134,6 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <!--TRANSPORT SELECTOR-->
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport du départ</span>
                                         <select class="form-control input-style transpor-list" id="transport-out-select-{{id}}">
@@ -139,10 +141,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <button type="btn" class="btn-xs btn-valid btn btn-default" 
+                                    onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                </button>
                             </div>
                             {{/days}}
                             <div class="row text-right">
-                                <button type="btn" class="btn btn-default btn-valid">Valider</button>                            
+                                <button 
+                                    id="btn-valid"
+                                    onclick="validators.validDataToServer('email-id')"
+                                    type="btn" class="btn btn-default btn-valid disabled">
+                                    Valider
+                                </button>
                             </div>
                         </div>
                     </div>
