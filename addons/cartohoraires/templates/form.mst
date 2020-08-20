@@ -57,9 +57,9 @@
                     <!--INPUT ZONE-->
                     <div class="col-sm-12 col-md-8 no-float input-zone">
                         <h2>Saisissez vos horaires</h2>
+                        <h3>Votre lieu de travail</h3>
                         <!--INPUT DATA-->
                         <div class="col-sm-12">
-                            <h3>Votre lieu de travail</h3>
                             {{#days}}
                             <div class="row input-day-zone" id={{id}}>
                                 <h4>{{name}}</h4>

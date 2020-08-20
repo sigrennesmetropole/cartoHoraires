@@ -393,9 +393,9 @@ p.subtitleGraph {
 /* EMPTY GRAPH */
 
 i.emptyGraph {
-    color: #36344f;
+    color: var(--turquoise);
     font-size: 18px;
-    background-color: #36344f8a;
+    background-color: #57b3b94d;
     padding: 10px 12px;
     border-radius: 4px;
 }

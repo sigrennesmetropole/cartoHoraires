@@ -3,6 +3,14 @@
 /** Import des fonts **/
 
 @font-face {
+    font-family: 'VistaSansOT_black';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bold';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
     font-family: 'VistaSansOT_regular';
     src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
 }
@@ -11,20 +19,36 @@
 /* Fonts */
 :root {
 	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+	--font_bold: 'VistaSansOT_bold', Arial, sans-serif;
+	--font_black: 'VistaSansOT_black', Arial, sans-serif;
+}
+
+/** Taille de la modal **/
+@media (min-width: 992px) {
+	#form-modal .modal-lg {
+		width:80%;
+	}
+
+	.input-zone {
+		padding: 20px 40px;
+	}
+	
+	.connect-zone {
+		padding: 40px;
+	}
 }
 
 /**
 ========================= INPUT ZONE
 */
-.input-zone .row {
-    margin-top: 10px;
-    margin-bottom: 2%;
-}
 
 .input-day-zone {
-	background-color: whitesmoke;
-    padding: 10px;
+	background-color: rgb(238 238 238 / 78%);
+    padding: 20px;
     border-radius: 4px;
+	margin-bottom: 20px;
+	color:#777;
+	font-family:var(--font_regular);
 }
 
 
@@ -34,10 +58,76 @@
 
 .input-style{
 	border-radius: 4px;
-	border: 1px #55B3B9 solid;
-	background-color: whitesmoke;
+    border: 1px #55b3b900 solid;
+    background-color: #dddddd63;
+    color: #777!important;
 }
 
+.input-zone h2{
+	font-family: var(--font_bold);
+    color: var(--bleu);
+}
+
+.input-zone h3 {
+    color: var(--bleu);
+    /* font-family: var(--font_regular); */
+}
+
+.input-day-zone h4 {
+    color: var(--turquoise);
+}
+
+#form-modal .input-group, .transpor-list {
+    margin-top: 5px;
+}
+
+.input-day-zone label {
+    font-weight: normal;
+    margin-left: 5px;
+    display: inline;
+}
+
+#form-modal .transpor-list {
+	background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%), linear-gradient(135deg, #ffffff 50%, transparent 50%), linear-gradient(to right, var(--turquoise), var(--turquoise));
+    background-position: calc(100% - 15px) calc(1em + 2px), calc(100% - 10px) calc(1em + 2px), 100% 0;
+    background-size: 7px 5px, 5px 5px, 2.7em 105%;
+    background-repeat: no-repeat;
+    padding: 0.5em 3.5em 0.5em 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 6px;
+}
+
+#form-modal .input-group-addon {
+    padding: 5px 10px!important;
+}
+
+.arrive {
+    margin-top: 10px;
+}
+
+/* Checkbox */
+#form-modal input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+}
+
+#form-modal input[type=checkbox] {
+    border-radius: 10px;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #777;
+}
+
+#form-modal input[type=checkbox]:checked {
+    background: #55b3b9;
+    border: #55b3b9;
+    position: relative;
+}
 
 /* HELP BUTTON */
 #iconhelp {
@@ -45,6 +135,7 @@
 	border-radius: 4px;
 	padding: 0;
 }
+
 
 /**
 ========================= CONNECT ZONE
@@ -61,6 +152,13 @@
 	font-family: var(--font_regular);
 }
 
+.formBtn:hover, .formBtn:active, .formBtn:focus, .formBtn:visited {
+    border: 1px transparent solid;
+    margin-right: 10px;
+    color: white;
+    background-color: #6cbec3;
+}
+
 .form-modal-body, .form-template {
 	padding:0px;
 	overflow: auto;
@@ -75,13 +173,11 @@
 
 .connect-zone {
     border-top-right-radius: 3px;
-    padding-top: 20px;
 }
 
 .connect-zone>* {
 	color: white;
 	background-color: #353350;
-	font: normal 1.2em "Trebuchet MS", sans-serif;
 }
 
 .connect-zone h3 {
@@ -113,7 +209,8 @@
 }
 
 .connect-text {
-	font: italic 13px "Trebuchet MS", sans-serif;
+	font-size: 14px;
+    font-family: var(--font_regular);
 	text-justify: auto !important;
 }
 
@@ -124,12 +221,14 @@
 .btn-valid {
     background-color: #353350;
     color:white;
-    margin-left: 5px;
+	margin-left: 5px;
+	border: none;
 }
 
 .btn-clear {
     background-color: #55B3B9;
-    color:white;
+	color:white;
+	border: none;
 }
 
 .btn-form-action {
