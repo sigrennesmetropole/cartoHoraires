@@ -346,10 +346,37 @@ select#modal-select {
     background-color: var(--bleu);
     padding: 6px 10px;
     border-radius: 4px;
-    margin: 0px 0px 0px 10px;
+    margin: 0px 0px 0px 20px;
     color: white;
-    font-family: var(--font_regular);
+	font-family: var(--font_regular);
+	position: absolute;
 }
+
+
+/* RANGE SLIDER */
+
+#slider-zone .slider-tick.round {
+    /* background: none; */
+    border-radius: 0;
+    width: 1px;
+    height: 15px;
+    margin-top: 15px;
+    margin-left: -5px!important;
+}
+
+#slider-zone .slider-tick.round.in-selection {
+    background: #ccc;
+}
+
+#slider-zone .slider-tick-label {
+    margin-top: 20px;
+    color: #aaa;
+}
+
+#slider-zone .slider-handle.min-slider-handle.round {
+    margin-left: -8px;
+}
+
 
 /** DATAVISUALISATION **/
 
