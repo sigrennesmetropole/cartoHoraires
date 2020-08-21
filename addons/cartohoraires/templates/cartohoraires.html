@@ -53,22 +53,23 @@
    </div>
    <!--TOGGLE BUTTON-->
     <div class="row col-sm-12 toggle-zone">
-        <div class="form-group" style="display: inline-flex;">
-            <div class="col-sm-3 col-md-2">
+        <div class="form-group" style="display: flex;">
+            <div class="col-sm-3 col-md-2" style="display: inline-flex; width: 70px;">
                 <input type="checkbox" id="switch">
                 <label for="switch" class="toggle-label">Toggle</label>
             </div>
-            <div class="title-zae" class="col-sm-8 col-md-9">
+            <div class="title-zae col-sm-8 col-md-9">
                 <p class="Text">Afficher les zones d'activité sur la carte</p>
-                <p class="subText">Pour consulter les informations d'une zone d'activité, placez la zone d'activité souhaitée sous la croix jaune</p>
-                <div class="row" id="recapZAC">
+                <div id="recapZAC">
                         <span class="infos" style="display:none" id="zac-infos-panel"> 
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span id="zac-info">zac</span>
+                            <p class="subText" >Pour consulter les informations d'une zone d'activité, placez la zone d'activité souhaitée sous la croix jaune</p>
+                            <span class="zac-infos-loc" >
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="zac-info">zac</span>
+                            </span>    
                         </span>
                 </div>
-            </div>
-                          
+            </div>                         
         </div>
     </div>
     <!--TIME & TRANSPORT-->   
