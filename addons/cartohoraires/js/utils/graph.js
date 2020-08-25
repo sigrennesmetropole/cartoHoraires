@@ -20,7 +20,7 @@ class Graph {
     /**
      * Prepare data to display into chart bar
      */
-    getInfos = function () {
+    getInfos() {
         let horairesCount = {};
         let data = this.features || this.dataSet;
         data.forEach(e => {
