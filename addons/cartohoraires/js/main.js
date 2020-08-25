@@ -499,7 +499,15 @@ const cartohoraires = (function() {
         // get absent
         // get present and absent
         if(containsData) {
-            setAbsentPresent(containsData.length, containsData.filter(a => a.getProperties().absence).length);
+            let indiv = containsData.map(i => i.getProperties());
+            // get absents and not absents
+            let abs = indiv.filter(a => a.absence);
+            let prs = indiv.filter(a => !a.absence);
+            // Distinct individu_id
+            prsLen = [...new Set(prs.map(e => e.individu_id))].length;
+            absLen = [...new Set(abs.map(e => e.individu_id))].length;
+            // Display infos
+            setAbsentPresent(prsLen, absLen);
         }
         
     };
