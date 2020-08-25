@@ -57,9 +57,15 @@ class Graph {
             let start = moment(e,'HH:mm'); 
             let remainder = val - (start.minute() % val); 
             let dateTime = moment(start).add(remainder, "minutes").format("HH:mm");
-            group.labels.push(dateTime);
-            group.values.push(data.values[i]);
-        })
+            let idx = group.labels.indexOf(dateTime);
+            if(idx < 0) {
+                group.labels.push(dateTime);
+                group.values.push(data.values[i]);
+            } else {
+                // we create addition for same label to avoid multi same graph labels
+                group.values[idx] = group.values[idx] + data.values[i];
+            }
+        });
         return group;
     }
 
