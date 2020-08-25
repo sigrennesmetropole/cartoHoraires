@@ -761,7 +761,8 @@ const cartohoraires = (function() {
     }
 
     function initChart(features) {
-        graph = new Graph('myChart', features);
+        graph = new Graph('myChart', features, options.graphStep);
+        graph.createGraph();
     }
 
     function reloadChart(features = false) {

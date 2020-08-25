@@ -9,12 +9,14 @@ class Graph {
      * @param {Object} target as Jquery HTML component
      * @param {Array} features features to send to bar chart
      */
-    constructor(target, features) {
+    constructor(target, features, steps = null) {
         this.chart = null;
         this.target = target;
         this.features = features || null;
         this.dataSet = [];
-        this.createGraph();
+        this.steps = steps;
+
+        this.createGraph = this.newGraph;
     }
 
     /**
@@ -44,12 +46,33 @@ class Graph {
         };
     }
 
+    groupData(data) {
+        let val = this.steps;
+        if(!val) return data;
+        let group = {
+            labels: [],
+            values: []
+        };
+        data.labels.forEach((e,i) => {
+            let start = moment(e,'HH:mm'); 
+            let remainder = val - (start.minute() % val); 
+            let dateTime = moment(start).add(remainder, "minutes").format("HH:mm");
+            group.labels.push(dateTime);
+            group.values.push(data.values[i]);
+        })
+        return group;
+    }
+
     /**
      * Create graph
      */
-    createGraph() {
+    newGraph() {
         this.dataSet = mviewer.customLayers.etablissements.getReceiptData();
         this.infos = this.getInfos()
+
+        if(this.steps) {
+            this.infos = this.groupData(this.infos);
+        }
 
         let canvas = document.getElementById(this.target);
 
@@ -63,6 +86,7 @@ class Graph {
             }
             i += 1;
         }
+
         var data = {
             labels: this.infos.labels,
             datasets: [{
@@ -74,7 +98,7 @@ class Graph {
         var options = {
             //responsive: true,
             animation: {
-                duration: 5000
+                duration: 3000
             },
             legend: {
                 display: false

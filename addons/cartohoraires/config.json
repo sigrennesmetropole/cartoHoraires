@@ -35,6 +35,7 @@
         "sirene_table": "base-sirene-v3-ss",
         "open_data_service": "https://data.rennesmetropole.fr/api/records/1.0/search",
         "defaultSRS": "3948",
-        "maxsiren": 10
+        "maxsiren": 10,
+        "graphStep":15
     }
 }
