@@ -333,10 +333,23 @@ const cartohoraires = (function() {
      */
     function searchSIRENE(value) {
         if (value && value.length > 3) {
+            if(!options.sirenConfig) return;
+            let conf = options.sirenConfig; 
+
+            let filter = `${value}`;
+            if(conf.filters && conf.filters.length) {
+                filter = conf.filters.map(e => `${e}:${value}`);
+                filter = conf.filters.length > 1 && conf.operator ? filter.join(` ${conf.operator} `) : filter;
+                filter = `(${filter})`;
+            }
+            
+            let url = `${conf.url}?q=${filter}&dataset=${conf.dataset}`;
+            if(conf.max) {
+                url = url + `&rows=${conf.max}`
+            }
+
             // Ajax request
-            var xhr = new XMLHttpRequest();
-            //var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&rows=5&dataset=${options.sirene_table}`;
-            var url = `${options.open_data_service}?q=denominationunitelegale = ${value}&dataset=${options.sirene_table}`;
+            let xhr = new XMLHttpRequest();
             xhr.open('GET', url);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
@@ -359,22 +372,30 @@ const cartohoraires = (function() {
      */
     function formatSIRENEesult(results) {
         let i = 0
-        let listed = [];
+        let siren = [];
+        let siret = [];
         let html = [];
         results.forEach(record => {
-            if (listed.indexOf(record.fields.siret) < 0 && i < options.maxsiren) {
+            if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
                 let props = record.fields;
-                listed.push(props.siren);
-                let txt = [props.denominationunitelegale,' - ',props.adresseetablissement, ' ', props.libellecommuneetablissement].join('')
-                let coord = record.geometry.coordinates.join(',');
-                html.push(`
-                    <div style='overflow-x:hidden;'>
-                    <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${txt}")'>${txt}</a>
-                    <input type='hidden' value='${coord}'>
-                    </div>`);
-                i = i + 1;
+                siret.push(props.siret);
+                siren.push(props.siren);
+                let txt = [props.denominationunitelegale,props.enseigne1etablissement,props.adresseetablissement].join('-')
+                txt = txt + ' ' + props.libellecommuneetablissement;
+                if(record.geometry && record.geometry.coordinates) {
+                    let coord = record.geometry.coordinates.join(',');
+                    html.push(`
+                        <div style='overflow-x:hidden; padding-top:5px;'>
+                        <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${txt}")'>${txt}</a>
+                        <input type='hidden' value='${coord}'>
+                        </div>`);
+                    i = i + 1;
+                }
+                
             }
         })
+
+        html.sort();
         return html.join('');
     }
 

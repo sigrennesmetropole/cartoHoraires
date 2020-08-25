@@ -226,6 +226,8 @@ p.subText {
 	width: fit-content;
 	margin: 4px 0px 0px 38px;
 	line-height: 1.6;
+	max-height: 250px;
+	overflow: auto;
 }
 
 .form-autocomplete {
