@@ -53,7 +53,6 @@ class Slider {
         });
         slider.formatTime = this.timeConvert($('#timeSlider').val());
         $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
-        $('#timeSlider').slider('refresh');
 
         this.refresh = function() {
             return $('#'+this.target).slider('refresh');
@@ -91,9 +90,5 @@ class Slider {
      */
     getTime() {
         return $('#timeSlider').val();
-    }
-
-    refresh() {
-        return $('#'+this.target).slider('refresh');
     }
 }
