@@ -781,11 +781,19 @@ const cartohoraires = (function() {
         slider = new Slider('timeSlider', setInfosPanel);
     }
 
+    /**
+     * Init chart from given featues array
+     * @param {Array} features 
+     */
     function initChart(features) {
         graph = new Graph('myChart', features, options.graphStep);
         graph.createGraph();
     }
 
+    /**
+     * Destroy en create new chart from given feature Array
+     * @param {Array} features 
+     */
     function reloadChart(features = false) {
         features = features || mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
 
@@ -805,6 +813,10 @@ const cartohoraires = (function() {
         }
     }
 
+    /**
+     * Destroy old Chart
+     * @param {String} type 
+     */
     function clearAll(type) {
         if (graph) {
             graph.getChart().destroy();
@@ -870,6 +882,9 @@ const cartohoraires = (function() {
         return mviewer.getMap().getView().setZoom(options.zoomLvl || configuration.getConfiguration().mapoptions.zoom)
     }
 
+    /**
+     * Display scroll button to go to top modal
+     */
     function initScrollBehavior() {
         $('#main').append('<button type="btn" id="btn-up" class="btn-default btn-lg btn btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>');
 
@@ -887,6 +902,9 @@ const cartohoraires = (function() {
         })
     }
 
+    /**
+     * To manage style if input is not correct
+     */
     function initFormInputs() {
             // init behaviors on input
             validators.validInput('fst-email-form');
