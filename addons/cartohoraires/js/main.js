@@ -764,6 +764,7 @@ const cartohoraires = (function() {
      */
     function initBtnDay() {
         var initBtnEvent = mviewer.getMap().on('postrender', m => {
+            slider.refresh();
             if (!btnInit && $('.btn-day').length) {
                 $('.btn-day').click(function(e) {
                     // style
