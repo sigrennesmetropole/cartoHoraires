@@ -45,6 +45,7 @@
 				visible="true"
 				metadata=""
 				metadata-csw=""
+				legendurl="img/legend.png"
 				queryable="false"
                 featurecount="6"
 				infopanel="right-panel">
