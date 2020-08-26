@@ -33,7 +33,7 @@ const cartohoraires = (function() {
             color: 'rgba(255, 255, 255, 0)',
         }),
         stroke: new ol.style.Stroke({
-            color: 'rgba(255, 145, 0)',
+            color: 'rgba(240, 189, 103)',
             width: 2,
         })
     });
@@ -43,8 +43,8 @@ const cartohoraires = (function() {
             color: 'rgba(255, 255, 255, 0)',
         }),
         stroke: new ol.style.Stroke({
-            color: 'rgba(62,158,206)',
-            width: 2,
+            color: 'rgba(55, 52, 79)',
+            width: 1.4,
         })
     });
 
