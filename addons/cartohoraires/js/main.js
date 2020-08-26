@@ -679,7 +679,7 @@ const cartohoraires = (function() {
      */
     function initZacLayer() {
         // display zac layer temporary
-        var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
+        var data = `https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${options.za_layer}&outputFormat=application%2Fjson&srsname=EPSG:3857`;
 
         allZacLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
