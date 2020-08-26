@@ -825,7 +825,7 @@ const cartohoraires = (function() {
      * @param {Array} features 
      */
     function initChart(features) {
-        graph = new Graph('myChart', features, options.graphStep);
+        graph = new Graph('myChart', features, options.graph && options.graph.step || null);
         graph.createGraph();
     }
 

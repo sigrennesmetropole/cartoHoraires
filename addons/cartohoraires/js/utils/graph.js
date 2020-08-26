@@ -17,6 +17,8 @@ class Graph {
         this.steps = steps;
 
         this.createGraph = this.newGraph;
+
+        this.options = mviewer.customComponents.cartohoraires.config.options.graph || {};
     }
 
     /**
@@ -49,6 +51,7 @@ class Graph {
 
     groupData(data) {
         let val = this.steps;
+        let options = this.options;
         if(!val) return data;
         let group = {
             labels: [],
@@ -59,10 +62,11 @@ class Graph {
             let remainder = val - (start.minute() % val); 
             let dateTime = moment(start).add(remainder, "minutes").format("HH:mm");
             let idx = group.labels.indexOf(dateTime);
-            if(idx < 0) {
+            if(!data.values && !options.keepEmpty) idx = null; // to don't display 0 or null values
+            if(idx && idx < 0) {
                 group.labels.push(dateTime);
                 group.values.push(data.values[i]);
-            } else {
+            } else if(idx) {
                 // we create addition for same label to avoid multi same graph labels
                 group.values[idx] = group.values[idx] + data.values[i];
             }
@@ -103,17 +107,18 @@ class Graph {
             }]
         }
         var options = {
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio:2.1,
+            responsive: this.options.responsive || true,
+            maintainAspectRatio: this.options.maintainAspectRatio || true,
             animation: {
-                duration: 3000
+                duration: this.options.duration || 0
             },
             legend: {
                 display: false
             }
         };
 
+        if(this.options.aspectRatio) options.aspectRatio = this.options.aspectRatio;
+        
         this.chart = Chart.Bar(canvas, {
             data: data,
             options: options
