@@ -394,14 +394,12 @@ const cartohoraires = (function() {
      */
     function formatSIRENEesult(results) {
         let i = 0
-        let siren = [];
         let siret = [];
         let html = [];
         results.forEach(record => {
             if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
                 let props = record.fields;
                 siret.push(props.siret);
-                siren.push(props.siren);
                 let txt = [props.denominationunitelegale,props.enseigne1etablissement,props.adresseetablissement].join('-')
                 txt = txt + ' ' + props.libellecommuneetablissement;
                 if(record.geometry && record.geometry.coordinates && props.etatadministratifetablissement === 'Actif') {
