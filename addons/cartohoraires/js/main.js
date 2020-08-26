@@ -389,29 +389,41 @@ const cartohoraires = (function() {
     }
 
     /**
+     * From the record we create correct info label
+     * @param {Object} fields record from API result
+     */
+    function getSirenText(fields) {
+        let denom = fields.denominationunitelegale || '';
+        denom = !denom && fields.denominationusuelleetablissement ? fields.denominationusuelleetablissement : denom;
+        denom = !denom && fields.prenom1unitelegale && fields.nomunitelegale ? `${fields.prenom1unitelegale} ${fields.nomunitelegale}` : denom;
+        denom = denom || (fields.l1_adressage_unitelegale ? fields.l1_adressage_unitelegale : '');
+        // remove empty and join
+        let label = [denom, fields.enseigne1etablissement, fields.adresseetablissement, fields.libellecommuneetablissement];
+        return label.filter(e => e && e.length).join(', ');
+    }
+
+    /**
      * Format autocomplete response for SIRENE API
      * @param {Array} results 
      */
     function formatSIRENEesult(results) {
         let i = 0
-        let siren = [];
         let siret = [];
         let html = [];
         results.forEach(record => {
             if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
                 let props = record.fields;
-                siret.push(props.siret);
-                siren.push(props.siren);
-                let txt = [props.denominationunitelegale,props.enseigne1etablissement,props.adresseetablissement].join('-')
-                txt = txt + ' ' + props.libellecommuneetablissement;
-                if(record.geometry && record.geometry.coordinates) {
+                if(record.geometry && record.geometry.coordinates && props.etatadministratifetablissement === 'Actif') {
                     let coord = record.geometry.coordinates.join(',');
+                    let txt = getSirenText(props);
                     html.push(`
                         <div style='overflow-x:hidden; padding-top:5px;'>
                         <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${txt}")'>${txt}</a>
                         <input type='hidden' value='${coord}'>
                         </div>`);
+                    siret.push(props.siret);
                     i = i + 1;
+                    
                 }
                 
             }
@@ -679,7 +691,7 @@ const cartohoraires = (function() {
      */
     function initZacLayer() {
         // display zac layer temporary
-        var data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=eco_comm:v_za_terminee&outputFormat=application%2Fjson&srsname=EPSG:3857';
+        var data = `https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${options.za_layer}&outputFormat=application%2Fjson&srsname=EPSG:3857`;
 
         allZacLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
