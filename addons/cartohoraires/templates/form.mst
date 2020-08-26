@@ -149,15 +149,14 @@
                                 </div>
                                 <div class="row copyBtn">
                                     <div class="col-sm-3 col-md-3" style="width: 10em;">
-                                        <button type="btn" class="btn-xs btn-valid btn btn-default" 
-                                            onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
-                                        </button>
+                                    <button type="btn" class="btn-xs btn-valid btn-copy btn btn-default" 
+                                        onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                    </button>
                                     </div>
                                     <div class="col-sm-7 col-md-8">
                                         <p>Vos informations seront copiées jusqu'au vendredi. Si vos horaires et/ ou modes de déplacement varient, merci de mettre à jour les données ci-dessous</p>
                                     </div>
                                 </div>
-
                             </div>
                             {{/days}}
                             <div class="row text-right">

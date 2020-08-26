@@ -302,6 +302,11 @@
     margin: 20px;
 }
 
+.btn-copy {
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
 .btn-clear {
     background-color: #55B3B9;
 	color:white;
