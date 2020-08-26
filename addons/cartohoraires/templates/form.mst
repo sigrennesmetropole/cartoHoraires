@@ -6,16 +6,18 @@
                     <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
                         <div class="row authent" style="display:none;">
                             <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <span class="id-els">Vous êtes identifié en tant que </span>
+                                <div class="panel-body" style="padding: 0;">
+                                    <img src="apps/cartoHoraires/img/avatar.svg" style="width: 5em; margin-bottom: 15px;">
                                     <br>
-                                    <span class="glyphicon glyphicon-user id-els"> </span><span id="email-id"></span>
+                                    <span class="id-els">Vous êtes connecté.e en tant que </span>
+                                    <br>
+                                    <span id="email-id"></span>
                                     <br>
                                     <span class="row-fluid text-right">
                                         <button 
                                             onclick="validators.logout()"
                                             type="btn" 
-                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Deconnexion
+                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Déconnexion
                                         </button>
                                         <button 
                                             onclick="validators.deleteInfos('email-id')"
@@ -146,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="row copyBtn">
-                                    <div class="col-sm-3 col-md-2">
+                                    <div class="col-sm-3 col-md-3" style="width: 10em;">
                                         <button type="btn" class="btn-xs btn-valid btn btn-default" 
                                             onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
                                         </button>

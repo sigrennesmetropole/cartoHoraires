@@ -26,7 +26,7 @@
 /** Taille de la modal **/
 @media (min-width: 992px) {
 	#form-modal .modal-lg {
-		width:80%;
+		width:85%;
 	}
 
 	.input-zone {
@@ -34,9 +34,9 @@
 	}
 	
 	.connect-zone {
-		padding: 40px!important;
+		padding: 40px 20px!important;
 	}
-}
+}	
 
 /**
 ========================= INPUT ZONE
@@ -229,7 +229,7 @@
 
 .connect-zone .row {
 	margin-top: 10px;
-	padding: 15px;
+	padding: 15px;;
 }
 
 .btn-connect {
@@ -255,16 +255,35 @@
 
 .id-els {
 	margin-top: 10px;
-	color:rgba(52,50,80,0.8);
+	color:white;
 }
+
 .id-els-btn {
 	color: white;
-	background-color: #353350;
+    background-color: var(--turquoise);
+    padding: 6px 12px;
 }
+
+.id-els-btn:hover {
+    background-color: #55b3b9a8;
+    color: white;
+}
+
+
 #email-id {
-	color: rgba(52,50,80);
-	margin-left: 5px;
+	color: var(--turquoise);
+    font-family: var(--font_bold);
 }
+
+
+.authent .panel.panel-default {
+    padding: 20px 0px;
+    text-align: center;
+    background-color: #f9f9f900;
+    border: none;
+    color: white;
+}
+
 
 /**
     BUTTONS TO CLEAR OR VALID FORM
@@ -318,6 +337,7 @@
 	box-shadow: 0px 1px 10px 0px rgba(220,170,20,0.8);
 	margin: 0 auto;
 }
+
 .btn-up.btn-lg {
 	width: 50px;
 	height: 50px;
@@ -325,6 +345,7 @@
 	line-height: 1.33;
 	border-radius: 25px;
 }
+
 .btn-up.btn-xl {
 	width: 70px;
 	height: 70px;
