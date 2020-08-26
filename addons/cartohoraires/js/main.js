@@ -788,9 +788,16 @@ const cartohoraires = (function() {
                 let optionsSelect = res.map(e => `
                     <option value="${e.libelle}">${e.libelle}</option>
                 `);
-                let contain = ['<option value="">Tous</option>'].concat(optionsSelect).join('');
+                //let contain = ['<option value="">Tous</option>'].concat(optionsSelect).join('');
+                let inputSelect = optionsSelect.join('');
+                let contain = '<option value="">Tous</option>' + inputSelect;
+                
+                // empty all
                 $('.transpor-list').empty();
-                $('.transpor-list').append(contain);
+
+                $('.transport-input-selector').append(inputSelect).val('Voiture (seul(e))');
+                $('.transport-modal-selector').append(contain);
+
                 
                 // only for info panel selector
                 transportSelected = $('#modal-select').val();
