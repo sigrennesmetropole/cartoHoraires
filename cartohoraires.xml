@@ -39,13 +39,14 @@
 		<theme id="horaires" name="Transport" collapsed="true" icon="fas fa-clock">
 		<layer
 				id="etablissements"
-				name="Flux de personnes"
+				name="Légende"
 				type="customlayer"
 				url="apps/cartoHoraires/customlayers/etablissements.js"
 				visible="true"
+				permanentlayer="true"
 				metadata=""
 				metadata-csw=""
-				legendurl="apps/cartoHoraires/img/legend.png"
+				legendurl="apps/cartoHoraires/img/legendmap.png"
 				queryable="false"
                 featurecount="6"
 				infopanel="right-panel">
