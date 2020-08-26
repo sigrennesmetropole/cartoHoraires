@@ -17,3 +17,26 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="code-modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Code oublié ?</h2>
+      </div>
+      <div class="modal-body">
+        <p>
+          Veuillez saisir votre adresse mail pour obtenir un nouveau code. Un mail vous sera envoyé dans les prochaines minutes.
+        </p>
+        <div class="input-group">
+          <span class="input-group-addon" id="codePaperPlane"><i class="fas fa-at"></i></span>
+          <input type="email"  id="code-mail" class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
+        </div>
+        <br>
+        <button type="btn" onclick="validators.createNewPassword('code-mail')" class="formBtn btn btn-default">Obtenir</button>
+      </div>
+    </div>
+  </div>
+</div>

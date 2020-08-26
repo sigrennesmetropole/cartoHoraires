@@ -55,7 +55,7 @@
                                     onclick="validators.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
                                     type="btn" class="btn btn-default btn-connect no-border">S'identifier
                                 </button>
-                                <a href="#" class="link-code"> Code oublié ?</a>
+                                <a href="#" class="link-code" onclick="$('#code-modal').modal('toggle')"> Code oublié ?</a>
                             </div>
                         </div>
                         <div class="col-sm-12 anonymous">

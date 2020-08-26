@@ -308,9 +308,40 @@
                         alert('Vos informations n\'ont pas pu être récupérées');
                     }
                 },
-                'GET',
-                'getUserInfos'
+                'POST',
+                'createUser'
             )
+        }
+
+        _validators.createNewPassword = function (inputMail, callback = null) {
+            inputMail = $('#'+inputMail);
+            if(_validators.isMailValid($(inputMail).val())) {
+                $('#code-mail').removeClass('invalid');
+                // send data request
+                cartoHoraireApi.request(
+                    {
+                        email:$(inputMail).val()
+                    },
+                    function(e) {
+                        if(callback) return callback(e);
+                        // we find data and load data
+                        if(e.length && e[0]) e = e[0];
+                        if(e.success && e.exist) {
+                            alert('Un mot nouveau mot de passe vient de vous être envoyé par mail !');
+                        } else if(e.success && !e.exist) {
+                            alert("Votre mail n'est pas reconnu. Veuillez créer un compte !");
+                        }
+                    },
+                    'POST',
+                    'createUser'
+                )
+                if ($("#code-modal").is(':visible')) {
+                    $("#code-modal").modal('toggle');
+                }
+                $('#code-mail').val('');
+            } else {
+                $('#code-mail').addClass('invalid');
+            }
         }
 
         /**

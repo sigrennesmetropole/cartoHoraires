@@ -219,7 +219,7 @@
 	color:#55B3B9;
 }
 
-.connect-zone input {
+.connect-zone input,.code-input {
 	border-radius: 4px;
 }
 
@@ -404,4 +404,28 @@
 	display: block;
 	margin-top: 15px;
 	color: #fed500;
+}
+
+/*GET NEW CODE MODAL*/
+#code-modal {
+	z-index: 10000;
+	top: 10%;
+}
+
+#code-modal .modal-content {
+	border-radius: 4px;
+	box-shadow: 0 5px 15px rgba(0,0,0,.8);
+}
+
+#codePaperPlane {
+	background-color: #55B3B9;
+	color: white;
+}
+
+#code-modal h2 {
+	color: var(--bleu);
+}
+
+#code-modal p {
+	font-size: 14px;
 }
