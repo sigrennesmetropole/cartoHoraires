@@ -46,7 +46,8 @@
             "operator": "OR",
             "url": "https://data.rennesmetropole.fr/api/records/1.0/search",
             "dataset": "base-sirene-v3-ss",
-            "max": 10
+            "max": 10,
+            "min": 2
         }
     }
 }

@@ -346,9 +346,11 @@ const cartohoraires = (function() {
      * @param {String} results 
      */
     function searchSIRENE(e) {
+        if(!options.sirenConfig) return;
         let value = e.target.value;
-        if (value && value.length > 3) {
-            if(!options.sirenConfig) return;
+        let minCar = options.sirenConfig.min || 3;
+        if (value && value.length > minCar) {
+            
             let conf = options.sirenConfig; 
 
             let filter = `${value}`;
