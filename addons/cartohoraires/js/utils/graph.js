@@ -59,8 +59,8 @@ class Graph {
         };
         data.labels.forEach((e,i) => {
             let start = moment(e,'HH:mm'); 
-            let remainder = val - (start.minute() % val); 
-            let dateTime = moment(start).add(remainder, "minutes").format("HH:mm");
+            let remainder = start.minute() % val;
+            let dateTime = moment(start).subtract(remainder, "minutes").format("HH:mm");
             let idx = group.labels.indexOf(dateTime);
             if(!data.values && !options.keepEmpty) idx = null; // to don't display 0 or null values
             if(idx && idx < 0) {
