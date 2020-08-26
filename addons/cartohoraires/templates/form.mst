@@ -4,11 +4,32 @@
             <div class="modal-body form-modal-body">
                 <div class="row form-row">
                     <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
-                        <div class="col-sm-12">
-                            
+                        <div class="row authent" style="display:none;">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <span class="id-els">Vous êtes identifié en tant que </span>
+                                    <br>
+                                    <span class="glyphicon glyphicon-user id-els"> </span><span id="email-id"></span>
+                                    <br>
+                                    <span class="row-fluid text-right">
+                                        <button 
+                                            onclick="validators.logout()"
+                                            type="btn" 
+                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Deconnexion
+                                        </button>
+                                        <button 
+                                            onclick="validators.deleteInfos('email-id')"
+                                            type="btn" 
+                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 anonymous">
                             <!--TITLE AND DETAILS ABOUT CONNEXION-->
                             <span classe="row" style="margin-bottom: 10px;">
-                            <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
+                                <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
                                 <h3>Connexion</h3>
                                 <span class="connect-text">
                                     Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
@@ -19,12 +40,12 @@
                             <!--INPUT MAIL-->
                             <span classe="row">
                                 <h4>Adresse mail</h4>
-                                <input id="email-form" autocomplete="false" type="email" placeholder="email@mail.com" class="form-control" name="email-form" required>
+                                <input id="email-form" autocomplete="false" type="email" placeholder="email@mail.com" class="form-control reset" name="email-form" required>
                             </span>
                             <!--INPUT CODE PASSWORD-->
                             <span classe="row">
                                 <h4>Code</h4>
-                                <input id="code-form" type="password" autocomplete="false" type="text" placeholder="*******" class="form-control" name="code-form" required>
+                                <input id="code-form" type="password" autocomplete="false" type="text" placeholder="*******" class="form-control reset" name="code-form" required>
                             </span>
                             <!--CODE FORGET-->
                             <div class="row">
@@ -32,10 +53,10 @@
                                     onclick="validators.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
                                     type="btn" class="btn btn-default btn-connect no-border">S'identifier
                                 </button>
-                                <span class="link-code"> Code oublié ?</span>
+                                <a href="#" class="link-code"> Code oublié ?</a>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 anonymous">
                             <!--1st CONNEXION-->
                             <h3>1ère connexion</h3>
                             <span classe="col-sm-12">
@@ -60,40 +81,64 @@
                         <h3>Votre lieu de travail</h3>
                         <!--INPUT DATA-->
                         <div class="col-sm-12">
+                            <h3>Votre lieu de travail</h3>
+                            <!--INPUT FIELD-->
+                            <div class="col-sm-10 col-md-6 autocomplete-form" id="search-input-form">
+                                <div class="form-group form-autocomplete-form">
+                                    <div class="input-group date" coordinates="" id="ch-searchfield-form">
+                                    <span class="input-group-addon search-picto">
+                                    <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" id="input-autocomplete-form" class="form-control search-input input-search input-text reset" autocomplete="off" placeholder="Rechercher votre lieu de travail">
+                                    </div>
+                                </div>
+                                <div class="autocomplete-list-form autocomplete-result col-sm-12" style="display:none;"></div>
+                            </div>
+                            <!--RADIO-->
+                            <div class="col-sm-10 col-md-5" id="search-radio-form">
+                                <!--RVA-->
+                                <input type="radio" id="ch-adresse-form" name="search-form" value="address">
+                                <label for="ch-adresse-form">Adresse</label>
+                                <!--SIRENE-->
+                                <input type="radio" id="ch-sirene-form" name="search-form" value="sirene" checked>
+                                <label for="ch-sirene-form">Établissement</label>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <h3>Vos horaires</h3>
                             {{#days}}
                             <div class="row input-day-zone" id={{id}}>
                                 <h4>{{name}}</h4>
                                 <div>
-                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" checked>
-                                    <label for="checkbox-{{id}}">Je ne suis pas présent sur mon lieu de travail (je télétravail ou je suis absent)</label>
+                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" class="ch-absent" checked>
+                                    <label for="checkbox-{{id}}">Télétravail ou absence</label>
                                 </div>
                                 <div class="row">
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Arrivée au lieu de travail</span>
                                         <div class="input-group clockpicker">
-                                            <input type="text" id="clockpicker-in-{{id}}" class="form-control input-style" value="08:00">
+                                            <input type="text" id="clockpicker-in-{{id}}" class="form-control clock input-style" value="08:00">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>
                                         </div>
                                     </div>
-                                    <!--TRANSPORT SELECTOR-->
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport d'arrivé</span>
-                                        <select class="form-control input-style transpor-list" id="transport-arr-select-{{id}}">
+                                        <select class="form-control input-style transpor-list" id="transport-in-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Départ du lieu de travail</span>
                                         <div class="input-group clockpicker">
-                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control input-style" value="08:00">
+                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control clock input-style" value="08:00">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>
                                         </div>
                                     </div>
-                                    <!--TRANSPORT SELECTOR-->
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport du départ</span>
                                         <select class="form-control input-style transpor-list" id="transport-out-select-{{id}}">
@@ -101,11 +146,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <button type="btn" class="btn-xs btn-valid btn btn-default" 
+                                    onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                </button>
                             </div>
                             {{/days}}
                             <div class="row text-right">
-                                <button type="btn" class="btn btn-default btn-clear">Tout supprimer</button>
-                                <button type="btn" class="btn btn-default btn-valid">Valider</button>                            
+                                <button 
+                                    id="btn-valid"
+                                    onclick="validators.validDataToServer('email-id')"
+                                    type="btn" class="btn btn-default btn-valid disabled">
+                                    Valider
+                                </button>
                             </div>
                         </div>
                     </div>

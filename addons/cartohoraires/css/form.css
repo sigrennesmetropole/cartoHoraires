@@ -180,7 +180,7 @@
 	background-color: #353350;
 }
 
-.connect-zone h3 {
+.connect-zone h3, .connect-zone a {
 	color:#55B3B9;
 }
 
@@ -205,13 +205,30 @@
 .link-code {
 	padding-left: 5px;
 	font-style: italic;
-	text-decoration: underline dotted;
+	text-decoration: underline;
 }
 
-.connect-text {
+.connect-text, a {
 	font-size: 14px;
-    font-family: var(--font_regular);
+	font-family: var(--font_regular);
 	text-justify: auto !important;
+}
+
+/**
+	ID ZONE WHEN USER IS CONNECTED
+*/
+
+.id-els {
+	margin-top: 10px;
+	color:rgba(52,50,80,0.8);
+}
+.id-els-btn {
+	color: white;
+	background-color: #353350;
+}
+#email-id {
+	color: rgba(52,50,80);
+	margin-left: 5px;
 }
 
 /**

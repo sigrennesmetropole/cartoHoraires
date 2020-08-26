@@ -186,8 +186,25 @@ p.subText {
 	line-height: 1.2;
 }
 
-.title-zae .subText {
+/* Version 2 ZAC */
+
+.zac-infos-loc {
+    background-color: #f1bd68;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.title-zae{
+	padding: 0;
+}
+
+#zac-infos-panel .subText {
     font-style: oblique;
+    font-family: var(--font_regular);
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
 }
 
 /**
@@ -215,10 +232,10 @@ p.subText {
 * AUTOCOMPLETE
 */
 
-.autocomplete-list {
+.autocomplete-result {
 	background-color:#eee;
 	position: absolute;
-	z-index: 1;
+	z-index: 10000000;
 	border: 1px #eeeeee solid;
 	border-radius: 4px;
 	padding-top: 10px;
@@ -329,10 +346,37 @@ select#modal-select {
     background-color: var(--bleu);
     padding: 6px 10px;
     border-radius: 4px;
-    margin: 0px 0px 0px 10px;
+    margin: 0px 0px 0px 20px;
     color: white;
-    font-family: var(--font_regular);
+	font-family: var(--font_regular);
+	position: absolute;
 }
+
+
+/* RANGE SLIDER */
+
+#slider-zone .slider-tick.round {
+    /* background: none; */
+    border-radius: 0;
+    width: 1px;
+    height: 15px;
+    margin-top: 15px;
+    margin-left: -5px!important;
+}
+
+#slider-zone .slider-tick.round.in-selection {
+    background: #ccc;
+}
+
+#slider-zone .slider-tick-label {
+    margin-top: 20px;
+    color: #aaa;
+}
+
+#slider-zone .slider-handle.min-slider-handle.round {
+    margin-left: -8px;
+}
+
 
 /** DATAVISUALISATION **/
 
@@ -359,14 +403,6 @@ select#modal-select {
 	padding-right:5px;
 }
 
-/* Version 2 ZAC */
-#zac-infos-panel {
-    background-color: #f1bd68;
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-    margin: 15px;
-}
 
 /* GRAPH */
 #panelGraph .panel-heading.no-border {
@@ -448,17 +484,18 @@ i.emptyGraph {
 .input-info {
 	color: var(--turquoise);
 	font-family: var(--font_bold);
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .input-number {
-	font-size: 30px;
+	font-size: 20px;
 }
 
 .titleNumb {
     font-family: var(--font_regular);
     color: #777;
-    margin: 0;
+	margin: 0;
+	font-size: 12px;
 }
 
 .subtitleNumb {

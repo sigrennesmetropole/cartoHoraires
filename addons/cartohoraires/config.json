@@ -33,7 +33,14 @@
         "za_layer": "eco_comm:v_za_terminee",
         "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
         "defaultSRS": "3948",
-        "graphStep":15,
+        "graph": {
+            "aspectRatio": 3.2,
+            "step": 15,
+            "keepEmpty": false,
+            "responsive": true,
+            "maintainAspectRatio": true,
+            "duration": 3000
+        },
         "sirenConfig": {
             "filters": ["denominationunitelegale", "adresseetablissement"],
             "operator": "OR",

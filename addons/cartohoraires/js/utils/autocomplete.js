@@ -18,6 +18,7 @@ class Autocomplete {
         this.listTarget = list;
         this.search = search;
         this.html = html;
+        this.publicConfig = {};
     }
 
     set Search(func) {
@@ -62,7 +63,7 @@ class Autocomplete {
             autocomplete.closeAllLists();
             /*Call API and display responses*/
             if (autocomplete.search) {
-                autocomplete.search(val);
+                autocomplete.search(e, autocomplete.config);
             }
         });
     }
@@ -104,5 +105,17 @@ class Autocomplete {
      */
     select(val) {
         $(this.target).val(val);
+    }
+
+    getPublicConfig() {
+        return this.publicConfig;
+    }
+
+    setPubliConfig(publicConfig) {
+        this.publicConfig = publicConfig;
+    }
+
+    getTarget() {
+        return this.target;
     }
 }

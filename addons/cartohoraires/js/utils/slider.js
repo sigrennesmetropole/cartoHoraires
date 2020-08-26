@@ -22,9 +22,13 @@ class Slider {
             value: 480,
             formatter: (e) => {
                 return this.timeConvert(e)
-            }
+            },
+            ticks: [0, 240, 480, 720, 960, 1200, 1440],
+            ticks_labels: ["0h", "4h", "8h", "12h", "16h", "20h", "24h"],
+            data_slider_ticks_snap_bounds:"50"
         });
 
+        // With JQuery
         $('#' + target).on('slideStop', function(e) {
             /**
              * Update map data only.
@@ -49,6 +53,10 @@ class Slider {
         });
         slider.formatTime = this.timeConvert($('#timeSlider').val());
         $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
+
+        this.refresh = function() {
+            return $('#'+this.target).slider('refresh');
+        }
     }
 
     /**

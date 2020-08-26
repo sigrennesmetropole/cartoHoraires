@@ -7,6 +7,9 @@ const cartohoraires = (function() {
     let allZacLayer = null;
     let load = false;
     let autocomplete;
+    let autocompleteForm;
+    let autocompleteIdentifier = null;
+
     let rvaConf;
 
     let transports = [];
@@ -234,13 +237,24 @@ const cartohoraires = (function() {
      * Create autocomplete request response for BAN API
      * @param {String} results 
      */
-    function searchRVA(value) {
+    function searchRVA(e) {
+        let id = 'search-radio';
+        if(!$(e.target).parents('.top-form').length) id = 'search-radio-form';
+
+        let value = e.target.value;
         if (value && value.length > 3) {
             let promises = searchRM.request(rvaConf, value);
             Promise.all(promises).then(function(allResult) {
                 let data = searchRM.getAutocompleteData(allResult, value, false);
-                autocomplete.closeAllLists();
-                autocomplete.displayList(data);
+                
+                if(id === 'search-radio') {
+                    autocomplete.closeAllLists();
+                    autocomplete.displayList(data);
+                } else {
+                    autocompleteForm.closeAllLists();
+                    autocompleteForm.displayList(data);
+                }
+
             });
         }
     }
@@ -331,7 +345,8 @@ const cartohoraires = (function() {
      * Create autocomplete request response for Open Data Rennes API - base-sirene-v3 dataset
      * @param {String} results 
      */
-    function searchSIRENE(value) {
+    function searchSIRENE(e) {
+        let value = e.target.value;
         if (value && value.length > 3) {
             if(!options.sirenConfig) return;
             let conf = options.sirenConfig; 
@@ -355,8 +370,13 @@ const cartohoraires = (function() {
                 if (xhr.status === 200 && xhr.responseText) {
                     var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
                     if (response && response.records.length && autocomplete.displayList) {
-                        autocomplete.closeAllLists();
-                        autocomplete.displayList(response.records);
+                        if(autocompleteIdentifier === 'search-radio') {
+                            autocomplete.closeAllLists();
+                            autocomplete.displayList(response.records);
+                        } else {
+                            autocompleteForm.closeAllLists();
+                            autocompleteForm.displayList(response.records);
+                        }
                     }
                 } else {
                     console.log('fail request');
@@ -403,12 +423,16 @@ const cartohoraires = (function() {
      * Check search type
      * @param {String} v  as input value
      */
-    function search(v) {
-        if ($('#search-radio input:checked').val() === 'sirene') {
-            return searchSIRENE(v);
+    function search(e) {
+        let id = 'search-radio'; 
+        if(!$(e.target).parents('.top-form').length) id = 'search-radio-form';
+
+        autocompleteIdentifier = id;
+
+        if ($(`#${id} input:checked`).val() === 'sirene') {
+            return searchSIRENE(e);
         } else {
-            //return searchAddress(v);
-            return searchRVA(v);
+            return searchRVA(e);
         }
     }
 
@@ -417,7 +441,8 @@ const cartohoraires = (function() {
      * @param {Object} r as JSON response from API
      */
     function formatInputResult(r) {
-        if ($('#search-radio input:checked').val() === 'sirene') {
+
+        if ($(`#${autocompleteIdentifier} input:checked`).val() === 'sirene') {
             return formatSIRENEesult(r);
         } else {
             //return formatAddressResult(r);
@@ -451,6 +476,10 @@ const cartohoraires = (function() {
             autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
             autocomplete.initListeners();
             autocomplete.initCloseAction();
+
+            autocompleteForm = new Autocomplete(document.getElementById('input-autocomplete-form'), $('.autocomplete-list-form'), search, formatInputResult);
+            autocompleteForm.initListeners();
+            autocompleteForm.initCloseAction();
         }
     }
 
@@ -736,8 +765,9 @@ const cartohoraires = (function() {
     /**
      * Get transport values from layer's data and create select options
      */
-    function initTransportList() {
+    function initTransportList(isReset=false) {
         cartoHoraireApi.request(null, function(res) {
+            transportSelectEmpty = isReset || transportSelectEmpty;
             if(res.length && transportSelectEmpty) {
                 // init all list for form and info panel
                 transports = res;
@@ -764,6 +794,7 @@ const cartohoraires = (function() {
      */
     function initBtnDay() {
         var initBtnEvent = mviewer.getMap().on('postrender', m => {
+            slider.refresh();
             if (!btnInit && $('.btn-day').length) {
                 $('.btn-day').click(function(e) {
                     // style
@@ -794,7 +825,7 @@ const cartohoraires = (function() {
      * @param {Array} features 
      */
     function initChart(features) {
-        graph = new Graph('myChart', features, options.graphStep);
+        graph = new Graph('myChart', features, options.graph && options.graph.step || null);
         graph.createGraph();
     }
 
@@ -989,10 +1020,16 @@ const cartohoraires = (function() {
          * @param {String} label as text to display into input field
          */
         select: function(e, label) {
-            if (e) {
-                displayResult(e.split(',').map(a => parseFloat(a)));
+            if(autocompleteIdentifier != 'search-radio-form') {
+                if (e) displayResult(e.split(',').map(a => parseFloat(a)));
+                autocomplete.select(label);
+            } else {
+                autocompleteForm.select(label);
+                $(autocompleteForm.getTarget()).attr('coordinates', `${e}`);
+                if($('.authent').is(':visible')) {
+                    $('#btn-valid').removeClass('disabled');
+                }
             }
-            autocomplete.select(label);
         },
         setTransportType: function(types) {
             transportType = types;
@@ -1008,7 +1045,8 @@ const cartohoraires = (function() {
         },
         getTransportList: function() {
             return transports
-        }
+        },
+        resetTransportList : function() {return initTransportList(true)}
     };
 })();
 

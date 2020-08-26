@@ -1,5 +1,17 @@
 (function(window){
 
+    function resetForm() {
+        $('#form-modal').modal('toggle');
+        $('#email-id').text('');
+        $('.authent').hide();
+        $('.anonymous').show();
+        $('#btn-valid').addClass('disabled');
+        $('.reset').val('');
+        cartohoraires.resetTransportList();
+        $('.clock').val('08:00');
+        $('.ch-absent').prop('checked', false);
+    }
+
     function getHalf(min) {
         min = parseFloat(min);
         let def = 0;
@@ -23,7 +35,7 @@
         horaire.forEach((el) => {
             let id = el.id;
             modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid === i.id)[0].libelle;
-            
+
             // to detect format as HH:mm:ss or HH:mm
             if((el.horaire.split(':').length > 2)) {
                 horaire = moment(el.horaire, 'HH:mm:ss').format('HH:mm');
@@ -33,7 +45,7 @@
 
             if(el.mouvement === 'A') {
                 $('#clockpicker-in-' + id).val(horaire);
-                $('#transport-arr-select-' + id).val(modeVal);
+                $('#transport-in-select-' + id).val(modeVal);
             } else {
                 $('#clockpicker-out-' + id).val(horaire);
                 $('#transport-out-select-' + id).val(modeVal);
@@ -89,14 +101,28 @@
                 callback(
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
                     function(e) {
+                        if(e.length && e[0]) e = e[0];
                         if(e.err) {
                             // code or email is not valid
                             alert('Code ou email erroné !');
                         } else {
+                            $('.anonymous').hide();
+                            $('.authent').show();
+                            $('#email-id').text($('#'+inputMailId).val());
+                            
+                            // enable valid button if user have selected location to
+                            if($('#input-autocomplete-form').attr('coordinates')) {
+                                $('#btn-valid').removeClass('disabled');
+                            }
+
                             // user code exist and match we will request user's infos
                             cartoHoraireApi.request(
                                 {email: $('#'+inputMailId).val()},
                                 function(e) {
+                                    e = e.length && e[0] ?  e = e[0] : e;
+                                    if(!e.success) {
+                                        return alert('Vos informations n\'ont pas pu être récupérées');
+                                    }
                                     // we find data and load data
                                     if(e.success && e.horaire.length) {
                                         // we dispatch data info wit event
@@ -104,8 +130,6 @@
                                         document.dispatchEvent(event);
                                         // use this to listen => document.addEventListener('dateChange', function (e) {});
                                         setData(e.horaire);
-                                    } else {
-                                        alert('Vos informations n\'ont pas pu être récupérées');
                                     }
                                 },
                                 'GET',
@@ -119,80 +143,160 @@
             }
         }
 
+        _validators.duplicateDay = function(idDay) {
+            let outClock = $('#clockpicker-out-' + idDay).val();
+            let outMode = $('#transport-out-select-' + idDay).val();
+            
+            let inClock = $('#clockpicker-in-' + idDay).val();
+            let inMode = $('#transport-in-select-' + idDay).val();
+
+            $('.input-day-zone').each((i, el) => {
+                let id = el.id ? el.id : 0;
+                if(parseFloat(id) != idDay) {
+                    // A
+                    $('#clockpicker-in-' + id).val(inClock);
+                    $('#transport-in-select-' + id).val(inMode);
+                    // D
+                    $('#clockpicker-out-' + id).val(outClock);
+                    $('#transport-out-select-' + id).val(outMode);
+                }
+            })
+        }
+
+        _validators.logout = function() {
+            let email = $('#email-id').text();
+            if(!email) return;
+            cartoHoraireApi.request(
+                {email: email},
+                function(e) {
+                    // we find data and load data
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && !e.err) {
+                        resetForm();
+                        alert('Deconnexion !');
+                    } else {
+                        alert('Une erreur technique s\'est produite !');
+                    }
+                },
+                'POST',
+                'logoutUser'
+            )
+        }
+
+        _validators.deleteInfos = function() {
+            let email = $('#email-id').text();
+            let code = prompt("Merci de confirmer votre code d'identification:", "*****");
+            if(!code || !code.length) return;
+            cartoHoraireApi.request(
+                {email: email, code: code},
+                function(e) {
+                    // we find data and load data
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && !e.err) {
+                        alert('Vos informations ont été supprimées !');
+                        logout();
+                    } else {
+                        alert('Vos informations n\'ont pas pu être supprimées !');
+                    }
+                },
+                'DELETE',
+                'deleteUserInfos'
+            )
+        }
+
+        _validators.getDayInfos = function(idDay) {
+            let modeOutId, modeInId;
+
+            let clockIn =  $('#clockpicker-in-' + idDay);
+            let clockOut = $('#clockpicker-out-' + idDay);
+            let modeIn = $('#transport-in-select-' + idDay);
+            let modeOut = $('#transport-out-select-' + idDay);
+
+            if(modeIn.length) {
+                let modeInVal = modeIn.val();
+                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
+                modeIn = modeInId.length ? modeInId[0].id : '';
+            }
+            
+            if(modeOut.length) {
+                modeOutVal = modeOut.val();
+                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
+                modeOut = modeOutId.length ? modeOutId[0].id : '';
+            }
+
+            return {
+                modeInId: modeIn,
+                modeOutId: modeOut,
+                clockIn: clockIn.val(),
+                clockOut: clockOut.val()
+            }
+        }
+
         _validators.validDataToServer = function(inputMailId) {
-            let horaire = [];
+            let data = [];
             // prepare data
+            let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
+            coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3948');
+            
+            let WKT = `POINT(${coord[0]} ${coord[1]})`;
+
             $('.input-day-zone').each((i, el) => {
                 let id = $(el).attr('id');
-                let clockIn =  $('#clockpicker-in-' + id);
-                let clockOut = $('#clockpicker-out-' + id);
-                let modeIn = $('#transport-arr-select-' + id);
-                let modeOut = $('#transport-out-select-' + id);
 
-                let hIn = moment(clockIn.val(), 'HH:mm');
-                hIn = hIn.format('HH') + getHalf(hIn.format('mm'));
+                let infos = this.getDayInfos(id);
 
-                let hOut = moment(clockOut.val(), 'HH:mm');
-                hOut = hOut.format('HH') + getHalf(hOut.format('mm'));
-                
-                let modeInVal = modeIn.val();
-                let modeOutVal = modeOut.val();
-
-                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal)[0].id;
-                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal)[0].id;
-
-                horaire.push( {
-                    moytranspid: modeInId,
+                data.push( {
+                    moytranspid: infos.modeInId || '',
                     jour: id,
-                    horaire: hIn,  //clockIn.val(),
+                    horaire: infos.clockIn,
                     mouvement: "A",
-                    datesaisie: moment().format('HH:mm:ss'),
-                    caduc: false
+                    datesaisie: moment().format('HH:mm'),
+                    caduc: false,
+                    shape: WKT
                 },
                 {
-                    moytranspid: modeOutId,
+                    moytranspid: infos.modeOutId || '',
                     jour: id,
-                    horaire: hOut, // clockOut.val(),
+                    horaire: infos.clockOut,
                     mouvement: "D",
-                    datesaisie: moment().format('HH:mm:ss'),
-                    caduc: false
+                    datesaisie: moment().format('HH:mm'),
+                    caduc: false,
+                    shape: WKT
                 })
             })
 
-            let mail = $('#'+inputMailId).val();
-            let data = {
-                email: mail,
-                horaire: horaire
-            };
+            let mail = $('#'+inputMailId).text();
+            let params = `email=${mail}&data=${JSON.stringify(data)}`;
+            
 
             // send data request
             cartoHoraireApi.request(
-                data,
+                params,
                 function(e) {
-                    if(e.success && valid) {
+                    if(e.length && e[0]) e = e[0];
+                    if(e.success && e.valid) {
                         alert('Informatios sauvegardées !');
-                    } else if(!valid) {
+                    } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
                         alert('Vos informations n\'ont pas  pu être sauvegardées !');
                     }
                 },
-                'POST',
-                'getUserInfos'
+                'PUT',
+                'updateUserInfos'
             )
         }
 
         _validators.validServerToData = function(mail) {
-
             let data = {
                 email: mail,
             };
-
             // send data request
             cartoHoraireApi.request(
                 data,
                 function(e) {
                     // we find data and load data
+                    if(e.length && e[0]) e = e[0];
                     if(e.success && e.horaire.length) {
                         // we dispatch data info wit event
                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
@@ -219,7 +323,7 @@
             if(_validators.isMailValid($(inputMail).val())) {
                 callback({
                     email:$(inputMail).val()
-                }, cartoHoraireApi.createNewPassword, 'GET', 'createUser');
+                }, cartoHoraireApi.createNewPassword, 'POST', 'createUser');
             }
         }
 
