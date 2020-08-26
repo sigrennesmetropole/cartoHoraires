@@ -42,11 +42,45 @@
 ========================= INPUT ZONE
 */
 
+/* LIEU DE TRAVAIL */
+
+#search-input-form .input-group-addon.search-picto {
+    background-color: var(--turquoise);
+}
+
+#search-radio-form {
+	padding: 10px;
+	color: #777;
+}
+
+#ch-sirene-form {
+    margin-left: 10px;
+}
+
+#search-radio-form input[type='radio']:checked:after {
+    background-color: var(--turquoise);
+}
+
+.autocomplete-list-form.autocomplete-result a {
+	color: #777;
+	line-height: 0.2;
+}
+
+.autocomplete-list-form.autocomplete-result a:hover {
+    color: var(--turquoise);
+}
+
+#ch-searchfield-form {
+    position: inherit;
+}
+
+/* HORAIRES */
+
 .input-day-zone {
 	background-color: rgb(238 238 238 / 78%);
     padding: 20px;
     border-radius: 4px;
-	margin-bottom: 20px;
+	margin: 0px 0px 20px 0px;
 	color:#777;
 	font-family:var(--font_regular);
 }
@@ -236,10 +270,16 @@
 */
 
 .btn-valid {
-    background-color: #353350;
-    color:white;
-	margin-left: 5px;
-	border: none;
+    background-color: var(--bleu);
+    color: white;
+    margin-top: 20px;
+    border: none;
+    padding: 6px 12px;
+    font-family: var(--font_regular);
+}
+
+#btn-valid {
+    margin: 20px;
 }
 
 .btn-clear {
@@ -294,6 +334,33 @@
 
 .btn-up>span {
 	left: -1px;
+}
+
+/* Button copy */
+
+.copyBtn {
+    margin-top: 20px;
+}
+
+.copyBtn p {
+    font-style: italic;
+    color: #aaa;
+    font-family: var(--font_regular);
+    line-height: 1.2;
+    font-size: 11px;
+}
+
+.copyBtn .btn-valid {
+    background-color: #57b3b9b5;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+	font-family: var(--font_regular);
+	margin: 0px 0px 5px 0px;
+}
+
+.copyBtn .btn-valid:hover {
+    background-color: #57b3b9fa;
 }
 
 

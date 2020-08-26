@@ -78,9 +78,8 @@
                     <!--INPUT ZONE-->
                     <div class="col-sm-12 col-md-8 no-float input-zone">
                         <h2>Saisissez vos horaires</h2>
-                        <h3>Votre lieu de travail</h3>
                         <!--INPUT DATA-->
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="padding:0;">
                             <h3>Votre lieu de travail</h3>
                             <!--INPUT FIELD-->
                             <div class="col-sm-10 col-md-6 autocomplete-form" id="search-input-form">
@@ -105,7 +104,7 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="padding:0;">
                             <h3>Vos horaires</h3>
                             {{#days}}
                             <div class="row input-day-zone" id={{id}}>
@@ -146,9 +145,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button type="btn" class="btn-xs btn-valid btn btn-default" 
-                                    onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
-                                </button>
+                                <div class="row copyBtn">
+                                    <div class="col-sm-3 col-md-2">
+                                        <button type="btn" class="btn-xs btn-valid btn btn-default" 
+                                            onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-7 col-md-8">
+                                        <p>Vos informations seront copiées jusqu'au vendredi. Si vos horaires et/ ou modes de déplacement varient, merci de mettre à jour les données ci-dessous</p>
+                                    </div>
+                                </div>
+
                             </div>
                             {{/days}}
                             <div class="row text-right">
