@@ -34,7 +34,7 @@
 	}
 	
 	.connect-zone {
-		padding: 40px;
+		padding: 40px!important;
 	}
 }
 
@@ -206,7 +206,8 @@
 }
 
 .connect-zone {
-    border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	padding: 20px;
 }
 
 .connect-zone>* {
