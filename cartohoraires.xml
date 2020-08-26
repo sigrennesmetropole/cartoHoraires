@@ -43,6 +43,7 @@
 				type="customlayer"
 				url="apps/cartoHoraires/customlayers/etablissements.js"
 				visible="true"
+				permanentlayer="true"
 				metadata=""
 				metadata-csw=""
 				legendurl="apps/cartoHoraires/img/legend.png"
