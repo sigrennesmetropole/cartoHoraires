@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport d'arrivé</span>
-                                        <select class="form-control input-style transpor-list" id="transport-in-select-{{id}}">
+                                        <select class="form-control input-style transpor-list transport-input-selector" id="transport-in-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Mode de transport du départ</span>
-                                        <select class="form-control input-style transpor-list" id="transport-out-select-{{id}}">
+                                        <select class="form-control input-style transpor-list transport-input-selector" id="transport-out-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
                                     </div>
