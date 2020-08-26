@@ -103,7 +103,9 @@ class Graph {
             }]
         }
         var options = {
-            //responsive: true,
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio:2.1,
             animation: {
                 duration: 3000
             },
