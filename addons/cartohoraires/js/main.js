@@ -404,7 +404,7 @@ const cartohoraires = (function() {
                 siren.push(props.siren);
                 let txt = [props.denominationunitelegale,props.enseigne1etablissement,props.adresseetablissement].join('-')
                 txt = txt + ' ' + props.libellecommuneetablissement;
-                if(record.geometry && record.geometry.coordinates) {
+                if(record.geometry && record.geometry.coordinates && props.etatadministratifetablissement === 'Actif') {
                     let coord = record.geometry.coordinates.join(',');
                     html.push(`
                         <div style='overflow-x:hidden; padding-top:5px;'>
