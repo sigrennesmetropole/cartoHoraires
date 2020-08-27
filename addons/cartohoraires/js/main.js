@@ -216,6 +216,11 @@ const cartohoraires = (function() {
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
         });
+        if($('#go-app-btn').length && options.homeToForm) {
+            $('#go-app-btn').click(function(e) {
+                return $("#form-modal").modal('toggle');
+            })
+        }
     }
 
     /**
@@ -360,9 +365,12 @@ const cartohoraires = (function() {
                 filter = `(${filter})`;
             }
             
-            let url = `${conf.url}?q=${filter}&dataset=${conf.dataset}`;
+            let url = `${conf.url}?q=${filter}&dataset=${conf.dataset}&facet=nomunitelegale&refine.etatadministratifetablissement=Actif`;
             if(conf.max) {
-                url = url + `&rows=${conf.max}`
+                url += `&rows=${conf.max}`
+            }
+            if(conf.requestParam) {
+                url += conf.requestParam;
             }
 
             // Ajax request
@@ -413,7 +421,7 @@ const cartohoraires = (function() {
         results.forEach(record => {
             if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
                 let props = record.fields;
-                if(record.geometry && record.geometry.coordinates && props.etatadministratifetablissement === 'Actif') {
+                if(record.geometry && record.geometry.coordinates) {
                     let coord = record.geometry.coordinates.join(',');
                     let txt = getSirenText(props);
                     html.push(`

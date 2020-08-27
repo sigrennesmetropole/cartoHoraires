@@ -10,7 +10,7 @@
         "js/lib/turf.min.js",
         "js/lib/moment.js",
         "js/utils/api.js",
-        "js/utils/validators.js"
+        "js/utils/formActions.js"
     ],
     "css": [
         "css/main.css", 
@@ -33,6 +33,7 @@
         "za_layer": "eco_comm:v_za_terminee",
         "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
         "defaultSRS": "3948",
+        "homeToForm": true,
         "graph": {
             "aspectRatio": 3.2,
             "step": 15,
@@ -42,12 +43,13 @@
             "duration": 3000
         },
         "sirenConfig": {
-            "filters": ["denominationunitelegale", "adresseetablissement"],
+            "filters": ["denominationunitelegale", "adresseetablissement", "denominationusuelleetablissement"],
             "operator": "OR",
             "url": "https://data.rennesmetropole.fr/api/records/1.0/search",
             "dataset": "base-sirene-v3-ss",
             "max": 10,
-            "min": 2
+            "min": 2,
+            "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif"
         }
     }
 }

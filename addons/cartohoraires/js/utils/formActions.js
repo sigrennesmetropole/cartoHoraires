@@ -11,7 +11,7 @@
         $('#btn-valid').addClass('disabled');
         cartohoraires.resetTransportList();
         $('.clock').val('08:00');
-        $('.ch-absent').prop('checked', true);
+        $('.ch-absent').prop('checked', false);
     }
 
     /**
@@ -183,7 +183,7 @@
                 function(e) {
                     // we find data and load data
                     if(e.length && e[0]) e = e[0];
-                    if(e.success && !e.err) {
+                    if(e.success) {
                         alert('Vos informations ont été supprimées !');
                         logout();
                     } else {
