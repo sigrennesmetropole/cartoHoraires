@@ -426,7 +426,7 @@ const cartohoraires = (function() {
                     let txt = getSirenText(props);
                     html.push(`
                         <div style='overflow-x:hidden; padding-top:5px;'>
-                        <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${txt}")'>${txt}</a>
+                        <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${escape(txt)}")'>${txt}</a>
                         <input type='hidden' value='${coord}'>
                         </div>`);
                     siret.push(props.siret);
