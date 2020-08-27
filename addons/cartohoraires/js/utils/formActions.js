@@ -11,7 +11,7 @@
         $('#btn-valid').addClass('disabled');
         cartohoraires.resetTransportList();
         $('.clock').val('08:00');
-        $('.ch-absent').prop('checked', true);
+        $('.ch-absent').prop('checked', false);
     }
 
     /**
