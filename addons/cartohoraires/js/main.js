@@ -216,6 +216,11 @@ const cartohoraires = (function() {
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
         });
+        if($('#go-app-btn').length && options.homeToForm) {
+            $('#go-app-btn').click(function(e) {
+                return $("#form-modal").modal('toggle');
+            })
+        }
     }
 
     /**
