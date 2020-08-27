@@ -1,15 +1,17 @@
 (function(window){
 
-    function resetForm() {
-        $('#form-modal').modal('toggle');
-        $('#email-id').text('');
-        $('.authent').hide();
-        $('.anonymous').show();
+    function resetForm(simple) {
+        if(!simple) {
+            $('#form-modal').modal('toggle');
+            $('#email-id').text('');
+            $('.authent').hide();
+            $('.anonymous').show();
+            $('.reset').val('');
+        }
         $('#btn-valid').addClass('disabled');
-        $('.reset').val('');
         cartohoraires.resetTransportList();
         $('.clock').val('08:00');
-        $('.ch-absent').prop('checked', false);
+        $('.ch-absent').prop('checked', true);
     }
 
     function getHalf(min) {
@@ -172,7 +174,7 @@
                     // we find data and load data
                     if(e.length && e[0]) e = e[0];
                     if(e.success && !e.err) {
-                        resetForm();
+                        resetForm(false);
                         alert('Deconnexion !');
                     } else {
                         alert('Une erreur technique s\'est produite !');
@@ -181,6 +183,10 @@
                 'POST',
                 'logoutUser'
             )
+        }
+
+        _validators.restore = function(e) {
+            return resetForm(e);
         }
 
         _validators.deleteInfos = function() {

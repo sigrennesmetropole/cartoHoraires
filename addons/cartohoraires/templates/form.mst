@@ -161,6 +161,12 @@
                             {{/days}}
                             <div class="row text-right">
                                 <button 
+                                    id="btn-restore"
+                                    onclick="validators.restore(true)"
+                                    type="btn" class="btn btn-default btn-valid">
+                                    Réinitialiser
+                                </button>
+                                <button 
                                     id="btn-valid"
                                     onclick="validators.validDataToServer('email-id')"
                                     type="btn" class="btn btn-default btn-valid disabled">
