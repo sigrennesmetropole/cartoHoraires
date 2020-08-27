@@ -10,7 +10,7 @@
         "js/lib/turf.min.js",
         "js/lib/moment.js",
         "js/utils/api.js",
-        "js/utils/validators.js"
+        "js/utils/formActions.js"
     ],
     "css": [
         "css/main.css", 
