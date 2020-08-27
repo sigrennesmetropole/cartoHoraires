@@ -38,6 +38,14 @@
 }
 
 
+/** Version mobile **/
+
+@media (max-width: 480px) {
+	#help .tab-content>.active {
+		padding: 30px 40px!important;
+	}
+}
+
 /********/
 /* Help button dans navbar mviewer */
 
