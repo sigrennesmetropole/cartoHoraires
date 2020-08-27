@@ -118,16 +118,12 @@ mviewer.customLayers.etablissements = (function() {
       vectorLayer.getSource().getSource().addFeatures(result);
   }
 
-
   /**
    * Update cluster source
    */
   let setSource = function() {
       // create new source
-
-      if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val()) {
-          return
-      }
+      if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val()) return;
 
       filterDataset('jour', $('.btn-day.btn-selected').attr('day'), initialData);
       filterDataset('transport_lib', cartohoraires.getTransportValue(), vectorLayer.getSource().getSource().getFeatures());
@@ -155,7 +151,16 @@ mviewer.customLayers.etablissements = (function() {
       // hide loader and display panel
       $('.load-panel').hide();
       $(".cartohoraires-panel .row").show();
+
+      // allow to zoom to extent with layer param function directly
+      vectorLayer.zoomToExtent = function() {
+        let map = mviewer.getMap();
+        let extent = vectorLayer.getSource().getExtent();
+        map.getView().fit(extent, map.getSize());
+        map.getView().setZoom(map.getView().getZoom()-1);
+      }
       
+      vectorLayer.zoomToExtent();
   });
   return {
       layer: vectorLayer,

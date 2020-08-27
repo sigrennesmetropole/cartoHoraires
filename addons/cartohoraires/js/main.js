@@ -559,8 +559,7 @@ const cartohoraires = (function() {
             absLen = [...new Set(abs.map(e => e.individu_id))].length;
             // Display infos
             setAbsentPresent(prsLen, absLen);
-        }
-        
+        }        
     };
 
     /**
