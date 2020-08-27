@@ -598,3 +598,17 @@ p.titlePanel {
 	text-align: center;
 	margin-bottom: 10%;
 }
+
+
+/** LEGEND MAP **/
+#vector-legend-etablissements {
+    display: none;
+}
+
+.layerdisplay-legend.big-legend {
+    margin: 0;
+}
+
+#layers-container a {
+    padding-left: 10px;
+}
