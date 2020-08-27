@@ -308,8 +308,8 @@
                         alert('Vos informations n\'ont pas pu être récupérées');
                     }
                 },
-                'POST',
-                'createUser'
+                'GET',
+                'getUserInfos'
             )
         }
 
@@ -326,14 +326,16 @@
                         if(callback) return callback(e);
                         // we find data and load data
                         if(e.length && e[0]) e = e[0];
-                        if(e.success && e.exist) {
+                        if(e.success) {
                             alert('Un mot nouveau mot de passe vient de vous être envoyé par mail !');
-                        } else if(e.success && !e.exist) {
+                        } else if(!e.success && e.exception && e.exception.code == -1) {
                             alert("Votre mail n'est pas reconnu. Veuillez créer un compte !");
+                        } else {
+                            alert("Une erreur est survenue. Merci de contacter un administrateur.");
                         }
                     },
                     'POST',
-                    'createUser'
+                    'updateUserPassword'
                 )
                 if ($("#code-modal").is(':visible')) {
                     $("#code-modal").modal('toggle');
