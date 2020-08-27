@@ -14,21 +14,6 @@
         $('.ch-absent').prop('checked', true);
     }
 
-    function getHalf(min) {
-        min = parseFloat(min);
-        let def = 0;
-        if(min > 0 && min <= 15) {
-            def = 15;
-        } else if(min > 15 && min <=30) {
-            def = 30;
-        } else if(min > 30 && min <= 45) {
-            def = 45;
-        } else if(min > 45 && min < 0) {
-            def = 0
-        }
-        return `${def}`;
-    }
-
     /**
      * Ser user form info from serveur response
      * @param {Object} horaire 
