@@ -1048,6 +1048,7 @@ const cartohoraires = (function() {
          * @param {String} label as text to display into input field
          */
         select: function(e, label) {
+            label = unescape(label);
             if(autocompleteIdentifier != 'search-radio-form') {
                 if (e) displayResult(e.split(',').map(a => parseFloat(a)));
                 autocomplete.select(label);
