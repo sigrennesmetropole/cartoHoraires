@@ -35,7 +35,6 @@
                             <!--TITLE AND DETAILS ABOUT CONNEXION-->
                             <span classe="row" style="margin-bottom: 10px;">
                                 <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
-                                <h3>Connexion</h3>
                                 <span class="connect-text">
                                     Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
                                     Vous avez déjà renseigné vos horaires et vous souhaitez les modifier, 
