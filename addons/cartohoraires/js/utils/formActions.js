@@ -386,7 +386,6 @@
             });
 
             function clearSearch() {
-                console.log('clear');
                 vectorFormSource.clear();
                 $('#ch-searchfield-form .delete').hide();
                 $('#ch-searchfield-form .result').show();
