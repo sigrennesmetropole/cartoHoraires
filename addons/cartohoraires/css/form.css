@@ -430,3 +430,14 @@
 #code-modal p {
 	font-size: 14px;
 }
+
+/** MAP FORM
+*/
+
+.mapSearch {
+	width: 50%;
+	height: 100px;
+}
+.mapSearch>canvas {
+	height: 100%;
+}

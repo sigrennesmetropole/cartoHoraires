@@ -104,7 +104,10 @@
                                 <input type="radio" id="ch-sirene-form" name="search-form" value="sirene" checked>
                                 <label for="ch-sirene-form">Établissement</label>
                             </div>
-
+                        </div>
+                        <!--MAP-->
+                        <div class="col-sm-12">
+                            <div id="mapSearch" class="mapSearch" style="height:150px;"></div>
                         </div>
                         <div class="col-sm-12" style="padding:0;">
                             <h3>Vos horaires</h3>

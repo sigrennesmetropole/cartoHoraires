@@ -351,6 +351,62 @@
             }
         }
 
+        _validators.initMapForm = function () {
+            let openStreetMap = new ol.layer.Tile({
+                preload: Infinity,
+                source: new ol.source.OSM()
+            });
+            let vectorFormSource = new ol.source.Vector({
+                features: []
+            });
+              
+            let vectorFormLayer = new ol.layer.Vector({
+                source: vectorFormSource
+            });
+
+            let olMapSearch = new ol.Map({
+                layers: [openStreetMap, vectorFormLayer],
+                target: 'mapSearch',
+                view: new ol.View({
+                  center: [0, 0],
+                  zoom: 2,
+                })
+            });
+
+            let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
+
+            var iconStyle = new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    src: opt && opt.icon || null,
+                    scale: 0.9
+                }),
+            });
+            
+            // event on siren or adress search
+            document.addEventListener("localize", function(e) {
+                
+                if(!e || !e.detail || !e.detail.coord.length > 1 || 
+                    !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;
+                
+                vectorFormSource.clear();
+
+                let coord = e.detail.coord.map(a => parseFloat(a));
+                coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
+
+                let feature = new ol.Feature({
+                    geometry: new ol.geom.Point(coord),
+                    style: iconStyle
+                });
+                feature.setStyle(iconStyle);
+                vectorFormSource.addFeature(feature);
+
+                olMapSearch.getView().setCenter(coord);
+                olMapSearch.getView().setZoom(15);
+            });
+        }
         return _validators;
     }
 

@@ -49,7 +49,8 @@
             "dataset": "base-sirene-v3-ss",
             "max": 10,
             "min": 2,
-            "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif"
+            "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif",
+            "icon": "apps/cartoHoraires/img/marker-icon.png"
         }
     }
 }
