@@ -516,12 +516,19 @@ const cartohoraires = (function() {
             autocompleteForm = new Autocomplete(document.getElementById('input-autocomplete-form'), $('.autocomplete-list-form'), search, formatInputResult);
             autocompleteForm.initListeners();
             autocompleteForm.initCloseAction();
-
+            
+            // manage autocomplete behaviors for dataviz panel
+            function clearSearch() {
+                vectorSearchLayer.getSource().clear();
+                $('#ch-searchfield .delete').hide();
+                $('#ch-searchfield .result').show();
+            }
+            
             document.addEventListener("localize", function(e) {
                 if(!e || !e.detail || !e.detail.coord.length > 1 || !e.detail.coord 
                     || !e.detail.target || e.detail.target === 'search-radio-form') return;
                 
-                vectorSearchLayer.getSource().clear();
+                clearSearch();
                 let coord = e.detail.coord.map(a => parseFloat(a));
                 coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
                 
@@ -545,6 +552,11 @@ const cartohoraires = (function() {
 
                 mviewer.getMap().getView().setCenter(coord);
                 mviewer.getMap().getView().setZoom(15);
+                $('#ch-searchfield .result').hide();
+                $('#ch-searchfield .delete').show();
+            });
+            $('#ch-searchfield').click(function(e) {
+                clearSearch();
             });
         }
     }

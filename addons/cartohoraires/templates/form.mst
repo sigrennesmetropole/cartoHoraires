@@ -88,7 +88,8 @@
                                 <div class="form-group form-autocomplete-form">
                                     <div class="input-group date" coordinates="" id="ch-searchfield-form">
                                     <span class="input-group-addon search-picto">
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-search result"></i>
+                                    <i class="fas fa-times delete" style="display:none"></i>
                                     </span>
                                     <input type="text" id="input-autocomplete-form" class="form-control search-input input-search input-text reset" autocomplete="off" placeholder="Rechercher votre lieu de travail">
                                     </div>

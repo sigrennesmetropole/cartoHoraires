@@ -384,14 +384,20 @@
                     scale: 0.9
                 }),
             });
+
+            function clearSearch() {
+                console.log('clear');
+                vectorFormSource.clear();
+                $('#ch-searchfield-form .delete').hide();
+                $('#ch-searchfield-form .result').show();
+            }
             
             // event on siren or adress search
             document.addEventListener("localize", function(e) {
-                
+
                 if(!e || !e.detail || !e.detail.coord.length > 1 || 
-                    !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;
-                
-                vectorFormSource.clear();
+                    !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;                
+                clearSearch();
 
                 let coord = e.detail.coord.map(a => parseFloat(a));
                 coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
@@ -405,6 +411,11 @@
 
                 olMapSearch.getView().setCenter(coord);
                 olMapSearch.getView().setZoom(15);
+                $('#ch-searchfield-form .result').hide();
+                $('#ch-searchfield-form .delete').show();
+            });
+            $('#ch-searchfield-form').click(function(e) {
+                clearSearch();
             });
         }
         return _validators;
