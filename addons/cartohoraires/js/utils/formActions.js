@@ -41,22 +41,22 @@
     }
 
     /**
-     * Call validators lib from global public scope
+     * Call formactions lib from global public scope
      */
-    function validators(){
-        let _validators = {};
+    function formactions(){
+        let _formactions = {};
 
         /**
          * Control input string on input event
          * @param {String} inputMailId 
          */
-        _validators.validInput = function (inputMailId ) {
+        _formactions.validInput = function (inputMailId ) {
             $('#'+inputMailId).on('input', function() {
 
                 var input=$(this);
                 if(!input.prop('required')) return;
 
-                if(_validators.isMailValid(input.val())){
+                if(_formactions.isMailValid(input.val())){
                     input.removeClass('invalid').addClass("valid");
                     return true;
                 } else {
@@ -71,7 +71,7 @@
          * Control email value with a simple regExp
          * @param {String} val as email value
          */
-        _validators.isMailValid = function (val ) {
+        _formactions.isMailValid = function (val ) {
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
         }
 
@@ -81,9 +81,9 @@
          * @param {String} inputCodeId 
          * @param {Function} callback 
          */
-        _validators.validConnexionForm = function (inputMailId, inputCodeId, callback) {
+        _formactions.validConnexionForm = function (inputMailId, inputCodeId, callback) {
             // we valid email format
-            if(_validators.isMailValid($('#'+inputMailId).val())) {
+            if(_formactions.isMailValid($('#'+inputMailId).val())) {
                 // if email format is valid we request connexion with code and email params
                 callback(
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
@@ -130,7 +130,7 @@
             }
         }
 
-        _validators.duplicateDay = function(idDay) {
+        _formactions.duplicateDay = function(idDay) {
             let outClock = $('#clockpicker-out-' + idDay).val();
             let outMode = $('#transport-out-select-' + idDay).val();
             
@@ -150,7 +150,7 @@
             })
         }
 
-        _validators.logout = function() {
+        _formactions.logout = function() {
             let email = $('#email-id').text();
             if(!email) return;
             cartoHoraireApi.request(
@@ -170,11 +170,11 @@
             )
         }
 
-        _validators.restore = function(e) {
+        _formactions.restore = function(e) {
             return resetForm(e);
         }
 
-        _validators.deleteInfos = function() {
+        _formactions.deleteInfos = function() {
             let email = $('#email-id').text();
             let code = prompt("Merci de confirmer votre code d'identification:", "*****");
             if(!code || !code.length) return;
@@ -195,7 +195,7 @@
             )
         }
 
-        _validators.getDayInfos = function(idDay) {
+        _formactions.getDayInfos = function(idDay) {
             let modeOutId, modeInId;
 
             let clockIn =  $('#clockpicker-in-' + idDay);
@@ -223,7 +223,7 @@
             }
         }
 
-        _validators.validDataToServer = function(inputMailId) {
+        _formactions.validDataToServer = function(inputMailId) {
             let data = [];
             // prepare data
             let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
@@ -278,7 +278,7 @@
             )
         }
 
-        _validators.validServerToData = function(mail) {
+        _formactions.validServerToData = function(mail) {
             let data = {
                 email: mail,
             };
@@ -304,9 +304,9 @@
             )
         }
 
-        _validators.createNewPassword = function (inputMail, callback = null) {
+        _formactions.createNewPassword = function (inputMail, callback = null) {
             inputMail = $('#'+inputMail);
-            if(_validators.isMailValid($(inputMail).val())) {
+            if(_formactions.isMailValid($(inputMail).val())) {
                 $('#code-mail').removeClass('invalid');
                 // send data request
                 cartoHoraireApi.request(
@@ -342,16 +342,16 @@
          * @param {String} inputMail email input id with email value
          * @param {Function} callback to execute on request success or error
          */
-        _validators.validFirstConnexionForm = function (inputMail, callback) {
+        _formactions.validFirstConnexionForm = function (inputMail, callback) {
             inputMail = $('#'+inputMail);
-            if(_validators.isMailValid($(inputMail).val())) {
+            if(_formactions.isMailValid($(inputMail).val())) {
                 callback({
                     email:$(inputMail).val()
                 }, cartoHoraireApi.createNewPassword, 'POST', 'createUser');
             }
         }
 
-        _validators.initMapForm = function () {
+        _formactions.initMapForm = function () {
             let openStreetMap = new ol.layer.Tile({
                 preload: Infinity,
                 source: new ol.source.OSM()
@@ -417,11 +417,11 @@
                 clearSearch();
             });
         }
-        return _validators;
+        return _formactions;
     }
 
     // We need that our library is globally accesible, then we save in the window
-    if(typeof(window.validators) === 'undefined'){
-      window.validators = validators();
+    if(typeof(window.formactions) === 'undefined'){
+      window.formactions = formactions();
     }
   })(window); // We send the window variable withing our function

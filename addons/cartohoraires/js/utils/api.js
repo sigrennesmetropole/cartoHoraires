@@ -75,7 +75,7 @@
             //return;
             if(resp) resp = resp[0];
             if(!userEmail) userEmail = $('#fst-email-form').val();
-            if(resp && resp.success && resp.exist && validators.isMailValid(userEmail)) {
+            if(resp && resp.success && resp.exist && formactions.isMailValid(userEmail)) {
                 _cartoHoraireApi.request(
                     {email: userEmail},
                     function(e) {

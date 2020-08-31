@@ -15,12 +15,12 @@
                                     <br>
                                     <span class="row-fluid text-right">
                                         <button 
-                                            onclick="validators.logout()"
+                                            onclick="formactions.logout()"
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Déconnexion
                                         </button>
                                         <button 
-                                            onclick="validators.deleteInfos('email-id')"
+                                            onclick="formactions.deleteInfos('email-id')"
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
                                         </button>
@@ -52,7 +52,7 @@
                             <!--CODE FORGET-->
                             <div class="row">
                                 <button
-                                    onclick="validators.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
+                                    onclick="formactions.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
                                     type="btn" class="btn btn-default btn-connect no-border">S'identifier
                                 </button>
                                 <a href="#" class="link-code" onclick="$('#code-modal').modal('toggle')"> Code oublié ?</a>
@@ -69,7 +69,7 @@
                             <!--1st CONNEXION VALID BUTTON-->
                             <div class="row">
                                 <button
-                                    onclick="validators.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
+                                    onclick="formactions.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
                                     type="btn" 
                                     id="firstConnectBtn" 
                                     class="btn btn-default btn-connect no-border">Obtenir le code
@@ -154,7 +154,7 @@
                                 <div class="row copyBtn">
                                     <div class="col-sm-3 col-md-3" style="width: 10em;">
                                         <button type="btn" class="btn-xs btn-valid btn-copy btn btn-default" 
-                                            onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                            onclick="formactions.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
                                         </button>
                                     </div>
                                     <div class="col-sm-7 col-md-8">
@@ -166,13 +166,13 @@
                             <div class="row text-right">
                                 <button 
                                     id="btn-restore"
-                                    onclick="validators.restore(true)"
+                                    onclick="formactions.restore(true)"
                                     type="btn" class="btn btn-default btn-valid">
                                     Réinitialiser
                                 </button>
                                 <button 
                                     id="btn-valid"
-                                    onclick="validators.validDataToServer('email-id')"
+                                    onclick="formactions.validDataToServer('email-id')"
                                     type="btn" class="btn btn-default btn-valid disabled">
                                     Valider
                                 </button>

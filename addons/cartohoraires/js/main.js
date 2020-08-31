@@ -218,7 +218,7 @@ const cartohoraires = (function() {
         });
 
         $("#form-modal").one("shown.bs.modal", function () {
-            setTimeout(function(){ validators.initMapForm(); }, 50);
+            setTimeout(function(){ formactions.initMapForm(); }, 50);
 
         });
 
@@ -1030,8 +1030,8 @@ const cartohoraires = (function() {
      */
     function initFormInputs() {
             // init behaviors on input
-            validators.validInput('fst-email-form');
-            validators.validInput('email-form');
+            formactions.validInput('fst-email-form');
+            formactions.validInput('email-form');
     }
 
     /**
