@@ -218,13 +218,22 @@ const cartohoraires = (function() {
             $('#form-modal').attr('style','overflow-y: auto !important; z-index:10000;');
             $('.clockpicker-popover').attr('style','z-index:100000 !important');
         });
+        
+        $("#cartohoraires-modal").one("shown.bs.modal", function () {
+            setTimeout(function(){
+                // this fix async problem to be sur to init or refresh some elments
+                slider.refresh();
+            });
+
+        });
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
         });
 
         $("#form-modal").one("shown.bs.modal", function () {
-            setTimeout(function(){ formactions.initMapForm(); }, 50);
-
+            setTimeout(function(){
+                // this fix async problem to be sur to init or refresh some elments
+                formactions.initMapForm(); }, 50);
         });
 
         if($('#go-app-btn').length && options.homeToForm) {
