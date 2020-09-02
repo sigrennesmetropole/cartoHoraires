@@ -124,7 +124,7 @@
                                     <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" class="ch-absent">
                                     <label for="checkbox-{{id}}">Télétravail ou absence</label>
                                 </div>
-                                <div class="row">
+                                <div class="row input-selectors">
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Arrivée au lieu de travail</span>
                                         <div class="input-group clockpicker">
