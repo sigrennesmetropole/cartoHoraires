@@ -132,15 +132,15 @@
         }
 
         _formactions.duplicateDay = function(idDay) {
+            let samDim = [6,7];
             let outClock = $('#clockpicker-out-' + idDay).val();
             let outMode = $('#transport-out-select-' + idDay).val();
             
             let inClock = $('#clockpicker-in-' + idDay).val();
             let inMode = $('#transport-in-select-' + idDay).val();
-
             $('.input-day-zone').each((i, el) => {
-                let id = el.id ? el.id : 0;
-                if(parseFloat(id) != idDay) {
+                let id = el.id ? parseFloat(el.id) : 0;
+                if(id != idDay && samDim.indexOf(id)<0) {
                     // A
                     $('#clockpicker-in-' + id).val(inClock);
                     $('#transport-in-select-' + id).val(inMode);
