@@ -121,7 +121,7 @@
                             <div class="row input-day-zone" id={{id}}>
                                 <h4>{{name}}</h4>
                                 <div>
-                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" class="ch-absent" checked>
+                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" class="ch-absent">
                                     <label for="checkbox-{{id}}">Télétravail ou absence</label>
                                 </div>
                                 <div class="row">
@@ -143,7 +143,7 @@
                                     <div class="arrive col-sm-12 col-md-3">
                                         <span>Départ du lieu de travail</span>
                                         <div class="input-group clockpicker">
-                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control clock input-style" value="08:00">
+                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control clock input-style" value="18:00">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-time"></span>
                                             </span>

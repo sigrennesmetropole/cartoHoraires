@@ -76,7 +76,8 @@ const cartohoraires = (function() {
      * Request to call Mustache template from server or local path.
      */
     function initTemplates() {
-        var dayView = {
+        const specialDays = [6,7];
+        const dayView = {
             days: [
             {   id: '1',
                 name:'Lundi'
@@ -158,6 +159,10 @@ const cartohoraires = (function() {
                             align: 'left',
                             donetext: 'Valider'
                         });
+                        // unchecked weekend
+                        specialDays.forEach(e => {
+                            $('#checkbox-'+e).prop("checked", true);
+                        })
                         break;
                     case 'formBtn':
                         $(document.getElementById('iconhelp').parentNode).prepend(e.template);
