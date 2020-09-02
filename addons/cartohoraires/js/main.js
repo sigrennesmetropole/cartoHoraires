@@ -155,7 +155,7 @@ const cartohoraires = (function() {
                         $('#main').prepend(template);
                         // init clock picker
                         $('.clockpicker').clockpicker({
-                            placement: 'bottom',
+                            placement: 'top',
                             align: 'left',
                             autoclose:true
                         });
