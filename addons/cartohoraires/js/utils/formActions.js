@@ -451,7 +451,7 @@
                 vectorFormSource.addFeature(feature);
 
                 olMapSearch.getView().setCenter(coord);
-                olMapSearch.getView().setZoom(15);
+                olMapSearch.getView().setZoom(17);
                 $('#ch-searchfield-form .result').hide();
                 $('#ch-searchfield-form .delete').show();
             });
