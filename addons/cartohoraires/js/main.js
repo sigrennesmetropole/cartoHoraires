@@ -159,9 +159,13 @@ const cartohoraires = (function() {
                             align: 'left',
                             autoclose:true
                         });
+                        $('.ch-absent').change(function(e) {
+                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors input').prop("disabled", e.target.checked)
+                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors select').prop("disabled", e.target.checked)
+                        });
                         // unchecked weekend
                         specialDays.forEach(e => {
-                            $('#checkbox-'+e).prop("checked", true);
+                            $('#checkbox-'+e).click();
                         })
                         break;
                     case 'formBtn':
@@ -1036,6 +1040,7 @@ const cartohoraires = (function() {
             } else {
                 $('.btn-up').hide();
             }
+            $('.clockpicker').clockpicker('hide');
         })
     }
 
