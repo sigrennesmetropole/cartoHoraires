@@ -166,6 +166,7 @@ const cartohoraires = (function() {
                         // unchecked weekend
                         specialDays.forEach(e => {
                             $('#checkbox-'+e).click();
+                            $('#copy-'+e).closest('.copyBtn').remove();
                         })
                         break;
                     case 'formBtn':
