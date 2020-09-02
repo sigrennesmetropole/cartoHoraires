@@ -35,7 +35,6 @@
                             <!--TITLE AND DETAILS ABOUT CONNEXION-->
                             <span classe="row" style="margin-bottom: 10px;">
                                 <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
-                                <h3>Connexion</h3>
                                 <span class="connect-text">
                                     Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
                                     Vous avez déjà renseigné vos horaires et vous souhaitez les modifier, 
@@ -164,7 +163,7 @@
                                         </button>
                                     </div>
                                     <div class="col-sm-7 col-md-8">
-                                        <p>Vos informations seront copiées jusqu'au vendredi. Si vos horaires et/ou modes de déplacement varient, merci de mettre à jour les jours correspondants</p>
+                                        <p>Vos informations seront copiées du lundi au vendredi. Si vos horaires et/ ou modes de déplacement varient, merci de mettre à jour les données ci-dessous</p>
                                     </div>
                                 </div>
                             </div>

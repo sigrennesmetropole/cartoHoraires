@@ -685,5 +685,9 @@ border-bottom: 1.1em solid rgba(3, 46, 70, 0.2);
 border-left: 1.1em solid #36334F;
 }
 
+/* Suppression du bouton Poubelle */
+#btn-remove-layers {
+    display: none!important;
+}
 
 

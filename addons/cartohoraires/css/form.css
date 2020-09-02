@@ -209,7 +209,6 @@
 	padding:0px;
 	overflow: auto;
     border-radius: 3px;
-    border: 1px #353350 solid
 }
 
 #form-modal {
@@ -352,8 +351,9 @@
 	margin-bottom: 0;
 	right:15px;
 	background-color: rgba(52,50,80,0.8) !important;
-	box-shadow: 0px 1px 10px 0px rgba(220,170,20,0.8);
-	margin: 0 auto;
+	box-shadow: 0px 1px 10px 2px #555555b0;
+    margin: 0 auto;
+    border: none;
 }
 
 .btn-up.btn-lg {
@@ -428,21 +428,32 @@
 #code-modal .modal-content {
 	border-radius: 4px;
 	box-shadow: 0 5px 15px rgba(0,0,0,.8);
+	border: none;
+    padding: 20px;
 }
 
 #codePaperPlane {
 	background-color: #55B3B9;
 	color: white;
+	border: none;
 }
 
 #code-modal h2 {
 	color: var(--bleu);
+	font-family: var(--font_bold);
 }
 
 #code-modal p {
 	font-size: 14px;
+	font-family: var(--font_regular);
+    color: #777;
 }
 
+input#code-mail {
+    border: 1px #55b3b900 solid;
+    background-color: #dddddd63;
+    color: #777!important;
+}
 /** MAP FORM
 */
 
