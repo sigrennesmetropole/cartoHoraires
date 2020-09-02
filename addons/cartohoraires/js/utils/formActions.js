@@ -20,6 +20,7 @@
      */
     function setData(horaire) {
         horaire.forEach((el) => {
+            
             let id = el.id;
             modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid === i.id)[0].libelle;
 
@@ -89,10 +90,10 @@
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
                     function(e) {
                         if(e.length && e[0]) e = e[0];
-                        if(e.err) {
+                        if(e.err || !e.auth) {
                             // code or email is not valid
                             alert('Code ou email erroné !');
-                        } else {
+                        } else if(e.auth) {
                             $('.anonymous').hide();
                             $('.authent').show();
                             $('#email-id').text($('#'+inputMailId).val());
@@ -223,7 +224,7 @@
             }
         }
 
-        _formactions.validDataToServer = function(inputMailId) {
+        _formactions.dataToServer = function(inputMailId) {
             let data = [];
             // prepare data
             let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
@@ -278,7 +279,7 @@
             )
         }
 
-        _formactions.validServerToData = function(mail) {
+        _formactions.serverToForm = function(mail) {
             let data = {
                 email: mail,
             };
@@ -364,12 +365,53 @@
                 source: vectorFormSource
             });
 
+            let baselayer = {
+                attribution: `<a href="https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/home" target="_blank" >Rennes Métropole</a>`,
+                format: "image/png",
+                fromcapacity: "false",
+                id: "pvcisimplegrisb",
+                label: "Plan de ville simple gris",
+                layers: "ref_fonds:pvci_simple_gris",
+                matrixset: "EPSG:3857",
+                style: "_null",
+                thumbgallery: "apps/public/img/basemap/pvcilight.jpg",
+                title: "Rennes Metropole",
+                type: "WMTS",
+                url: "https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?",
+                visible: "true",
+                projection : mviewer.getMap().getView().getProjection()
+            }
+
+            var matrixset = baselayer.matrixset;
+            var projectionExtent = baselayer.projection.getExtent();
+            let wmtsLayer = new ol.layer.Tile({
+                opacity: 1,
+                visible:true,
+                source: new ol.source.WMTS({
+                    url:  baselayer.url,
+                    crossOrigin: 'anonymous',
+                    layer: baselayer.layers,
+                    matrixSet: matrixset,
+                    style: baselayer.style,
+                    format: baselayer.format,
+                    attributions: baselayer.attribution,
+                    projection: baselayer.projection,
+                    tileGrid: new ol.tilegrid.WMTS({
+                        origin: ol.extent.getTopLeft(projectionExtent),
+                        resolutions: utils.getWMTSTileResolutions(matrixset),
+                        matrixIds: utils.getWMTSTileMatrix(matrixset)
+                    })
+                })
+            });
+            wmtsLayer.set('name', baselayer.label);
+            wmtsLayer.set('blid', baselayer.id);
+
             let olMapSearch = new ol.Map({
-                layers: [openStreetMap, vectorFormLayer],
+                layers: [wmtsLayer, vectorFormLayer],
                 target: 'mapSearch',
                 view: new ol.View({
-                  center: [0, 0],
-                  zoom: 2,
+                  center: [-174188.8161504358, 6126632.048479025],
+                  zoom: 10.621749404814972,
                 })
             });
 
