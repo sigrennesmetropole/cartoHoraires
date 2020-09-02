@@ -157,7 +157,7 @@ const cartohoraires = (function() {
                         $('.clockpicker').clockpicker({
                             placement: 'bottom',
                             align: 'left',
-                            donetext: 'Valider'
+                            autoclose:true
                         });
                         // unchecked weekend
                         specialDays.forEach(e => {
