@@ -49,7 +49,6 @@
 }
 
 #search-radio-form {
-	padding: 10px;
 	color: #777;
 }
 
@@ -71,7 +70,20 @@
 }
 
 #ch-searchfield-form {
-    position: inherit;
+	position: inherit;
+	width: 100%;
+}
+
+.mobile-close {
+    text-shadow: none;
+    color: white;
+	opacity: 0.8;
+}
+
+.row-close {
+	margin-top: 0 !important;
+    margin-bottom: 0;
+    padding-top: 0 !important;
 }
 
 /* HORAIRES */
@@ -429,4 +441,16 @@
 
 #code-modal p {
 	font-size: 14px;
+}
+
+/** MAP FORM
+*/
+
+.mapSearch {
+	width: 100%;
+	height: 100px;
+}
+.mapSearch>canvas {
+	height: 100%;
+	width:100%
 }

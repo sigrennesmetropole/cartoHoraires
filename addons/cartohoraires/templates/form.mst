@@ -4,6 +4,9 @@
             <div class="modal-body form-modal-body">
                 <div class="row form-row">
                     <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
+                        <div class="row row-close visible-xs visible-sm">
+                            <button type="button" class="close  mobile-close" data-dismiss="modal">×</button>
+                        </div>
                         <div class="row authent" style="display:none;">
                             <div class="panel panel-default">
                                 <div class="panel-body" style="padding: 0;">
@@ -15,12 +18,12 @@
                                     <br>
                                     <span class="row-fluid text-right">
                                         <button 
-                                            onclick="validators.logout()"
+                                            onclick="formactions.logout()"
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Déconnexion
                                         </button>
                                         <button 
-                                            onclick="validators.deleteInfos('email-id')"
+                                            onclick="formactions.deleteInfos('email-id')"
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
                                         </button>
@@ -52,7 +55,7 @@
                             <!--CODE FORGET-->
                             <div class="row">
                                 <button
-                                    onclick="validators.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
+                                    onclick="formactions.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
                                     type="btn" class="btn btn-default btn-connect no-border">S'identifier
                                 </button>
                                 <a href="#" class="link-code" onclick="$('#code-modal').modal('toggle')"> Code oublié ?</a>
@@ -69,7 +72,7 @@
                             <!--1st CONNEXION VALID BUTTON-->
                             <div class="row">
                                 <button
-                                    onclick="validators.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
+                                    onclick="formactions.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
                                     type="btn" 
                                     id="firstConnectBtn" 
                                     class="btn btn-default btn-connect no-border">Obtenir le code
@@ -79,24 +82,15 @@
                     </div>
                     <!--INPUT ZONE-->
                     <div class="col-sm-12 col-md-8 no-float input-zone">
+                        <div class="col-sm-12 hidden-sm hidden-xs">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
                         <h2>Saisissez vos horaires</h2>
                         <!--INPUT DATA-->
                         <div class="col-sm-12" style="padding:0;">
                             <h3>Votre lieu de travail</h3>
-                            <!--INPUT FIELD-->
-                            <div class="col-sm-10 col-md-6 autocomplete-form" id="search-input-form">
-                                <div class="form-group form-autocomplete-form">
-                                    <div class="input-group date" coordinates="" id="ch-searchfield-form">
-                                    <span class="input-group-addon search-picto">
-                                    <i class="fas fa-search"></i>
-                                    </span>
-                                    <input type="text" id="input-autocomplete-form" class="form-control search-input input-search input-text reset" autocomplete="off" placeholder="Rechercher votre lieu de travail">
-                                    </div>
-                                </div>
-                                <div class="autocomplete-list-form autocomplete-result col-sm-12" style="display:none;"></div>
-                            </div>
                             <!--RADIO-->
-                            <div class="col-sm-10 col-md-5" id="search-radio-form">
+                            <div class="col-sm-10 col-md-3" id="search-radio-form">
                                 <!--RVA-->
                                 <input type="radio" id="ch-adresse-form" name="search-form" value="address">
                                 <label for="ch-adresse-form">Adresse</label>
@@ -104,7 +98,23 @@
                                 <input type="radio" id="ch-sirene-form" name="search-form" value="sirene" checked>
                                 <label for="ch-sirene-form">Établissement</label>
                             </div>
-
+                            <!--INPUT FIELD-->
+                            <div class="col-sm-10 col-md-12 autocomplete-form" id="search-input-form">
+                                <div class="form-group form-autocomplete-form">
+                                    <div class="input-group date col-sm-12" coordinates="" id="ch-searchfield-form">
+                                    <span class="input-group-addon search-picto">
+                                    <i class="fas fa-search result"></i>
+                                    <i class="fas fa-times delete" style="display:none"></i>
+                                    </span>
+                                    <input type="text" id="input-autocomplete-form" class="form-control search-input input-search input-text reset" autocomplete="off" placeholder="Rechercher votre lieu de travail">
+                                    </div>
+                                </div>
+                                <div class="autocomplete-list-form autocomplete-result col-sm-12" style="display:none;"></div>
+                            </div>
+                        </div>
+                        <!--MAP-->
+                        <div class="col-sm-12">
+                            <div id="mapSearch" class="mapSearch" style="height:150px;"></div>
                         </div>
                         <div class="col-sm-12" style="padding:0;">
                             <h3>Vos horaires</h3>
@@ -150,7 +160,7 @@
                                 <div class="row copyBtn">
                                     <div class="col-sm-3 col-md-3" style="width: 10em;">
                                         <button type="btn" class="btn-xs btn-valid btn-copy btn btn-default" 
-                                            onclick="validators.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                            onclick="formactions.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
                                         </button>
                                     </div>
                                     <div class="col-sm-7 col-md-8">
@@ -162,13 +172,13 @@
                             <div class="row text-right">
                                 <button 
                                     id="btn-restore"
-                                    onclick="validators.restore(true)"
+                                    onclick="formactions.restore(true)"
                                     type="btn" class="btn btn-default btn-valid">
                                     Réinitialiser
                                 </button>
                                 <button 
                                     id="btn-valid"
-                                    onclick="validators.validDataToServer('email-id')"
+                                    onclick="formactions.dataToServer('email-id')"
                                     type="btn" class="btn btn-default btn-valid disabled">
                                     Valider
                                 </button>

@@ -216,6 +216,12 @@ const cartohoraires = (function() {
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
         });
+
+        $("#form-modal").one("shown.bs.modal", function () {
+            setTimeout(function(){ formactions.initMapForm(); }, 50);
+
+        });
+
         if($('#go-app-btn').length && options.homeToForm) {
             $('#go-app-btn').click(function(e) {
                 return $("#form-modal").modal('toggle');
@@ -493,6 +499,14 @@ const cartohoraires = (function() {
             if (RVAConfigFile) {
                 initRvaConf(RVAConfigFile)
             }
+              
+            let vectorSearchLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [],
+                })
+            });
+
+            mviewer.getMap().addLayer(vectorSearchLayer);
 
             load = true;
             autocomplete = new Autocomplete(document.getElementById('input-autocomplete'), $('.autocomplete-list'), search, formatInputResult);
@@ -502,6 +516,48 @@ const cartohoraires = (function() {
             autocompleteForm = new Autocomplete(document.getElementById('input-autocomplete-form'), $('.autocomplete-list-form'), search, formatInputResult);
             autocompleteForm.initListeners();
             autocompleteForm.initCloseAction();
+            
+            // manage autocomplete behaviors for dataviz panel
+            function clearSearch() {
+                vectorSearchLayer.getSource().clear();
+                $('#ch-searchfield .delete').hide();
+                $('#ch-searchfield .result').show();
+            }
+            
+            document.addEventListener("localize", function(e) {
+                if(!e || !e.detail || !e.detail.coord.length > 1 || !e.detail.coord 
+                    || !e.detail.target || e.detail.target === 'search-radio-form') return;
+                
+                clearSearch();
+                let coord = e.detail.coord.map(a => parseFloat(a));
+                coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
+                
+                var iconStyle = new ol.style.Style({
+                    image: new ol.style.Icon({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        src: options.sirenConfig && options.sirenConfig.icon || null,
+                        scale: 0.9
+                    }),
+                });
+                
+                let feature = new ol.Feature({
+                    geometry: new ol.geom.Point(coord),
+                    style: iconStyle
+                });
+
+                feature.setStyle(iconStyle);
+                vectorSearchLayer.getSource().addFeature(feature);
+
+                mviewer.getMap().getView().setCenter(coord);
+                mviewer.getMap().getView().setZoom(15);
+                $('#ch-searchfield .result').hide();
+                $('#ch-searchfield .delete').show();
+            });
+            $('#ch-searchfield').click(function(e) {
+                clearSearch();
+            });
         }
     }
 
@@ -974,8 +1030,8 @@ const cartohoraires = (function() {
      */
     function initFormInputs() {
             // init behaviors on input
-            validators.validInput('fst-email-form');
-            validators.validInput('email-form');
+            formactions.validInput('fst-email-form');
+            formactions.validInput('email-form');
     }
 
     /**
@@ -1059,6 +1115,11 @@ const cartohoraires = (function() {
                     $('#btn-valid').removeClass('disabled');
                 }
             }
+            var event = new CustomEvent('localize', { detail: {
+                coord: e.split(','),
+                target: autocompleteIdentifier
+            }});
+            document.dispatchEvent(event);
         },
         setTransportType: function(types) {
             transportType = types;
