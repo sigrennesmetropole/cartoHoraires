@@ -14,31 +14,58 @@
         $('.ch-absent').prop('checked', false);
     }
 
+    function setAbsentDay(id, absent) {
+        $('#checkbox-'+id).prop('checked', absent);
+        $('#'+id).find('.input-selectors input').prop("disabled", absent)
+        $('#'+id).find('.input-selectors select').prop("disabled", absent)
+    }
+
     /**
      * Ser user form info from serveur response
      * @param {Object} horaire 
      */
     function setData(horaire) {
+        let shape;
         horaire.forEach((el) => {
             
-            let id = el.id;
-            modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid === i.id)[0].libelle;
+            let id = el.jour;
+            let absent = el.absent || false;
+            modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid && el.moytranspid === i.id);
+            modeVal = modeVal.length ? modeVal[0] : null;
+            modeVal = modeVal && modeVal.libelle || null;
 
             // to detect format as HH:mm:ss or HH:mm
-            if((el.horaire.split(':').length > 2)) {
+            if(el.horaire && el.horaire.split(':').length > 2) {
                 horaire = moment(el.horaire, 'HH:mm:ss').format('HH:mm');
-            } else {
+            } else if(el.horaire) {
                 horaire = moment(el.horaire, 'HH:mm').format('HH:mm');
             }
 
-            if(el.mouvement === 'A') {
+            if(el.absent || !el.mouvement || !modeVal || !el.mouvement) { // absent
+                setAbsentDay(id,true);
+                absent = true;
+            }
+            if(!absent) setAbsentDay(id, false);
+
+            if(!absent && el.mouvement === 'A') {
                 $('#clockpicker-in-' + id).val(horaire);
                 $('#transport-in-select-' + id).val(modeVal);
-            } else {
+            } else if(!absent) {
                 $('#clockpicker-out-' + id).val(horaire);
                 $('#transport-out-select-' + id).val(modeVal);
             }
+            if(el.shape && !shape) shape = el.shape;
         });
+
+        if(shape) {
+            let format = new ol.format.WKT();
+            let feature = format.readFeature(shape, {
+                dataProjection: 'EPSG:3948',
+                featureProjection: 'EPSG:3857',
+            });
+            this.formactions.clearLayer();
+            this.formactions.addFeature(feature);
+        }
     }
 
     /**
@@ -89,11 +116,14 @@
                 callback(
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
                     function(e) {
-                        if(e.length && e[0]) e = e[0];
-                        if(e.err || !e.auth) {
+                        if(e && e.length && e[0]) e = e[0];
+                        if(!e.exist) {
+                            return alert('Vous devez créer un compte avant de vous connecter !');
+                        }
+                        else if (!e.auth) {
                             // code or email is not valid
-                            alert('Code ou email erroné !');
-                        } else if(e.auth) {
+                            return alert('Connexion impossible : Code ou email erroné !');
+                        } else if(e.auth && e.exist && e.success) {
                             $('.anonymous').hide();
                             $('.authent').show();
                             $('#email-id').text($('#'+inputMailId).val());
@@ -107,17 +137,17 @@
                             cartoHoraireApi.request(
                                 {email: $('#'+inputMailId).val()},
                                 function(e) {
-                                    e = e.length && e[0] ?  e = e[0] : e;
-                                    if(!e.success) {
-                                        return alert('Vos informations n\'ont pas pu être récupérées');
+                                    e = e && e.length && e[0] ?  e = e[0] : e;
+                                    if(!e || !e.success) {
+                                        return alert('Vos informations n\'ont pas pu être récupérées !');
                                     }
                                     // we find data and load data
-                                    if(e.success && e.horaire.length) {
+                                    if(e && e.success && e.horaire.length) {
                                         // we dispatch data info wit event
                                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
                                         document.dispatchEvent(event);
                                         // use this to listen => document.addEventListener('dateChange', function (e) {});
-                                        setData(e.horaire);
+                                        return setData(e.horaire);
                                     }
                                 },
                                 'GET',
@@ -131,8 +161,10 @@
             }
         }
 
+
         _formactions.duplicateDay = function(idDay) {
             let samDim = [6,7];
+            let absent = $('#checkbox-' + idDay).is(':checked');
             let outClock = $('#clockpicker-out-' + idDay).val();
             let outMode = $('#transport-out-select-' + idDay).val();
             
@@ -141,12 +173,18 @@
             $('.input-day-zone').each((i, el) => {
                 let id = el.id ? parseFloat(el.id) : 0;
                 if(id != idDay && samDim.indexOf(id)<0) {
-                    // A
-                    $('#clockpicker-in-' + id).val(inClock);
-                    $('#transport-in-select-' + id).val(inMode);
-                    // D
-                    $('#clockpicker-out-' + id).val(outClock);
-                    $('#transport-out-select-' + id).val(outMode);
+                    if(absent) {
+                        $('#checkbox-' + id).prop('checked',true);
+                        setAbsentDay(id, true);
+                    } else {
+                        setAbsentDay(id, false);
+                        // A
+                        $('#clockpicker-in-' + id).val(inClock);
+                        $('#transport-in-select-' + id).val(inMode);
+                        // D
+                        $('#clockpicker-out-' + id).val(outClock);
+                        $('#transport-out-select-' + id).val(outMode);
+                    }
                 }
             })
         }
@@ -158,12 +196,13 @@
                 {email: email},
                 function(e) {
                     // we find data and load data
-                    if(e.length && e[0]) e = e[0];
-                    if(e.success && !e.err) {
+                    if(e && e.length && e[0]) e = e[0];
+                    if (!e) {
+                        alert('Une erreur technique s\'est produite !');
+                    }
+                    else if (e.success && !e.err) {
                         resetForm(false);
                         alert('Deconnexion !');
-                    } else {
-                        alert('Une erreur technique s\'est produite !');
                     }
                 },
                 'POST',
@@ -183,8 +222,8 @@
                 {email: email, code: code},
                 function(e) {
                     // we find data and load data
-                    if(e.length && e[0]) e = e[0];
-                    if(e.success) {
+                    if(e && e.length && e[0]) e = e[0];
+                    if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
                         logout();
                     } else {
@@ -203,16 +242,17 @@
             let clockOut = $('#clockpicker-out-' + idDay);
             let modeIn = $('#transport-in-select-' + idDay);
             let modeOut = $('#transport-out-select-' + idDay);
+            let absent = $('#checkbox-' + idDay).is(':checked');
 
             if(modeIn.length) {
                 let modeInVal = modeIn.val();
-                modeInId = cartohoraires.getTransportList().filter(i => i.libelle === modeInVal);
+                modeInId = cartohoraires.getTransportList().filter(i => i && i.libelle === modeInVal);
                 modeIn = modeInId.length ? modeInId[0].id : '';
             }
             
             if(modeOut.length) {
                 modeOutVal = modeOut.val();
-                modeOutId = cartohoraires.getTransportList().filter(i => i.libelle === modeOutVal);
+                modeOutId = cartohoraires.getTransportList().filter(i => i && i.libelle === modeOutVal);
                 modeOut = modeOutId.length ? modeOutId[0].id : '';
             }
 
@@ -220,7 +260,8 @@
                 modeInId: modeIn,
                 modeOutId: modeOut,
                 clockIn: clockIn.val(),
-                clockOut: clockOut.val()
+                clockOut: clockOut.val(),
+                absent: $('#checkbox-' + idDay).is(':checked')
             }
         }
 
@@ -237,24 +278,34 @@
 
                 let infos = this.getDayInfos(id);
 
-                data.push( {
-                    moytranspid: infos.modeInId || '',
-                    jour: id,
-                    horaire: infos.clockIn,
-                    mouvement: "A",
-                    datesaisie: moment().format('HH:mm'),
-                    caduc: false,
-                    shape: WKT
-                },
-                {
-                    moytranspid: infos.modeOutId || '',
-                    jour: id,
-                    horaire: infos.clockOut,
-                    mouvement: "D",
-                    datesaisie: moment().format('HH:mm'),
-                    caduc: false,
-                    shape: WKT
-                })
+                if(infos.absent) {
+                    data.push({
+                        absent: infos.absent,
+                        shape: WKT,
+                        caduc: false,
+                        datesaisie: moment().format('HH:mm'),
+                        jour: id
+                    })    
+                } else {
+                    data.push( {
+                        moytranspid: infos.modeInId || '',
+                        jour: id,
+                        horaire: infos.clockIn,
+                        mouvement: "A",
+                        datesaisie: moment().format('HH:mm'),
+                        caduc: false,
+                        shape: WKT
+                    },
+                    {
+                        moytranspid: infos.modeOutId || '',
+                        jour: id,
+                        horaire: infos.clockOut,
+                        mouvement: "D",
+                        datesaisie: moment().format('HH:mm'),
+                        caduc: false,
+                        shape: WKT
+                    })
+                }
             })
 
             let mail = $('#'+inputMailId).text();
@@ -265,8 +316,8 @@
             cartoHoraireApi.request(
                 params,
                 function(e) {
-                    if(e.length && e[0]) e = e[0];
-                    if(e.success && e.valid) {
+                    if(e && e.length && e[0]) e = e[0];
+                    if(e && e.success && e.valid) {
                         alert('Informatios sauvegardées !');
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
@@ -279,6 +330,10 @@
             )
         }
 
+        /**
+         * TO get info user from server and display this infos to form
+         * @param {String} mail 
+         */
         _formactions.serverToForm = function(mail) {
             let data = {
                 email: mail,
@@ -288,14 +343,14 @@
                 data,
                 function(e) {
                     // we find data and load data
-                    if(e.length && e[0]) e = e[0];
-                    if(e.success && e.horaire.length) {
+                    if(e && e.length && e[0]) e = e[0];
+                    if(e && e.success && e.horaire.length) {
                         // we dispatch data info wit event
                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
                         document.dispatchEvent(event);
                         // use this to listen => document.addEventListener('dateChange', function (e) {});
                         // prepare data
-                        setData(e.horaire);
+                        return setData(e.horaire);
                     } else {
                         alert('Vos informations n\'ont pas pu être récupérées');
                     }
@@ -317,10 +372,10 @@
                     function(e) {
                         if(callback) return callback(e);
                         // we find data and load data
-                        if(e.length && e[0]) e = e[0];
-                        if(e.success) {
+                        if(e && e.length && e[0]) e = e[0];
+                        if(e && e.success) {
                             alert('Un mot nouveau mot de passe vient de vous être envoyé par mail !');
-                        } else if(!e.success && e.exception && e.exception.code == -1) {
+                        } else if(e && !e.success && e.exception && e.exception.code == -1) {
                             alert("Votre mail n'est pas reconnu. Veuillez créer un compte !");
                         } else {
                             alert("Une erreur est survenue. Merci de contacter un administrateur.");
@@ -352,6 +407,34 @@
             }
         }
 
+        _formactions.clearLayer = function() {
+            if(_formactions.vectorLayer) {
+                _formactions.vectorLayer.getSource().clear();
+            }
+        }
+
+        _formactions.addFeature = function(feature) {
+            let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
+            var iconStyle = new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    src: opt && opt.icon || null,
+                    scale: 0.9
+                }),
+            });
+            feature.setStyle(iconStyle);
+            let src = _formactions.vectorLayer.getSource();
+            let map = _formactions.map;
+
+            if(map && src) {
+                src.addFeature(feature);
+                map.getView().setCenter(feature.getGeometry().getCoordinates());
+                map.getView().setZoom(17);
+            }
+        }
+
         _formactions.initMapForm = function () {
             let openStreetMap = new ol.layer.Tile({
                 preload: Infinity,
@@ -364,6 +447,8 @@
             let vectorFormLayer = new ol.layer.Vector({
                 source: vectorFormSource
             });
+
+            _formactions.vectorLayer = vectorFormLayer;
 
             let baselayer = {
                 attribution: `<a href="https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/home" target="_blank" >Rennes Métropole</a>`,
@@ -415,6 +500,8 @@
                 })
             });
 
+            _formactions.map = olMapSearch;
+
             let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
 
             var iconStyle = new ol.style.Style({
@@ -427,6 +514,9 @@
                 }),
             });
 
+            /**
+             * Clear last search result from map
+             */
             function clearSearch() {
                 vectorFormSource.clear();
                 $('#ch-searchfield-form .delete').hide();
@@ -447,11 +537,8 @@
                     geometry: new ol.geom.Point(coord),
                     style: iconStyle
                 });
-                feature.setStyle(iconStyle);
-                vectorFormSource.addFeature(feature);
+                _formactions.addFeature(feature);
 
-                olMapSearch.getView().setCenter(coord);
-                olMapSearch.getView().setZoom(17);
                 $('#ch-searchfield-form .result').hide();
                 $('#ch-searchfield-form .delete').show();
             });
