@@ -29,7 +29,7 @@
         horaire.forEach((el) => {
             
             let id = el.jour;
-            let absent = el.absent || false;
+            let absent = el.absence || false;
             modeVal = cartohoraires.getTransportList().filter(i => el.moytranspid && el.moytranspid === i.id);
             modeVal = modeVal.length ? modeVal[0] : null;
             modeVal = modeVal && modeVal.libelle || null;
@@ -41,7 +41,7 @@
                 horaire = moment(el.horaire, 'HH:mm').format('HH:mm');
             }
 
-            if(el.absent || !el.mouvement || !modeVal || !el.mouvement) { // absent
+            if(el.absence || !el.mouvement || !modeVal || !el.mouvement) { // absent
                 setAbsentDay(id,true);
                 absent = true;
             }
@@ -58,6 +58,7 @@
         });
 
         if(shape) {
+            $('#btn-valid').removeClass('disabled');
             let format = new ol.format.WKT();
             let feature = format.readFeature(shape, {
                 dataProjection: 'EPSG:3948',
@@ -65,6 +66,12 @@
             });
             this.formactions.clearLayer();
             this.formactions.addFeature(feature);
+
+            let coords = feature.getGeometry().getCoordinates();
+            coords = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
+            
+            $('#input-autocomplete-form').attr('coordinates', coords);
+            console.log($('#input-autocomplete-form').attr('coordinates'));
         }
     }
 
@@ -242,7 +249,7 @@
             let clockOut = $('#clockpicker-out-' + idDay);
             let modeIn = $('#transport-in-select-' + idDay);
             let modeOut = $('#transport-out-select-' + idDay);
-            let absent = $('#checkbox-' + idDay).is(':checked');
+            let absence = $('#checkbox-' + idDay).is(':checked');
 
             if(modeIn.length) {
                 let modeInVal = modeIn.val();
@@ -261,7 +268,7 @@
                 modeOutId: modeOut,
                 clockIn: clockIn.val(),
                 clockOut: clockOut.val(),
-                absent: $('#checkbox-' + idDay).is(':checked')
+                absence: $('#checkbox-' + idDay).is(':checked')
             }
         }
 
@@ -278,12 +285,10 @@
 
                 let infos = this.getDayInfos(id);
 
-                if(infos.absent) {
+                if(infos.absence) {
                     data.push({
-                        absent: infos.absent,
+                        absent: infos.absence,
                         shape: WKT,
-                        caduc: false,
-                        datesaisie: moment().format('HH:mm'),
                         jour: id
                     })    
                 } else {
@@ -292,8 +297,6 @@
                         jour: id,
                         horaire: infos.clockIn,
                         mouvement: "A",
-                        datesaisie: moment().format('HH:mm'),
-                        caduc: false,
                         shape: WKT
                     },
                     {
@@ -301,8 +304,6 @@
                         jour: id,
                         horaire: infos.clockOut,
                         mouvement: "D",
-                        datesaisie: moment().format('HH:mm'),
-                        caduc: false,
                         shape: WKT
                     })
                 }
