@@ -8,7 +8,7 @@
         let _cartoHoraireApi = {};
     
         // This variable will be inaccessible to the user, only can be visible in the scope of your library.
-        const api = 'http://testapp.sig.rennesmetropole.fr/api-horaires/public/'
+        const api = 'https://testapp.sig.rennesmetropole.fr/api-horaires/public/'
         
         const getUrlCreator = function (reqUrl, data) {
             let urlParam = [Object.keys(data).map(e => `${e}=${data[e]}`).join('&')];
