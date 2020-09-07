@@ -274,6 +274,7 @@
         }
 
         _formactions.dataToServer = function(inputMailId) {
+            if($('#btn-valid').hasClass('disabled')) return;
             let data = [];
             // prepare data
             let coords = $('#input-autocomplete-form').attr('coordinates').split(',');
