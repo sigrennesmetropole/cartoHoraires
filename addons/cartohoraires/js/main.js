@@ -212,7 +212,7 @@ const cartohoraires = (function() {
      * Display modal on mobile device only and display it only if a user clic on button
      */
     function initModalBehavior() {
-        $('.formBtn').one('click', function() {
+        $('.formBtnMobile').one('click', function() {
             $("#form-modal").modal('toggle');
         });
 
@@ -272,7 +272,7 @@ const cartohoraires = (function() {
                 
                 `   <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#legend-modal" i18n="nav.responsive.legend">Légende</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#cartohoraires-modal">Filtrer</a></li>
-                    <li class="hidden-lg hidden-md"><a href="#" class="formBtn">Je contribue</a></li>
+                    <li class="hidden-lg hidden-md"><a href="#" class="formBtnMobile">Je contribue</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#help" i18n="nav.responsive.about">A propos</a></li>
                 `
             );

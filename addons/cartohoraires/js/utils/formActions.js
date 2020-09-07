@@ -217,18 +217,20 @@
         _formactions.logout = function() {
             let email = $('#email-id').text();
             if(!email) return;
+            _formactions.clearSearch();
             cartoHoraireApi.request(
                 {email: email},
                 function(e) {
                     // we find data and load data
                     if(e && e.length && e[0]) e = e[0];
-                    if (!e) {
-                        alert('Une erreur technique s\'est produite !');
+                    if ((!e || !e.success) && e.exception) {
+                        alert(e.exception.message || 'Une erreur technique s\'est produite !');
                     }
-                    else if (e.success && !e.err) {
+                    else if (e.success) {
                         resetForm(false);
-                        alert('Deconnexion !');
-                        mviewer.customLayers.etablissements.updateLayer(false);
+                        mviewer.customLayers.etablissements.updateLayer(true, null, function() {
+                            mviewer.customLayers.etablissements.zoomToExtent();
+                        });
                     }
                 },
                 'POST',
@@ -254,12 +256,11 @@
             cartoHoraireApi.request(
                 {email: email, code: code},
                 function(e) {
-                    console.log(e);
                     // we find da,ta and load data
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
-                        _formations.logout();
+                        _formactions.logout();
                     } else {
                         alert('Vos informations n\'ont pas pu être supprimées !');
                     }
@@ -311,7 +312,7 @@
             let data = [];
             // prepare data
             let coords = $('#input-autocomplete-form').attr('coordinates').split(',');
-            let coords4326 = coords;
+            let coords4326 = coords.map(e => parseFloat(e));
             coords = ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3948');
             
             let WKT = `POINT(${coords[0]} ${coords[1]})`;
@@ -354,10 +355,8 @@
                 function(e) {
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success && e.valid) {
-                        alert('Informatios sauvegardées !');
-                        mviewer.customLayers.etablissements.updateLayer(false, function() {
-                            mviewer.zoomToLocation(coords4326[0], coords4326[1], 15, null);
-                        });
+                        alert('Informations sauvegardées !');
+                        mviewer.customLayers.etablissements.updateLayer(false);
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
@@ -458,6 +457,14 @@
             if(_formactions.vectorLayer) {
                 _formactions.vectorLayer.getSource().clear();
             }
+        }
+        /**
+         * Clear last search result from map
+        */
+        _formactions.clearSearch = function() {
+            _formactions.clearLayer();
+            $('#ch-searchfield-form .delete').hide();
+            $('#ch-searchfield-form .result').show();
         }
 
         /**
@@ -564,22 +571,13 @@
                     scale: 0.9
                 }),
             });
-
-            /**
-             * Clear last search result from map
-             */
-            function clearSearch() {
-                vectorFormSource.clear();
-                $('#ch-searchfield-form .delete').hide();
-                $('#ch-searchfield-form .result').show();
-            }
             
             // event on siren or adress search
             document.addEventListener("localize", function(e) {
 
                 if(!e || !e.detail || !e.detail.coord.length > 1 || 
                     !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;                
-                clearSearch();
+                _formactions.clearSearch();
 
                 let coords = e.detail.coord.map(a => parseFloat(a));
                 mviewer.zoomToLocation(coords[0], coords[1], 15, null);
@@ -596,7 +594,7 @@
                 $('#ch-searchfield-form .delete').show();
             });
             $('#ch-searchfield-form').click(function(e) {
-                clearSearch();
+                _formactions.clearSearch();
             });
         }
         return _formactions;
