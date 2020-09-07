@@ -68,10 +68,11 @@
             this.formactions.addFeature(feature);
 
             let coords = feature.getGeometry().getCoordinates();
-            coords = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
             
-            $('#input-autocomplete-form').attr('coordinates', coords);
-            console.log($('#input-autocomplete-form').attr('coordinates'));
+            coords = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
+            $('#input-autocomplete-form').attr('coordinates', coords);            
+            mviewer.customLayers.etablissements.updateLayer(false);
+            mviewer.zoomToLocation(coords[0], coords[1], 15, null);
         }
     }
 
@@ -275,10 +276,11 @@
         _formactions.dataToServer = function(inputMailId) {
             let data = [];
             // prepare data
-            let coord = $('#input-autocomplete-form').attr('coordinates').split(',');
-            coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3948');
+            let coords = $('#input-autocomplete-form').attr('coordinates').split(',');
+            let coords4326 = coords;
+            coords = ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3948');
             
-            let WKT = `POINT(${coord[0]} ${coord[1]})`;
+            let WKT = `POINT(${coords[0]} ${coords[1]})`;
 
             $('.input-day-zone').each((i, el) => {
                 let id = $(el).attr('id');
@@ -287,7 +289,7 @@
 
                 if(infos.absence) {
                     data.push({
-                        absent: infos.absence,
+                        absence: infos.absence,
                         shape: WKT,
                         jour: id
                     })    
@@ -320,6 +322,9 @@
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success && e.valid) {
                         alert('Informatios sauvegardées !');
+                        mviewer.customLayers.etablissements.updateLayer(false, function() {
+                            mviewer.zoomToLocation(coords4326[0], coords4326[1], 15, null);
+                        });
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
@@ -437,10 +442,7 @@
         }
 
         _formactions.initMapForm = function () {
-            let openStreetMap = new ol.layer.Tile({
-                preload: Infinity,
-                source: new ol.source.OSM()
-            });
+            if(_formactions.map) return;
             let vectorFormSource = new ol.source.Vector({
                 features: []
             });
@@ -531,14 +533,16 @@
                     !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;                
                 clearSearch();
 
-                let coord = e.detail.coord.map(a => parseFloat(a));
-                coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
+                let coords = e.detail.coord.map(a => parseFloat(a));
+                mviewer.zoomToLocation(coords[0], coords[1], 15, null);
+                coords = ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3857');
 
                 let feature = new ol.Feature({
-                    geometry: new ol.geom.Point(coord),
+                    geometry: new ol.geom.Point(coords),
                     style: iconStyle
                 });
                 _formactions.addFeature(feature);
+                
 
                 $('#ch-searchfield-form .result').hide();
                 $('#ch-searchfield-form .delete').show();
