@@ -16,16 +16,16 @@ class Slider {
         this.target = target || null;
         this.callback = callback;
         $('#' + target).slider({
-            min: 0,
-            max: 1425,
+            min: 240,
+            max: 1200,
             step: 15,
             value: 480,
             formatter: (e) => {
                 return this.timeConvert(e)
             },
-            ticks: [0, 240, 480, 720, 960, 1200, 1440],
-            ticks_labels: ["0h", "4h", "8h", "12h", "16h", "20h", "24h"],
-            data_slider_ticks_snap_bounds:"50"
+            ticks: [240, 480, 720, 960, 1200],
+            ticks_labels: ["4h", "8h", "12h", "16h", "20h"],
+            data_slider_ticks_snap_bounds:"60"
         });
 
         // With JQuery
