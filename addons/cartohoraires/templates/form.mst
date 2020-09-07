@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             {{/days}}
-                            <div class="row text-right">
+                            <div class="row btn-form-actions text-right">
                                 <button 
                                     id="btn-restore"
                                     onclick="formactions.restore(true)"
@@ -178,9 +178,7 @@
                                 <button 
                                     id="btn-valid"
                                     onclick="formactions.dataToServer('email-id')"
-                                    type="btn" class="btn btn-default btn-valid disabled">
-                                    Valider
-                                </button>
+                                    type="btn" class="btn btn-default btn-valid disabled">Valider</button>
                             </div>
                         </div>
                     </div>

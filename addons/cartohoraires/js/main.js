@@ -212,30 +212,38 @@ const cartohoraires = (function() {
      * Display modal on mobile device only and display it only if a user clic on button
      */
     function initModalBehavior() {
+        $('.formBtn').one('click', function() {
+            $("#form-modal").modal('toggle');
+        });
+
         $('#mobilebtn-el').on('click', function() {
             $("#cartohoraires-modal").modal('toggle');
             if($('.form-row').length) {
                 $('.form-row').removeClass('form-row'); // force mobile display;
             }
+
+            // Fix z-index and force display on top
             $('#form-modal').css('overflow','auto !important');
             $('#form-modal').attr('style','overflow-y: auto !important; z-index:10000;');
             $('.clockpicker-popover').attr('style','z-index:100000 !important');
         });
         
+        // this fix async problem to be sur to init or refresh some elments
         $("#cartohoraires-modal").one("shown.bs.modal", function () {
             setTimeout(function(){
-                // this fix async problem to be sur to init or refresh some elments
                 slider.refresh();
             });
 
         });
+
+        // this fix async problem to be sur to init or refresh some elments
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
         });
 
+        // this fix async problem to be sur to init or refresh some elments
         $("#form-modal").one("shown.bs.modal", function () {
             setTimeout(function(){
-                // this fix async problem to be sur to init or refresh some elments
                 formactions.initMapForm(); }, 50);
         });
 
@@ -258,6 +266,16 @@ const cartohoraires = (function() {
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('#toolstoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('.cartohoraires-panel').attr('style', `width: ${options.templateWidth}% !important`);
+        } else {
+            $('.nav.navbar-nav.mv-nav').empty();
+            $('.nav.navbar-nav.mv-nav').prepend(
+                
+                `   <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#legend-modal" i18n="nav.responsive.legend">Légende</a></li>
+                    <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#cartohoraires-modal">Filtrer</a></li>
+                    <li class="hidden-lg hidden-md"><a href="#" class="formBtn">Je contribue</a></li>
+                    <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#help" i18n="nav.responsive.about">A propos</a></li>
+                `
+            );
         }
     }
 

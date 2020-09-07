@@ -479,6 +479,10 @@ i.emptyGraph {
 	padding: 0!important;
 }
 
+.glyphicon-menu-hamburger {
+	color: white;
+}
+
 /**/
 
 .input-info {
@@ -547,7 +551,7 @@ i.emptyGraph {
 
 /* HIDE NATIV MVIEWER UI*/
 
-#searchtool, .navbar-form, .navbar-brand.menu-toggle, #sidebar-wrapper, #backgroundlayersbtn, .ol-attribution, .navbar-toggle{
+#searchtool, .navbar-form, .navbar-brand.menu-toggle, #sidebar-wrapper, #backgroundlayersbtn, .ol-attribution {
 	display:none !important;
 }
 #map {
