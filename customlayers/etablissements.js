@@ -14,7 +14,7 @@ mviewer.customLayers.etablissements = (function() {
    * @param {Number} radius 
    * @param {String} color 
    */
-  function manyStyle(radius, color) {
+  function manyStyle(radius, color, size) {
       return [
           new ol.style.Style({
               image: new ol.style.Circle({
@@ -26,7 +26,13 @@ mviewer.customLayers.etablissements = (function() {
                       width: 1.8,
                       color: 'white'
                   })
-              })
+              }),
+              text: new ol.style.Text({
+                text: size.toString(),
+                    fill: new ol.style.Fill({
+                    color: '#fff',
+                }),
+              }),
           })
       ];
   };
@@ -38,7 +44,7 @@ mviewer.customLayers.etablissements = (function() {
   function pointStyle(color) {
       let style = new ol.style.Style({
           image: new ol.style.Circle({
-              radius: 5,
+              radius: 4,
               fill: new ol.style.Fill({
                   color: color
               }),
@@ -60,11 +66,11 @@ mviewer.customLayers.etablissements = (function() {
       let max_radius = 25;
       let max_value = 500;
       let radius = 10 + Math.sqrt(size) * (max_radius / Math.sqrt(max_value));
-      radius = radius * 0.4;
+      radius = radius * 0.7;
       let color = '#53B3B8';
 
       if (size > 1) {
-          return manyStyle(radius, color);
+          return manyStyle(radius, color, size);
       } else {
           return pointStyle(color);
       }
@@ -95,7 +101,7 @@ mviewer.customLayers.etablissements = (function() {
 
   let vectorLayer = new ol.layer.Vector({
       source: new ol.source.Cluster({
-          distance: 0,
+          distance: 10,
           source: vectorSource
       }),
       style: clusterStyle,
