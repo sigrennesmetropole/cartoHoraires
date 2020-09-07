@@ -211,6 +211,7 @@
                     else if (e.success && !e.err) {
                         resetForm(false);
                         alert('Deconnexion !');
+                        mviewer.customLayers.etablissements.updateLayer(false);
                     }
                 },
                 'POST',
@@ -229,7 +230,8 @@
             cartoHoraireApi.request(
                 {email: email, code: code},
                 function(e) {
-                    // we find data and load data
+                    console.log(e);
+                    // we find da,ta and load data
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
