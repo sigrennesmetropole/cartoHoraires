@@ -24,8 +24,8 @@ class Slider {
                 return this.timeConvert(e)
             },
             ticks: [240, 480, 720, 960, 1200],
-            ticks_labels: ["4h", "8h", "12h", "16h", "20h"],
-            data_slider_ticks_snap_bounds:"60"
+            ticks_labels: ['4h', '8h', '12h', '16h', '20h'],
+            ticks_snap_bounds: '1'
         });
 
         // With JQuery
