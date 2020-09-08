@@ -1,5 +1,9 @@
 (function(window){
 
+    /**
+     * To restore completely or simply the form
+     * @param {boolean} simple 
+     */
     function resetForm(simple) {
         if(!simple) {
             $('#form-modal').modal('toggle');
@@ -14,10 +18,16 @@
         $('.ch-absent').prop('checked', false);
     }
 
+    /**
+     * Define UI states according to absent checkbox state
+     * @param {String} id 
+     * @param {boolean} absent 
+     */
     function setAbsentDay(id, absent) {
         $('#checkbox-'+id).prop('checked', absent);
-        $('#'+id).find('.input-selectors input').prop("disabled", absent)
-        $('#'+id).find('.input-selectors select').prop("disabled", absent)
+        $('#'+id).find('.input-selectors input').prop("disabled", absent);
+        $('#'+id).find('.input-selectors select').prop("disabled", absent);
+        $('#'+id).find('.input-group-addon').css("pointer-events", absent ? 'none' : 'auto');
     }
 
     /**
@@ -170,6 +180,10 @@
         }
 
 
+        /**
+         * To copy a day onto others except for Weekend days
+         * @param {String} idDay 
+         */
         _formactions.duplicateDay = function(idDay) {
             let samDim = [6,7];
             let absent = $('#checkbox-' + idDay).is(':checked');
@@ -197,6 +211,9 @@
             })
         }
 
+        /**
+         * Logout
+         */
         _formactions.logout = function() {
             let email = $('#email-id').text();
             if(!email) return;
@@ -219,10 +236,17 @@
             )
         }
 
+        /**
+         * Trigger restore form UI
+         * @param {boolean} e 
+         */
         _formactions.restore = function(e) {
             return resetForm(e);
         }
 
+        /**
+         * Delete infos and user
+         */
         _formactions.deleteInfos = function() {
             let email = $('#email-id').text();
             let code = prompt("Merci de confirmer votre code d'identification:", "*****");
@@ -245,6 +269,10 @@
             )
         }
 
+        /**
+         * To get day infos about absent, clock and transport
+         * @param {String} idDay 
+         */
         _formactions.getDayInfos = function(idDay) {
             let modeOutId, modeInId;
 
@@ -252,7 +280,6 @@
             let clockOut = $('#clockpicker-out-' + idDay);
             let modeIn = $('#transport-in-select-' + idDay);
             let modeOut = $('#transport-out-select-' + idDay);
-            let absence = $('#checkbox-' + idDay).is(':checked');
 
             if(modeIn.length) {
                 let modeInVal = modeIn.val();
@@ -275,6 +302,10 @@
             }
         }
 
+        /**
+         * Send and save data to server
+         * @param {*} inputMailId 
+         */
         _formactions.dataToServer = function(inputMailId) {
             if($('#btn-valid').hasClass('disabled')) return;
             let data = [];
@@ -316,7 +347,6 @@
 
             let mail = $('#'+inputMailId).text();
             let params = `email=${mail}&data=${JSON.stringify(data)}`;
-            
 
             // send data request
             cartoHoraireApi.request(
@@ -369,6 +399,11 @@
             )
         }
 
+        /**
+         * Create or ask new password if account already exists
+         * @param {String} inputMail 
+         * @param {Function} callback 
+         */
         _formactions.createNewPassword = function (inputMail, callback = null) {
             inputMail = $('#'+inputMail);
             if(_formactions.isMailValid($(inputMail).val())) {
@@ -416,12 +451,19 @@
             }
         }
 
+        /**
+         * Clear all layer's features
+         */
         _formactions.clearLayer = function() {
             if(_formactions.vectorLayer) {
                 _formactions.vectorLayer.getSource().clear();
             }
         }
 
+        /**
+         * Insert new feautre to minimap layer
+         * @param {ol.Feature} feature 
+         */
         _formactions.addFeature = function(feature) {
             let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
             var iconStyle = new ol.style.Style({
@@ -444,6 +486,9 @@
             }
         }
 
+        /**
+         * Init form mini map
+         */
         _formactions.initMapForm = function () {
             if(_formactions.map) return;
             let vectorFormSource = new ol.source.Vector({

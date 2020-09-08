@@ -21,9 +21,6 @@ const cartohoraires = (function() {
 
     let slider;
     let graph;
-    /**
-     * PRIVATE
-     */
 
     /**
      * Default style to highlight ZAC on center hover
@@ -160,8 +157,9 @@ const cartohoraires = (function() {
                             autoclose:true
                         });
                         $('.ch-absent').change(function(e) {
-                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors input').prop("disabled", e.target.checked)
-                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors select').prop("disabled", e.target.checked)
+                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors input').prop("disabled", e.target.checked);
+                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors select').prop("disabled", e.target.checked);
+                            $(e.target).parents().closest('.input-day-zone').find('.input-group-addon').css("pointer-events", e.target.checked ? 'none' : 'auto');
                         });
                         // unchecked weekend
                         specialDays.forEach(e => {
@@ -1141,21 +1139,28 @@ const cartohoraires = (function() {
             }});
             document.dispatchEvent(event);
         },
+        /**
+         * Set transport types
+         * @param {Object} types 
+         */
         setTransportType: function(types) {
             transportType = types;
         },
+        /**
+         * Get transport types
+         */
         getTransportValue: function() {
             return $("#modal-select option:selected").val();
         },
-        getDateValue: function() {
-            return $('.btn-day.btn-selected').attr('dayName');
-        },
-        getSlider: function() {
-            return slider;
-        },
+        /**
+         * Get all transport types
+         */
         getTransportList: function() {
             return transports
         },
+        /**
+         * Restore transport list UI
+         */
         resetTransportList : function() {return initTransportList(true)}
     };
 })();
