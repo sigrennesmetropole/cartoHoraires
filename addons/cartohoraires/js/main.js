@@ -636,15 +636,6 @@ const cartohoraires = (function() {
     };
 
     /**
-     * Transform coordinates Array to WKT
-     * @param {Array} coord 
-     * @param {String} Type as POLYGON, POINT or other available openLayers Geom Type
-     */
-    function coordinatesToWKT(coord, type) {
-        return `${type}((${coord.map(e => `${e[0]} ${e[1]}`).join(',')}))`;
-    };
-
-    /**
      * From Map center, we retrieve geoserver feature by intersection method
      * @param {Array} center 
      */
