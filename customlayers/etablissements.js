@@ -62,18 +62,18 @@ mviewer.customLayers.etablissements = (function() {
    * @param {ol.Feature} feature
    */
   function clusterStyle(feature) {
-      let size = feature.get('features').length;
-      let max_radius = 25;
-      let max_value = 500;
-      let radius = 10 + Math.sqrt(size) * (max_radius / Math.sqrt(max_value));
-      radius = radius * 0.7;
-      let color = '#53B3B8';
+        let size = feature.get('features').length;
+        let max_radius = 25;
+        let max_value = 500;
+        let radius = 10 + Math.sqrt(size) * (max_radius / Math.sqrt(max_value));
+        radius = radius * 0.7;
+        let color = '#53B3B8';
 
-      if (size > 1) {
-          return manyStyle(radius, color, size);
-      } else {
-          return pointStyle(color);
-      }
+        if (size > 1) {
+            return manyStyle(radius, color, size);
+        } else {
+            return pointStyle(color);
+        }
   }
 
   /**
@@ -109,6 +109,18 @@ mviewer.customLayers.etablissements = (function() {
   });
 
   /**
+   * Round a time according to step value. 
+   * Ex : 08:10 ==> 08:00
+   * @param {String} time 
+   * @param {Integer} step
+   */
+  function roundTime(time, step) {
+    let start = moment(time,'HH:mm'); 
+    let remainder = start.minute() % step;
+    return moment(start).subtract(remainder, "minutes").format("HH:mm");
+  }
+
+  /**
    * We search field vaule in a feature dataset
    * @param {String} field to filter
    * @param {String} value to search
@@ -116,12 +128,17 @@ mviewer.customLayers.etablissements = (function() {
    */
   function filterDataset(field, value, dataSet) {
       if (!value) return;
-      // filter from initialData set with simle condition
-      let filter = dataSet.filter(e => e.getProperties()[field] == value);
+      // filter from initialData set with simple conditions
+      let filter;
+      if(field === 'horaire') {
+        filter = dataSet.filter(e => roundTime(e.getProperties()[field],15) == value);
+      } else {
+        filter = dataSet.filter(e => e.getProperties()[field] == value);
+      }
       result = filter.map(e => e.getProperties().id);
       result = initialData.filter(e => result.indexOf(e.getProperties().id) > -1);
       vectorLayer.getSource().getSource().clear();
-      vectorLayer.getSource().getSource().addFeatures(result);
+      vectorLayer.getSource().getSource().addFeatures(result);    
   }
 
   /**
