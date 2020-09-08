@@ -10,11 +10,6 @@
         // This variable will be inaccessible to the user, only can be visible in the scope of your library.
         const api = 'https://testapp.sig.rennesmetropole.fr/api-horaires/public/'
         
-        const getUrlCreator = function (reqUrl, data) {
-            let urlParam = [Object.keys(data).map(e => `${e}=${data[e]}`).join('&')];
-            return [reqUrl].concat(urlParam).join('/');
-        }
-        
         const url = {
             getMoyenTransports: api + 'getMoyenTransports',
             logoutUser: api + 'logoutUser',
@@ -32,7 +27,6 @@
             getAbsenceType: api + 'getTypesAbsences'
         };
         
-
         /**
          * Query API
          * @param {Object*} data as query params object
