@@ -21,6 +21,7 @@ const cartohoraires = (function() {
     let autocomplete;
     let autocompleteForm;
     let autocompleteIdentifier = null;
+    let selectSingleClick;
 
     let rvaConf;
 
@@ -646,10 +647,10 @@ const cartohoraires = (function() {
      * @param {String} wkt as geom string
      * @param {Array} coordinates 
      */
-    function getDataByGeom(type, coordinates) {
+    function getDataByGeom(type, coordinates, isGeom = false) {
         // use turf.js
-        var data = mviewer.customLayers.etablissements.getReceiptData();
-        let polygon = turf.polygon([coordinates]);
+        var data = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
+        let polygon = turf.polygon(isGeom ? coordinates : [coordinates]);
         let containsData = [];
         if (data.length) {
             data.forEach(e => {
@@ -747,6 +748,7 @@ const cartohoraires = (function() {
             let bboxFeature = new ol.format.GeoJSON().readFeatures(turfPolygon);
             let bboxCoord = bboxFeature[0].getGeometry().getCoordinates()[0]
             getDataByGeom('extent', bboxCoord);
+            console.log(bboxCoord);
         }
     }
 
@@ -758,6 +760,10 @@ const cartohoraires = (function() {
     function moveBehavior() {
         cleanInfos();
         if ($('#switch').is(':checked')) {
+            console.log('zac');
+            if(selectSingleClick.getFeatures().getLength()) {
+                getDataByGeom('extent', selectSingleClick.getFeatures().getArray()[0].getGeometry().getCoordinates()[0], true);
+            }
             getZacByPoint(mviewer.getMap().getView().getCenter());
         } else {
             getDataByExtent();
@@ -770,6 +776,26 @@ const cartohoraires = (function() {
         mviewer.getMap().on('moveend', function() {
             setInfosPanel(true);
         });
+
+        // select interaction working on "singleclick"
+        selectSingleClick = new ol.interaction.Select({
+            condition: ol.events.condition.singleClick,
+            style: function(feature) {
+                return zacHighlightStyle;
+            },
+            layers: function (layer) { // to apply select only onto zac layer
+                return layer.get('id') === 'zac';
+            }/*,
+            filter: function(f,l) { // do on select
+                console.log(f);
+            }*/
+        });
+        mviewer.getMap().addInteraction(selectSingleClick);
+        mviewer.select = selectSingleClick;
+        selectSingleClick.on('select', function(e) {
+            console.log(e);
+            setInfosPanel(true);
+        })
     }
 
     /**
@@ -827,6 +853,7 @@ const cartohoraires = (function() {
             style: function(feature) {
                 return zacBaseStyle;
             },
+            id:'zac',
             visible: false,
             zIndex: 0
         });
@@ -835,7 +862,8 @@ const cartohoraires = (function() {
         if (!zacLayer) {
             zacLayer = new ol.layer.Vector({
                 source: new ol.source.Vector({
-                    format: new ol.format.GeoJSON()
+                    format: new ol.format.GeoJSON(),
+                    id: 'zac-src'
                 }),
                 style: function(feature) {
                     return zacHighlightStyle;
@@ -1032,7 +1060,7 @@ const cartohoraires = (function() {
             return
         }
             
-        // il all filters are selected we update map layer and create or restart chart
+        // if all filters are selected we update map layer and create or restart chart
         var layer = mviewer.customLayers.etablissements;
         layer.setSource();
         if(!reloadGraph) return;
