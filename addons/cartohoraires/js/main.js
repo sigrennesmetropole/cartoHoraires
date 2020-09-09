@@ -272,7 +272,7 @@ const cartohoraires = (function() {
                 
                 `   <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#legend-modal" i18n="nav.responsive.legend">Légende</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#cartohoraires-modal">Affiner</a></li>
-                    <li class="hidden-lg hidden-md"><a href="#" class="formBtnMobile">Je contribue</a></li>
+                    <li class="hidden-lg hidden-md"><a href="#" class="formBtnMobile">Contribuer</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#help" i18n="nav.responsive.about">Accueil</a></li>
                 `
             );
