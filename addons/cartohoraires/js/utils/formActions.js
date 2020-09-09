@@ -259,7 +259,7 @@
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
-                        logout();
+                        _formations.logout();
                     } else {
                         alert('Vos informations n\'ont pas pu être supprimées !');
                     }
