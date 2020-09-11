@@ -238,12 +238,14 @@ const cartohoraires = (function() {
             setTimeout(function(){
                 slider.refresh();
             });
-
         });
 
         // this fix async problem to be sur to init or refresh some elments
         $("#form-modal").on("hidden.bs.modal", function () {
             $('#btn-up').fadeOut(300);
+            if($("#cartohoraires-modal").is(':visible')) {
+                $("#cartohoraires-modal").modal('toggle');
+            }
         });
 
         // this fix async problem to be sur to init or refresh some elments
