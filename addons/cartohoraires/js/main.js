@@ -157,9 +157,14 @@ const cartohoraires = (function() {
                             autoclose:true
                         });
                         $('.ch-absent').change(function(e) {
-                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors input').prop("disabled", e.target.checked);
-                            $(e.target).parents().closest('.input-day-zone').find('.input-selectors select').prop("disabled", e.target.checked);
-                            $(e.target).parents().closest('.input-day-zone').find('.input-group-addon').css("pointer-events", e.target.checked ? 'none' : 'auto');
+                            let parentDayZone = $(e.target).parents().closest('.input-day-zone');
+                            parentDayZone.find('.input-selectors input').prop("disabled", e.target.checked);
+                            parentDayZone.find('.input-selectors select').prop("disabled", e.target.checked);
+                            parentDayZone.find('.input-group-addon').css("pointer-events", e.target.checked ? 'none' : 'auto');
+                            if(e.target.checked) {
+                                parentDayZone.find('input[id^=clockpicker-]').val('08:00');
+                                formactions.validClockpicker();
+                            }
                         });
                         // unchecked weekend
                         specialDays.forEach(e => {
@@ -269,7 +274,7 @@ const cartohoraires = (function() {
         } else {
             $('.nav.navbar-nav.mv-nav').empty();
             $('.nav.navbar-nav.mv-nav').prepend(
-                
+
                 `   <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#legend-modal" i18n="nav.responsive.legend">Légende</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" data-toggle="modal" data-target="#cartohoraires-modal">Affiner</a></li>
                     <li class="hidden-lg hidden-md"><a href="#" class="formBtnMobile">Contribuer</a></li>
@@ -1059,6 +1064,7 @@ const cartohoraires = (function() {
             // init behaviors on input
             formactions.validInput('fst-email-form');
             formactions.validInput('email-form');
+            formactions.validClockpickerBehavior();
     }
 
     /**
@@ -1141,6 +1147,7 @@ const cartohoraires = (function() {
                 if($('.authent').is(':visible')) {
                     $('#btn-valid').removeClass('disabled');
                 }
+                formactions.validClockpicker();
             }
             var event = new CustomEvent('localize', { detail: {
                 coord: e.split(','),

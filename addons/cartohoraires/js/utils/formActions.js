@@ -68,7 +68,6 @@
         });
 
         if(shape) {
-            $('#btn-valid').removeClass('disabled');
             let format = new ol.format.WKT();
             let feature = format.readFeature(shape, {
                 dataProjection: 'EPSG:3948',
@@ -92,6 +91,54 @@
     function formactions(){
         let _formactions = {};
 
+        _formactions.validSendBtn = function() {
+            // control clock picker
+            
+            let clock = $('.clockpicker').find('input').map((idx, elem) =>  {
+                return $(elem).val();
+            }).get();
+            
+            if(clock.filter(value => !value).length) {
+                return $('#btn-valid').addClass('disabled'); 
+            }
+
+            // shape
+            if(_formactions && _formactions.vectorLayer && !_formactions.vectorLayer.getSource().getFeatures().length) return $('#btn-valid').addClass('disabled');
+            // connection
+            if(!$('#email-id').text()) return $('#btn-valid').addClass('disabled');
+
+            $('#btn-valid').removeClass('disabled');
+        }
+
+        _formactions.validClockpickerBehavior = function() {
+            $('.clockpicker').find('input').change(function(e) {
+                _formactions.setClockPickerStatus(e);
+                _formactions.validSendBtn();
+            })
+        }
+
+        _formactions.setClockPickerStatus = function(e) {
+            let val = '';
+            if(!e) return;
+            if(e && e.target) {
+                val = e.target.value
+                e = e.target;
+            } else {
+                val = $(e).val();
+            }
+            if(!val) {
+                $(e).addClass("invalid");
+            } else {
+                $(e).removeClass("invalid");
+            }
+        }
+
+        _formactions.validClockpicker = function(e) {
+            $('.clockpicker').find('input').each(function(i,e) {
+                _formactions.setClockPickerStatus(e);
+            })
+            _formactions.validSendBtn();
+        }
         /**
          * Control input string on input event
          * @param {String} inputMailId 
@@ -145,11 +192,7 @@
                             $('.anonymous').hide();
                             $('.authent').show();
                             $('#email-id').text($('#'+inputMailId).val());
-                            
-                            // enable valid button if user have selected location to
-                            if($('#input-autocomplete-form').attr('coordinates')) {
-                                $('#btn-valid').removeClass('disabled');
-                            }
+                            _formactions.validSendBtn();
 
                             // user code exist and match we will request user's infos
                             cartoHoraireApi.request(
@@ -165,7 +208,9 @@
                                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
                                         document.dispatchEvent(event);
                                         // use this to listen => document.addEventListener('dateChange', function (e) {});
-                                        return setData(e.horaire);
+                                        setData(e.horaire);
+                                        _formactions.validSendBtn();
+                                        _formactions.validClockpicker();
                                     }
                                 },
                                 'GET',
@@ -227,11 +272,12 @@
                         alert(e.exception.message || 'Une erreur technique s\'est produite !');
                     }
                     else if (e.success) {
-                        resetForm(false);
+                        _formactions.restore(false);
                         mviewer.customLayers.etablissements.updateLayer(true, null, function() {
                             mviewer.customLayers.etablissements.zoomToExtent();
                         });
                     }
+                    _formactions.validSendBtn();
                 },
                 'POST',
                 'logoutUser'
@@ -243,6 +289,7 @@
          * @param {boolean} e 
          */
         _formactions.restore = function(e) {
+            _formactions.validSendBtn();
             return resetForm(e);
         }
 
@@ -312,7 +359,6 @@
             let data = [];
             // prepare data
             let coords = $('#input-autocomplete-form').attr('coordinates').split(',');
-            let coords4326 = coords.map(e => parseFloat(e));
             coords = ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3948');
             
             let WKT = `POINT(${coords[0]} ${coords[1]})`;
@@ -357,6 +403,7 @@
                     if(e && e.success && e.valid) {
                         alert('Informations sauvegardées !');
                         mviewer.customLayers.etablissements.updateLayer(false);
+                        _formactions.logout();
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
@@ -388,7 +435,9 @@
                         document.dispatchEvent(event);
                         // use this to listen => document.addEventListener('dateChange', function (e) {});
                         // prepare data
-                        return setData(e.horaire);
+                        setData(e.horaire);
+                        _formactions.validSendBtn();
+                        _formactions.validClockpicker();
                     } else {
                         alert('Vos informations n\'ont pas pu être récupérées');
                     }
@@ -595,7 +644,10 @@
             });
             $('#ch-searchfield-form').click(function(e) {
                 _formactions.clearSearch();
+                _formactions.validSendBtn();
             });
+            // valid
+            _formactions.validSendBtn();
         }
         return _formactions;
     }
