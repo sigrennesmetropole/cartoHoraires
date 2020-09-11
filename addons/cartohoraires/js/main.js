@@ -227,6 +227,10 @@ const cartohoraires = (function() {
                 $('.form-row').removeClass('form-row'); // force mobile display;
             }
 
+            $('#btn-form-actions').removeClass('text-right');
+            $('#btn-form-actions').addClass('text-center');
+            $('#btn-form-actions').css('margin-bottom', '25%');
+
             // Fix z-index and force display on top
             $('#form-modal').css('overflow','auto !important');
             $('#form-modal').attr('style','overflow-y: auto !important; z-index:10000;');

@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             {{/days}}
-                            <div class="row btn-form-actions text-center">
+                            <div id="btn-form-actions" class="row btn-form-actions text-right">
                                 <button 
                                     id="btn-restore"
                                     onclick="formactions.restore(true)"
