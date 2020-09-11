@@ -68,7 +68,6 @@
         });
 
         if(shape) {
-            $('#btn-valid').removeClass('disabled');
             let format = new ol.format.WKT();
             let feature = format.readFeature(shape, {
                 dataProjection: 'EPSG:3948',
@@ -92,6 +91,54 @@
     function formactions(){
         let _formactions = {};
 
+        _formactions.validSendBtn = function() {
+            // control clock picker
+            
+            let clock = $('.clockpicker').find('input').map((idx, elem) =>  {
+                return $(elem).val();
+            }).get();
+            
+            if(clock.filter(value => !value).length) {
+                return $('#btn-valid').addClass('disabled'); 
+            }
+
+            // shape
+            if(_formactions && _formactions.vectorLayer && !_formactions.vectorLayer.getSource().getFeatures().length) return $('#btn-valid').addClass('disabled');
+            // connection
+            if(!$('#email-id').text()) return $('#btn-valid').addClass('disabled');
+
+            $('#btn-valid').removeClass('disabled');
+        }
+
+        _formactions.validClockpickerBehavior = function() {
+            $('.clockpicker').find('input').change(function(e) {
+                _formactions.setClockPickerStatus(e);
+                _formactions.validSendBtn();
+            })
+        }
+
+        _formactions.setClockPickerStatus = function(e) {
+            let val = '';
+            if(!e) return;
+            if(e && e.target) {
+                val = e.target.value
+                e = e.target;
+            } else {
+                val = $(e).val();
+            }
+            if(!val) {
+                $(e).addClass("invalid");
+            } else {
+                $(e).removeClass("invalid");
+            }
+        }
+
+        _formactions.validClockpicker = function(e) {
+            $('.clockpicker').find('input').each(function(i,e) {
+                _formactions.setClockPickerStatus(e);
+            })
+            _formactions.validSendBtn();
+        }
         /**
          * Control input string on input event
          * @param {String} inputMailId 
@@ -145,11 +192,7 @@
                             $('.anonymous').hide();
                             $('.authent').show();
                             $('#email-id').text($('#'+inputMailId).val());
-                            
-                            // enable valid button if user have selected location to
-                            if($('#input-autocomplete-form').attr('coordinates')) {
-                                $('#btn-valid').removeClass('disabled');
-                            }
+                            _formactions.validSendBtn();
 
                             // user code exist and match we will request user's infos
                             cartoHoraireApi.request(
@@ -165,7 +208,9 @@
                                         var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
                                         document.dispatchEvent(event);
                                         // use this to listen => document.addEventListener('dateChange', function (e) {});
-                                        return setData(e.horaire);
+                                        setData(e.horaire);
+                                        _formactions.validSendBtn();
+                                        _formactions.validClockpicker();
                                     }
                                 },
                                 'GET',
@@ -217,19 +262,22 @@
         _formactions.logout = function() {
             let email = $('#email-id').text();
             if(!email) return;
+            _formactions.clearSearch();
             cartoHoraireApi.request(
                 {email: email},
                 function(e) {
                     // we find data and load data
                     if(e && e.length && e[0]) e = e[0];
-                    if (!e) {
-                        alert('Une erreur technique s\'est produite !');
+                    if ((!e || !e.success) && e.exception) {
+                        alert(e.exception.message || 'Une erreur technique s\'est produite !');
                     }
-                    else if (e.success && !e.err) {
-                        resetForm(false);
-                        alert('Deconnexion !');
-                        mviewer.customLayers.etablissements.updateLayer(false);
+                    else if (e.success) {
+                        _formactions.restore(false);
+                        mviewer.customLayers.etablissements.updateLayer(true, null, function() {
+                            mviewer.customLayers.etablissements.zoomToExtent();
+                        });
                     }
+                    _formactions.validSendBtn();
                 },
                 'POST',
                 'logoutUser'
@@ -241,6 +289,7 @@
          * @param {boolean} e 
          */
         _formactions.restore = function(e) {
+            _formactions.validSendBtn();
             return resetForm(e);
         }
 
@@ -254,12 +303,11 @@
             cartoHoraireApi.request(
                 {email: email, code: code},
                 function(e) {
-                    console.log(e);
                     // we find da,ta and load data
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
-                        _formations.logout();
+                        _formactions.logout();
                     } else {
                         alert('Vos informations n\'ont pas pu être supprimées !');
                     }
@@ -311,7 +359,6 @@
             let data = [];
             // prepare data
             let coords = $('#input-autocomplete-form').attr('coordinates').split(',');
-            let coords4326 = coords;
             coords = ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3948');
             
             let WKT = `POINT(${coords[0]} ${coords[1]})`;
@@ -354,10 +401,9 @@
                 function(e) {
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success && e.valid) {
-                        alert('Informatios sauvegardées !');
-                        mviewer.customLayers.etablissements.updateLayer(false, function() {
-                            mviewer.zoomToLocation(coords4326[0], coords4326[1], 15, null);
-                        });
+                        alert('Informations sauvegardées !');
+                        mviewer.customLayers.etablissements.updateLayer(false);
+                        _formactions.logout();
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
                     } else {
@@ -389,7 +435,9 @@
                         document.dispatchEvent(event);
                         // use this to listen => document.addEventListener('dateChange', function (e) {});
                         // prepare data
-                        return setData(e.horaire);
+                        setData(e.horaire);
+                        _formactions.validSendBtn();
+                        _formactions.validClockpicker();
                     } else {
                         alert('Vos informations n\'ont pas pu être récupérées');
                     }
@@ -458,6 +506,14 @@
             if(_formactions.vectorLayer) {
                 _formactions.vectorLayer.getSource().clear();
             }
+        }
+        /**
+         * Clear last search result from map
+        */
+        _formactions.clearSearch = function() {
+            _formactions.clearLayer();
+            $('#ch-searchfield-form .delete').hide();
+            $('#ch-searchfield-form .result').show();
         }
 
         /**
@@ -564,22 +620,13 @@
                     scale: 0.9
                 }),
             });
-
-            /**
-             * Clear last search result from map
-             */
-            function clearSearch() {
-                vectorFormSource.clear();
-                $('#ch-searchfield-form .delete').hide();
-                $('#ch-searchfield-form .result').show();
-            }
             
             // event on siren or adress search
             document.addEventListener("localize", function(e) {
 
                 if(!e || !e.detail || !e.detail.coord.length > 1 || 
                     !e.detail.coord || !e.detail.target || e.detail.target != 'search-radio-form') return;                
-                clearSearch();
+                _formactions.clearSearch();
 
                 let coords = e.detail.coord.map(a => parseFloat(a));
                 mviewer.zoomToLocation(coords[0], coords[1], 15, null);
@@ -596,8 +643,11 @@
                 $('#ch-searchfield-form .delete').show();
             });
             $('#ch-searchfield-form').click(function(e) {
-                clearSearch();
+                _formactions.clearSearch();
+                _formactions.validSendBtn();
             });
+            // valid
+            _formactions.validSendBtn();
         }
         return _formactions;
     }

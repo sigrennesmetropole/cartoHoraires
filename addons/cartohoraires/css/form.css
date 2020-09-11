@@ -190,7 +190,7 @@
 	/*position: absolute;*/
 	border-radius: 6px;
 }
-.formBtn {
+button.formBtn {
 	background-color: #55B3B9;
 	border: 1px transparent solid;
 	margin-right: 10px;
@@ -198,7 +198,7 @@
 	font-family: var(--font_regular);
 }
 
-.formBtn:hover, .formBtn:active, .formBtn:focus, .formBtn:visited {
+button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBtn:visited {
     border: 1px transparent solid;
     margin-right: 10px;
     color: white;
@@ -307,6 +307,10 @@
     border: none;
     padding: 6px 12px;
     font-family: var(--font_regular);
+}
+
+.btn-form-actions {
+	padding: 10px;
 }
 
 .btn-copy {
