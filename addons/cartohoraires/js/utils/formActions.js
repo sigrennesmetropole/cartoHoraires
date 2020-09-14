@@ -641,6 +641,8 @@
 
                 $('#ch-searchfield-form .result').hide();
                 $('#ch-searchfield-form .delete').show();
+                // valid
+                _formactions.validSendBtn();
             });
             $('#ch-searchfield-form').click(function(e) {
                 _formactions.clearSearch();
