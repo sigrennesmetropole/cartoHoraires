@@ -213,7 +213,7 @@ button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBt
 
 #form-modal {
 	overflow-y: auto;
-	z-index: 10000;
+	/*z-index: 10000;*/
 }
 
 .connect-zone {

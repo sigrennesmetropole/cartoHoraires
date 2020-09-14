@@ -8,7 +8,9 @@
         // for week end
         let samDim = [6,7];
         if(!simple) {
-            $('#form-modal').modal('toggle');
+            //$('#form-modal').modal('toggle');
+            $('#cartohoraires-modal-close').click();
+            $('#form-modal-close').click();
             $('#email-id').text('');
             $('.authent').hide();
             $('.anonymous').show();

@@ -169,7 +169,7 @@ mviewer.customLayers.etablissements = (function() {
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
     */
-    let createPostRenderEvt = function(zte = false, zoom = null, fn = null) {
+    let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst) {
         let evt = vectorLayer.once('postrender', function(e) {
             if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
                 let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
@@ -177,7 +177,10 @@ mviewer.customLayers.etablissements = (function() {
                 if (vectorSource.getFeatures().length) {
                     initialData = vectorSource.getFeatures();
                 }
-                cartohoraires.initOnDataLoad();
+                if(isFirst) {
+                    cartohoraires.initOnDataLoad();
+                }
+                
                 ol.Observable.unByKey(evt);
             }
             // hide loader and display panel
@@ -196,7 +199,7 @@ mviewer.customLayers.etablissements = (function() {
         vectorLayer.getSource().getSource().refresh();
         vectorLayer.getSource().refresh();
     }
-    createPostRenderEvt(true);
+    createPostRenderEvt(true, null, null, true);
     return {
         layer: vectorLayer,
         getInitialData: () => {

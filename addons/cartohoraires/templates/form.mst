@@ -5,7 +5,7 @@
                 <div class="row form-row">
                     <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
                         <div class="row row-close visible-xs visible-sm">
-                            <button type="button" class="close  mobile-close" data-dismiss="modal">×</button>
+                            <button type="button" id="form-modal-close" class="close  mobile-close" data-dismiss="modal">×</button>
                         </div>
                         <div class="row authent" style="display:none;">
                             <div class="panel panel-default">
@@ -82,7 +82,7 @@
                     <!--INPUT ZONE-->
                     <div class="col-sm-12 col-md-8 no-float input-zone">
                         <div class="col-sm-12 hidden-sm hidden-xs">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <button type="button" id="form-modal-close" class="close" data-dismiss="modal">×</button>
                         </div>
                         <h2>Saisissez vos horaires</h2>
                         <!--INPUT DATA-->
