@@ -5,6 +5,8 @@
      * @param {boolean} simple 
      */
     function resetForm(simple) {
+        // for week end
+        let samDim = [6,7];
         if(!simple) {
             $('#form-modal').modal('toggle');
             $('#email-id').text('');
@@ -16,6 +18,9 @@
         cartohoraires.resetTransportList();
         $('.clock').val('08:00');
         $('.ch-absent').prop('checked', false);
+        samDim.forEach(e => {
+            $('#checkbox-'+e).click();
+        })
     }
 
     /**
