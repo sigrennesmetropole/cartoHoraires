@@ -162,7 +162,8 @@ const cartohoraires = (function() {
                             parentDayZone.find('.input-selectors select').prop("disabled", e.target.checked);
                             parentDayZone.find('.input-group-addon').css("pointer-events", e.target.checked ? 'none' : 'auto');
                             if(e.target.checked) {
-                                parentDayZone.find('input[id^=clockpicker-]').val('08:00');
+                                parentDayZone.find('input[id^=clockpicker-in-]').val('08:00');
+                                parentDayZone.find('input[id^=clockpicker-out-]').val('18:00');
                                 formactions.validClockpicker();
                             }
                         });

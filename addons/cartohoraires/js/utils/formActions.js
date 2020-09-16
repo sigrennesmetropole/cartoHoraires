@@ -18,7 +18,8 @@
         }
         $('#btn-valid').addClass('disabled');
         cartohoraires.resetTransportList();
-        $('.clock').val('08:00');
+        $('input[id^="clockpicker-in-"]').val('8:00');
+        $('input[id^="clockpicker-out-"]').val('18:00');
         $('.ch-absent').prop('checked', false);
         samDim.forEach(e => {
             $('#checkbox-'+e).click();
