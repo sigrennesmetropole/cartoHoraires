@@ -169,35 +169,33 @@ mviewer.customLayers.etablissements = (function() {
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
     */
-    let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst) {
+    let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
             if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
                 let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
                 cartohoraires.setTransportType([...new Set(type)]);
                 if (vectorSource.getFeatures().length) {
                     initialData = vectorSource.getFeatures();
-                }
-                if(isFirst) {
-                    cartohoraires.initOnDataLoad();
-                }
-                
+                }                
                 ol.Observable.unByKey(evt);
+                cartohoraires.initOnDataLoad(isFirst);
             }
             // hide loader and display panel
             $('.load-panel').hide();
             $(".cartohoraires-panel .row").show();
 
-            vectorLayer.getSource().refresh();
+            //vectorLayer.getSource().refresh();
             if(zte) vectorLayer.zoomToExtent();
             if(zoom) mviewer.getMap().getView().setZoom(zoom);
-            if(fn) fn(e);
+            if(fn) {
+                fn(e);
+            }
         })
     };
 
     function updateLayer(toExtent = false, zoom = null, callback = null) {
         createPostRenderEvt(toExtent, zoom, callback);
         vectorLayer.getSource().getSource().refresh();
-        vectorLayer.getSource().refresh();
     }
     createPostRenderEvt(true, null, null, true);
     return {

@@ -1104,35 +1104,36 @@ const cartohoraires = (function() {
          * Init when vector layer is postrender to be sur data was loaded
          * trigger by customLayer
          */
-        initOnDataLoad: function() {
-            // init time slider component
-            let i = 0;
-            if (i == 0 && $('#timeSlider').length) {
-                initTimeSlider();
-                i = 1;
+        initOnDataLoad: function(isInit) {
+            if(isInit) {
+                // init time slider component
+                let i = 0;
+                if (i == 0 && $('#timeSlider').length) {
+                    initTimeSlider();
+                    i = 1;
+                }
+
+                // button for day selection
+                initBtnDay();
+
+                // hide or display mir
+                initSwitch();
+                if (cartohoraires) {
+                    initSearchItem();
+                }
+                $('#searchtool').hide();
+
+                initScrollBehavior();
+
+                // list for transport type value
+                initTransportList();
+
+                initFormInputs();
+
+                // Display modal on mobile device
+                initModalBehavior();
             }
-
-            // button for day selection
-            initBtnDay();
-
-            // hide or display mir
-            initSwitch();
-            if (cartohoraires) {
-                initSearchItem();
-            }
-            $('#searchtool').hide();
-
-            setInfosPanel(false);
-
-            initScrollBehavior();
-
-            // list for transport type value
-            initTransportList();
-
-            initFormInputs();
-
-            // Display modal on mobile device
-            initModalBehavior();
+            setInfosPanel(isInit ? true : false);
         },
 
         /**

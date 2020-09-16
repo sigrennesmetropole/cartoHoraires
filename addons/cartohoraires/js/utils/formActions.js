@@ -38,7 +38,7 @@
     }
 
     /**
-     * Ser user form info from serveur response
+     * Set user form info from serveur response
      * @param {Object} horaire 
      */
     function setData(horaire) {
@@ -87,7 +87,6 @@
             
             coords = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
             $('#input-autocomplete-form').attr('coordinates', coords);            
-            mviewer.customLayers.etablissements.updateLayer(false);
             mviewer.zoomToLocation(coords[0], coords[1], 15, null);
         }
     }
@@ -211,10 +210,6 @@
                                     }
                                     // we find data and load data
                                     if(e && e.success && e.horaire.length) {
-                                        // we dispatch data info wit event
-                                        var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
-                                        document.dispatchEvent(event);
-                                        // use this to listen => document.addEventListener('dateChange', function (e) {});
                                         setData(e.horaire);
                                         _formactions.validSendBtn();
                                         _formactions.validClockpicker();
@@ -280,9 +275,7 @@
                     }
                     else if (e.success) {
                         _formactions.restore(false);
-                        mviewer.customLayers.etablissements.updateLayer(true, null, function() {
-                            mviewer.customLayers.etablissements.zoomToExtent();
-                        });
+                        mviewer.customLayers.etablissements.updateLayer(false, null, null, false);
                     }
                     _formactions.validSendBtn();
                 },
@@ -409,7 +402,6 @@
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success && e.valid) {
                         alert('Informations sauvegardées !');
-                        mviewer.customLayers.etablissements.updateLayer(false);
                         _formactions.logout();
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         alert('Vous devez être connecté pour saisir vos informations !');
@@ -419,38 +411,6 @@
                 },
                 'PUT',
                 'updateUserInfos'
-            )
-        }
-
-        /**
-         * TO get info user from server and display this infos to form
-         * @param {String} mail 
-         */
-        _formactions.serverToForm = function(mail) {
-            let data = {
-                email: mail,
-            };
-            // send data request
-            cartoHoraireApi.request(
-                data,
-                function(e) {
-                    // we find data and load data
-                    if(e && e.length && e[0]) e = e[0];
-                    if(e && e.success && e.horaire.length) {
-                        // we dispatch data info wit event
-                        var event = new CustomEvent('loadUserInfos', { 'detail': e.horaire });
-                        document.dispatchEvent(event);
-                        // use this to listen => document.addEventListener('dateChange', function (e) {});
-                        // prepare data
-                        setData(e.horaire);
-                        _formactions.validSendBtn();
-                        _formactions.validClockpicker();
-                    } else {
-                        alert('Vos informations n\'ont pas pu être récupérées');
-                    }
-                },
-                'GET',
-                'getUserInfos'
             )
         }
 
