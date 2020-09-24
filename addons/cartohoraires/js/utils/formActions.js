@@ -295,16 +295,33 @@
         }
 
         /**
+         * Validation for input code
+         * @param {object} e as input changed
+         */
+        _formactions.changeCodeDelete = function(e) {
+            if(e.value) {
+                $(e).removeClass('invalid');
+                $('#delete-modal-btn').removeClass('disabled');
+            } else {
+                $(e).addClass('invalid');
+                $('#delete-modal-btn').addClass('disabled');
+            }
+        }
+
+        /**
          * Delete infos and user
          */
         _formactions.deleteInfos = function() {
+            $('#delete-modal').modal('toggle');
             let email = $('#email-id').text();
-            let code = prompt("Merci de confirmer votre code d'identification:", "*****");
-            if(!code || !code.length) return;
+            let pwd = $('#code-delete').val();
+            if(!pwd) {
+                return;
+            }
             cartoHoraireApi.request(
-                {email: email, code: code},
+                {email: email, code: pwd},
                 function(e) {
-                    // we find da,ta and load data
+                    // infos removed
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         alert('Vos informations ont été supprimées !');
@@ -315,7 +332,7 @@
                 },
                 'DELETE',
                 'deleteUserInfos'
-            )
+            );
         }
 
         /**

@@ -23,7 +23,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" id="password-modal-close" class="close" data-dismiss="modal">×</button>
+        <button type="button" id="code-modal-close" class="close" data-dismiss="modal">×</button>
         <h2>Code oublié ?</h2>
       </div>
       <div class="modal-body">
@@ -36,6 +36,29 @@
         </div>
         <br>
         <button type="btn" onclick="formactions.createNewPassword('code-mail')" class="formBtn btn btn-default">Obtenir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete-modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="delete-modal-close" class="close" data-dismiss="modal">×</button>
+        <h2>Confimer la suppression ?</h2>
+      </div>
+      <div class="modal-body">
+        <p>
+          Veuillez saisir votre mot de passe pour confirmer la suppression.
+        </p>
+        <div class="input-group">
+          <span class="input-group-addon" id="codeDelete"><i class="fas fa-key"></i></span>
+          <input onchange="formactions.changeCodeDelete(this)" type="password"  id="code-delete" class="form-control code-input" placeholder="*****" aria-describedby="codeDelete">
+        </div>
+        <br>
+        <button type="btn" id="delete-modal-btn" onclick="formactions.deleteInfos()" class="disabled formBtn btn btn-default">Confirmer</button>
       </div>
     </div>
   </div>

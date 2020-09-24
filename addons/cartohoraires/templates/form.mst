@@ -23,7 +23,7 @@
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Déconnexion
                                         </button>
                                         <button 
-                                            onclick="formactions.deleteInfos('email-id')"
+                                            onclick="$('#delete-modal').modal('toggle')"
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
                                         </button>

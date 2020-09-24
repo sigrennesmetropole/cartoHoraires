@@ -424,30 +424,30 @@ button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBt
 }
 
 /*GET NEW CODE MODAL*/
-#code-modal {
+#code-modal, #delete-modal {
 	z-index: 10000;
 	top: 10%;
 }
 
-#code-modal .modal-content {
+#code-modal .modal-content, #delete-modal .modal-content {
 	border-radius: 4px;
 	box-shadow: 0 5px 15px rgba(0,0,0,.8);
 	border: none;
     padding: 20px;
 }
 
-#codePaperPlane {
+#codePaperPlane, #codeDelete {
 	background-color: #55B3B9;
 	color: white;
 	border: none;
 }
 
-#code-modal h2 {
+#code-modal h2, #delete-modal h2 {
 	color: var(--bleu);
 	font-family: var(--font_bold);
 }
 
-#code-modal p {
+#code-modal p, #delete-modal p {
 	font-size: 14px;
 	font-family: var(--font_regular);
     color: #777;
