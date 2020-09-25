@@ -413,8 +413,8 @@ button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBt
 */
 
 .invalid{
-	border: 2px solid red;
-	border-radius: 4px;
+	background-color: rgb(238,129,118,0.4) !important;
+	color: white !important;
 }
 
 .userConnectFormMsg, .userModalFormMsg {

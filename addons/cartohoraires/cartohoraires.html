@@ -32,11 +32,11 @@
         </p>
         <div class="input-group">
           <span class="input-group-addon" id="codePaperPlane"><i class="fas fa-at"></i></span>
-          <input type="email"  id="code-mail" class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
+          <input type="email"  id="code-mail" onchange='formactions.validMailCode(this, "getNewCode")' class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
         </div>
         <br>
         <span id="getCodeMsg" class="userModalFormMsg hide"></span>
-        <button type="btn" onclick="formactions.createNewPassword('code-mail')" class="formBtn btn btn-default">Obtenir</button>
+        <button type="btn" id="getNewCode" onclick="formactions.createNewPassword('code-mail')" class="disabled formBtn btn btn-default">Obtenir</button>
       </div>
     </div>
   </div>

@@ -23,7 +23,7 @@
         $('.ch-absent').prop('checked', false);
         samDim.forEach(e => {
             $('#checkbox-'+e).click();
-        })
+        });
     }
 
     /**
@@ -121,14 +121,14 @@
             $('.clockpicker').find('input').change(function(e) {
                 _formactions.setClockPickerStatus(e);
                 _formactions.validSendBtn();
-            })
+            });
         }
 
         _formactions.setClockPickerStatus = function(e) {
             let val = '';
             if(!e) return;
             if(e && e.target) {
-                val = e.target.value
+                val = e.target.value;
                 e = e.target;
             } else {
                 val = $(e).val();
@@ -143,7 +143,7 @@
         _formactions.validClockpicker = function(e) {
             $('.clockpicker').find('input').each(function(i,e) {
                 _formactions.setClockPickerStatus(e);
-            })
+            });
             _formactions.validSendBtn();
         }
         /**
@@ -162,7 +162,7 @@
                 } else {
                     input.addClass("invalid");
                     input.removeClass('valid').addClass("invalid");
-                    return false
+                    return false;
                 }
             });
         }
@@ -192,7 +192,7 @@
                         if(e && e.success && !e.exist) {
                             messages.create(
                                 '#createUserMsgExists',
-                                '<i class="fas fa-exclamation-triangle"></i> Vous devez créer un compte avant de vous connecter !',
+                                message.text.accountMandatory,
                                 '#fed500'
                             );
                         }
@@ -200,7 +200,7 @@
                             // code or email is not valid
                             messages.create(
                                 '#createUserMsgExists',
-                                '<i class="fas fa-exclamation-triangle"></i> Le code ou l\'email saisi est erroné !',
+                                messages.text.wrongLogin,
                                 '#fed500'
                             );
                         } else if(e.auth && e.exist && e.success) {
@@ -217,7 +217,7 @@
                                     if(!e || !e.success) {
                                         messages.create(
                                             '#inputFormMsg',
-                                            '<i class="fas fa-exclamation-triangle"></i> Vos informations n\'ont pas pu être récupérées !',
+                                            messages.text.getUserInfoError,
                                             '#c52a0d'
                                         );
                                     }
@@ -230,7 +230,7 @@
                                 },
                                 'GET',
                                 'getUserInfos'
-                            )
+                            );
                         }
                     },
                     'POST',
@@ -268,7 +268,7 @@
                         $('#transport-out-select-' + id).val(outMode);
                     }
                 }
-            })
+            });
         }
 
         /**
@@ -286,7 +286,7 @@
                     if ((!e || !e.success) && e.exception) {
                         messages.create(
                             '#confirmDeleteMsg',
-                            '<i class="fas fa-dizzy"></i> Une erreur technique s\'est produite !',
+                            messages.text.logoutError,
                             '#ff6600', function() {
                                 window.formactions.restore(false);
                             }
@@ -300,7 +300,7 @@
                 },
                 'POST',
                 'logoutUser'
-            )
+            );
         }
 
         /**
@@ -340,20 +340,20 @@
                 function(e) {
                     function onResponse() {
                         $('#delete-modal').modal('toggle');
-                        window.formactions.logout()
+                        window.formactions.logout();
                     }
                     // infos removed
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success) {
                         messages.create(
                             '#confirmDeleteMsg',
-                            '<i class="fas fa-check-circle"></i> Vos informations seront bien supprimées dans quelques secondes...',
+                            messages.text.deleteSuccess,
                             '#13ab00', onResponse
                         );
                     } else {
                         messages.create(
                             '#confirmDeleteMsg',
-                            '<i class="fas fa-exclamation-triangle"></i> Mot de passe erroné ! Merci de saisir un bon mot de passe.',
+                            messages.text.wrongPassword,
                             '#c52a0d'
                         );
                     }
@@ -452,13 +452,13 @@
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         messages.create(
                             '#inputFormMsg', 
-                            '<i class="fas fa-exclamation-triangle"></i> Vous devez être connecté pour saisir vos informations !',
+                            messages.text.loginRequired,
                             '#c52a0d'
                         );
                     } else {
                        messages.create(
                             '#inputFormMsg', 
-                            '<i class="fas fa-dizzy"></i> Vos informations n\'ont pas pu être sauvegardées !',
+                            messages.text.saveError,
                             '#ff6600'
                         );
                     }
@@ -466,6 +466,26 @@
                 'PUT',
                 'updateUserInfos'
             )
+        }
+
+        /**
+         * Valid email to get new password
+         * @param {Objet} input ==> input html
+         * @param {String} id 
+         */
+        _formactions.validMailCode = function(input, id) {
+            if(_formactions.isMailValid(input.value)) {
+                $('#'+id).removeClass('disabled');
+                $('#code-mail').removeClass('invalid');
+            } else {
+                $('#code-mail').addClass('invalid');
+                $('#'+id).addClass('disabled');
+                messages.create(
+                    '#getCodeMsg',
+                    messages.text.emailInvalid,
+                    '#c52a0d'
+                );
+            }
         }
 
         /**
@@ -495,29 +515,33 @@
                         if(e && e.success) {
                             messages.create(
                                 '#getCodeMsg',
-                                '<i class="fas fa-check-circle"></i> Un mot nouveau mot de passe vient de vous être envoyé par mail !',
+                                messages.text.newPasswordSend,
                                 '#13ab00', onResponse
                             );
                         } else if(e && !e.success && e.exception && e.exception.code == -1) {
                             messages.create(
                                 '#getCodeMsg',
-                                '<i class="fas fa-exclamation-triangle"></i> Votre mail n\'est pas reconnu. Veuillez créer un compte !',
+                                messages.text.userNotExists,
                                 '#c52a0d', onResponse
                             );
                         } else {
                             messages.create(
                                 '#getCodeMsg',
-                                '<i class="fas fa-dizzy"></i> Erreur : Merci de contacter un administrateur !',
+                                messages.text.systemError,
                                 '#ff6600', onResponse
                             );
                         }
                     },
                     'POST',
                     'updateUserPassword'
-                )
-
+                );
             } else {
-                $('#code-mail').addClass('invalid');
+                $('#'+id).addClass('disabled');
+                messages.create(
+                    '#getCodeMsg',
+                    messages.text.emailInvalid,
+                    '#c52a0d'
+                );
             }
         }
 

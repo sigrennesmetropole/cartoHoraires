@@ -75,7 +75,7 @@
                     function(e) {
                         if(e && e[0].success) messages.create(
                             '#createUserMsgFirst', 
-                            '<i class="fas fa-exclamation-circle"></i> Votre compte existe déjà. Un nouveau mot de passe vous sera envoyé par email !',
+                            messages.text.userAlreadyExist,
                             '#fed500'
                         );
                     },
@@ -85,7 +85,7 @@
             } else if(resp && !resp.exist) {
                 messages.create(
                     '#createUserMsgFirst',
-                    '<i class="fas fa-check-circle"></i> Un mot de passe de connexion vous sera envoyé par email !',
+                    messages.text.createUser,
                     '#fed500'
                 );
             }
