@@ -1,15 +1,21 @@
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This API utils file allow you to centralize this app API URL and general request method as lib.
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
+ */
 (function(window){
-    // You can enable the strict mode commenting the following line  
-    // 'use strict';
-  
-  
-    // This function will contain all our code
     function cartoHoraireApi(){
         let _cartoHoraireApi = {};
     
         // This variable will be inaccessible to the user, only can be visible in the scope of your library.
         const api = 'https://testapp.sig.rennesmetropole.fr/api-horaires/public/'
         
+        // change 
         const url = {
             getMoyenTransports: api + 'getMoyenTransports',
             logoutUser: api + 'logoutUser',

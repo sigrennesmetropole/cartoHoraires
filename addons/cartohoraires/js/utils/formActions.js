@@ -1,5 +1,15 @@
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This utils class create some function used by form UI and components.
+ *
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
+ */
 (function(window){
-
     /**
      * To restore completely or simply the form
      * @param {boolean} simple 
@@ -117,6 +127,9 @@
             $('#btn-valid').removeClass('disabled');
         }
 
+        /**
+         * Behavior to trigger from other component
+         */
         _formactions.validClockpickerBehavior = function() {
             $('.clockpicker').find('input').change(function(e) {
                 _formactions.setClockPickerStatus(e);
@@ -124,6 +137,10 @@
             });
         }
 
+        /**
+         * To set clock picker status validation
+         * @param {Event} e 
+         */
         _formactions.setClockPickerStatus = function(e) {
             let val = '';
             if(!e) return;
@@ -140,6 +157,10 @@
             }
         }
 
+        /**
+         * To control clockPicker value
+         * @param {Event} e 
+         */
         _formactions.validClockpicker = function(e) {
             $('.clockpicker').find('input').each(function(i,e) {
                 _formactions.setClockPickerStatus(e);
@@ -153,7 +174,7 @@
         _formactions.validInput = function (inputMailId ) {
             $('#'+inputMailId).on('input', function() {
 
-                var input=$(this);
+                let input=$(this);
                 if(!input.prop('required')) return;
 
                 if(_formactions.isMailValid(input.val())){
@@ -166,7 +187,6 @@
                 }
             });
         }
-        //gaetan.bruel@jdev.fr
         /**
          * Control email value with a simple regExp
          * @param {String} val as email value
@@ -582,7 +602,7 @@
          */
         _formactions.addFeature = function(feature) {
             let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
-            var iconStyle = new ol.style.Style({
+            let iconStyle = new ol.style.Style({
                 image: new ol.style.Icon({
                     anchor: [0.5, 46],
                     anchorXUnits: 'fraction',
@@ -634,8 +654,8 @@
                 projection : mviewer.getMap().getView().getProjection()
             }
 
-            var matrixset = baselayer.matrixset;
-            var projectionExtent = baselayer.projection.getExtent();
+            let matrixset = baselayer.matrixset;
+            let projectionExtent = baselayer.projection.getExtent();
             let wmtsLayer = new ol.layer.Tile({
                 opacity: 1,
                 visible:true,
@@ -671,7 +691,7 @@
 
             let opt = mviewer.customComponents.cartohoraires.config.options.sirenConfig || null;
 
-            var iconStyle = new ol.style.Style({
+            let iconStyle = new ol.style.Style({
                 image: new ol.style.Icon({
                     anchor: [0.5, 46],
                     anchorXUnits: 'fraction',

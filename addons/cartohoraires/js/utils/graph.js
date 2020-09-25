@@ -1,7 +1,13 @@
 /**
- * Create new graph from Chart.Js
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This class create new graph from Chart.Js
  * 
- * Needs JQUERY >=1.2.
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
  */
 class Graph {   
     /**
@@ -49,6 +55,10 @@ class Graph {
         };
     }
 
+    /**
+     * To group data by values
+     * @param {Object} data 
+     */
     groupData(data) {
         let val = this.steps;
         let options = this.options;
@@ -98,7 +108,7 @@ class Graph {
             i += 1;
         }
 
-        var data = {
+        let data = {
             labels: this.infos.labels,
             datasets: [{
                 backgroundColor: "rgba(87,179,185,0.8)",
@@ -106,7 +116,7 @@ class Graph {
                 data: this.infos.values
             }]
         }
-        var options = {
+        let options = {
             responsive: this.options.responsive || true,
             maintainAspectRatio: this.options.maintainAspectRatio || true,
             animation: {

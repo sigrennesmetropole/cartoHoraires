@@ -1,8 +1,13 @@
 /**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
  * Create slider to select time with 15 min steps.
  * 
- * Needs JQUERY >=1.1 and bootstrap-slider librairie already lodaded by Mviewer index.html.
- * https://github.com/seiyria/bootstrap-slider
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
  */
 class Slider {
     /**
@@ -64,11 +69,11 @@ class Slider {
      * @param {Integer} n as minutes
      */
     timeConvert(n) {
-        var num = n;
-        var hours = (num / 60);
-        var rhours = Math.floor(hours);
-        var minutes = (hours - rhours) * 60;
-        var rminutes = Math.round(minutes);
+        let num = n;
+        let hours = (num / 60);
+        let rhours = Math.floor(hours);
+        let minutes = (hours - rhours) * 60;
+        let rminutes = Math.round(minutes);
         rminutes = rminutes == 0 ? '00' : rminutes;
         rhours = rhours > 9 ? rhours : `0${rhours}`;
         return rhours + ' h ' + rminutes + ' min';

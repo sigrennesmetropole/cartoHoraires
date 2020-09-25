@@ -1,9 +1,15 @@
 /**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
  * This class allow to use API with input HTML
  * Result panel and API search beahvier was fully mandatory.
  * This component have no default behavior to search and display results.
  * 
- * Needs JQUERY >=1.2.
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
  */
 class Autocomplete {
     /**
@@ -107,14 +113,26 @@ class Autocomplete {
         $(this.target).val(val);
     }
 
+    /**
+     * Get this public config
+     * @return Object
+     */
     getPublicConfig() {
         return this.publicConfig;
     }
-
+    
+    /**
+     * Change public config
+     * @param {*} publicConfig 
+     */
     setPubliConfig(publicConfig) {
         this.publicConfig = publicConfig;
     }
 
+    /**
+     * Get HTML component targeted
+     * @return String as id or class targeted
+     */
     getTarget() {
         return this.target;
     }

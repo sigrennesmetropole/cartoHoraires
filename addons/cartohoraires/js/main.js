@@ -1,3 +1,15 @@
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This file is the main file to trigger and init the app, events or instances.
+ *
+ * Last modified  : 2020-09-25
+ * By gaetan.bruel@jdev.fr
+ */
+
 const cartohoraires = (function() {
     let config = mviewer.customComponents.cartohoraires.config;
     let options = mviewer.customComponents.cartohoraires.config.options;
