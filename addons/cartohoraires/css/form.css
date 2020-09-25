@@ -417,10 +417,13 @@ button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBt
 	border-radius: 4px;
 }
 
-.createUserMsg {
+.userConnectFormMsg, .userModalFormMsg {
 	display: block;
 	margin-top: 15px;
-	color: #fed500;
+	/*color: #fed500;*/
+}
+.userModalFormMsg {
+	margin-bottom:15px;
 }
 
 /*GET NEW CODE MODAL*/

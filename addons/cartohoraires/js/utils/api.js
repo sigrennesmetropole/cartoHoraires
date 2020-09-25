@@ -73,19 +73,21 @@
                 _cartoHoraireApi.request(
                     {email: userEmail},
                     function(e) {
-                        if(e && e[0].success) $('.createUserMsg').removeClass('hide').show().text('Votre compte existe déjà. Un nouveau mot de passe vous sera envoyé par email !');
-                        setTimeout(function() {
-                            $('.createUserMsg').fadeOut(1000);
-                        }, 5000);
+                        if(e && e[0].success) messages.create(
+                            '#createUserMsgFirst', 
+                            '<i class="fas fa-exclamation-circle"></i> Votre compte existe déjà. Un nouveau mot de passe vous sera envoyé par email !',
+                            '#fed500'
+                        );
                     },
                     'POST',
                     'updateUserPassword'
                 )
             } else if(resp && !resp.exist) {
-                $('.createUserMsg').removeClass('hide').show().text('Un mot de passe de connexion vous sera envoyé par email !');
-                setTimeout(function() {
-                    $('.createUserMsg').fadeOut(2000);
-                }, 10000);
+                messages.create(
+                    '#createUserMsgFirst',
+                    '<i class="fas fa-check-circle"></i> Un mot de passe de connexion vous sera envoyé par email !',
+                    '#fed500'
+                );
             }
         }
         return _cartoHoraireApi;

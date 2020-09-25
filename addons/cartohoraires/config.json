@@ -1,6 +1,7 @@
 {
     "js": [
         "js/main.js",
+        "js/utils/messages.js",
         "js/utils/autocomplete.js",
         "js/utils/graph.js",
         "js/utils/slider.js",

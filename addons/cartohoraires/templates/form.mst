@@ -27,6 +27,8 @@
                                             type="btn" 
                                             class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
                                         </button>
+                                        <br>
+                                        <span id="connectedMsg" class="hide"></span>
                                     </span>
                                 </div>
                             </div>
@@ -51,6 +53,7 @@
                                 <h4>Code</h4>
                                 <input id="code-form" type="password" autocomplete="false" type="text" placeholder="*******" class="form-control reset" name="code-form" required>
                             </span>
+                            <span id="createUserMsgExists" class="userConnectFormMsg hide"></span>
                             <!--CODE FORGET-->
                             <div class="row">
                                 <button
@@ -66,7 +69,7 @@
                             <span classe="col-sm-12">
                                 <h4>Adresse mail</h4>
                                 <input autocomplete="off" required type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="fst-email-form">
-                                <span class="createUserMsg hide"></span>
+                                <span id="createUserMsgFirst" class="userConnectFormMsg hide"></span>
                             </span>
                             <!--1st CONNEXION VALID BUTTON-->
                             <div class="row">
@@ -85,6 +88,8 @@
                             <button type="button" id="form-modal-close" class="close" data-dismiss="modal">×</button>
                         </div>
                         <h2>Saisissez vos horaires</h2>
+                        <br>
+                        <span id="inputFormMsg" class="userModalFormMsg hide"></span>
                         <!--INPUT DATA-->
                         <div class="col-sm-12" style="padding:0;">
                             <h3>Votre lieu de travail</h3>

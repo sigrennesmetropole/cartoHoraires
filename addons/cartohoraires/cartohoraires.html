@@ -35,6 +35,7 @@
           <input type="email"  id="code-mail" class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
         </div>
         <br>
+        <span id="getCodeMsg" class="userModalFormMsg hide"></span>
         <button type="btn" onclick="formactions.createNewPassword('code-mail')" class="formBtn btn btn-default">Obtenir</button>
       </div>
     </div>
@@ -57,6 +58,8 @@
           <span class="input-group-addon" id="codeDelete"><i class="fas fa-key"></i></span>
           <input onchange="formactions.changeCodeDelete(this)" type="password"  id="code-delete" class="form-control code-input" placeholder="*****" aria-describedby="codeDelete">
         </div>
+        <br>
+        <span class="hide userModalFormMsg" id="confirmDeleteMsg"></span>
         <br>
         <button type="btn" id="delete-modal-btn" onclick="formactions.deleteInfos()" class="disabled formBtn btn btn-default">Confirmer</button>
       </div>
