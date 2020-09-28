@@ -26,8 +26,8 @@
             'wrongLogin': '<i class="fas fa-exclamation-triangle"></i> Le code ou l\'email saisi est erroné !',
             'getUserInfoError': '<i class="fas fa-exclamation-triangle"></i> Vos informations n\'ont pas pu être récupérées !',
             'logoutError': '<i class="fas fa-dizzy"></i> Une erreur technique s\'est produite !',
-            'deleteSuccess': '<i class="fas fa-check-circle"></i> Vos informations seront bien supprimées dans quelques secondes...',
-            'wrongPassword': '<i class="fas fa-exclamation-triangle"></i> Mot de passe erroné ! Merci de saisir un bon mot de passe.',
+            'deleteSuccess': '<i class="fas fa-check-circle"></i> Votre compte utilisateur et vos données sont supprimées. La confirmation de la suppression vous sera adressée par email.',
+            'wrongPassword': '<i class="fas fa-exclamation-triangle"></i> Mot de passe erroné ! Merci de saisir le bon mot de passe ou d\'en demander un nouveau.',
             'loginRequired': '<i class="fas fa-exclamation-triangle"></i> Vous devez être connecté pour saisir vos informations !',
             'newPasswordSend': '<i class="fas fa-check-circle"></i> Un mot nouveau mot de passe vient de vous être envoyé par mail !',
             'userNotExists': '<i class="fas fa-exclamation-triangle"></i> Votre mail n\'est pas reconnu. Veuillez créer un compte !',
@@ -45,7 +45,7 @@
          * @param {Function} callback allow to execute a function on message fade out
          * @param {Integer} time to configure time before display and fadeout started
          */
-        _msg.create = function (target, msg, color='#70ad46', callback=null, time = 5000) {
+        _msg.create = function (target, msg, color='#70ad46', callback=null, time = 3000) {
             $(target).empty();
             $(target).css('color', color).removeClass('hide').show().append(msg);
             setTimeout(function() {
