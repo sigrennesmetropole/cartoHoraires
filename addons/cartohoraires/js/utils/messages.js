@@ -33,6 +33,7 @@
             'userNotExists': '<i class="fas fa-exclamation-triangle"></i> Votre mail n\'est pas reconnu. Veuillez créer un compte !',
             'systemError': '<i class="fas fa-dizzy"></i> Erreur : Merci de contacter un administrateur !',
             'emailInvalid': '<i class="fas fa-exclamation-triangle"></i> Vous devez saisir une adresse valide !',
+            'saveAndLogout': 'Informations sauvegardées et utilisateur déconnecté !'
         }
     
         /**

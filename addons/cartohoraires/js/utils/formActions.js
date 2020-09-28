@@ -212,7 +212,7 @@
                         if(e && e.success && !e.exist) {
                             messages.create(
                                 '#createUserMsgExists',
-                                message.text.accountMandatory,
+                                messages.text.accountMandatory,
                                 '#fed500'
                             );
                         }
@@ -467,7 +467,7 @@
                 function(e) {
                     if(e && e.length && e[0]) e = e[0];
                     if(e && e.success && e.valid) {
-                        mviewer.alert('Information sauvegardées !', "alert-success");
+                        mviewer.alert(messages.text.saveAndLogout, "alert-success");
                         _formactions.logout();
                     } else if(e.status && !e.status === 'error' && !e.valid) {
                         messages.create(
