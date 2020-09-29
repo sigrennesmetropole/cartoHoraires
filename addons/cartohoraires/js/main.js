@@ -760,10 +760,12 @@ const cartohoraires = (function() {
     function moveBehavior() {
         cleanInfos();
         if ($('#switch').is(':checked')) {
+            /*
             console.log('zac');
             if(selectSingleClick.getFeatures().getLength()) {
                 getDataByGeom('extent', selectSingleClick.getFeatures().getArray()[0].getGeometry().getCoordinates()[0], true);
             }
+            */
             getZacByPoint(mviewer.getMap().getView().getCenter());
         } else {
             getDataByExtent();
@@ -781,7 +783,7 @@ const cartohoraires = (function() {
         selectSingleClick = new ol.interaction.Select({
             condition: ol.events.condition.singleClick,
             style: function(feature) {
-                return zacHighlightStyle;
+                return zacBaseStyle;
             },
             layers: function (layer) { // to apply select only onto zac layer
                 return layer.get('id') === 'zac';
@@ -793,10 +795,22 @@ const cartohoraires = (function() {
         mviewer.getMap().addInteraction(selectSingleClick);
         mviewer.select = selectSingleClick;
         selectSingleClick.on('select', function(e) {
-            console.log(e);
-            setInfosPanel(true);
+            //console.log(e);
+            if (selectSingleClick){
+                var mview = mviewer.getMap().getView();
+                var zac_geom = selectSingleClick.getFeatures().getArray()[0].getGeometry();
+                mview.fit(zac_geom, {size: mviewer.getMap().getSize()});
+                mview.setResolution(mviewer.getMap().getView().getResolution()+2);
+                if (!zac_geom.intersectsCoordinate(mview.getCenter())){
+                    var centerPoint = zac_geom.getClosestPoint(mview.getCenter());
+                    mview.centerOn(centerPoint, mviewer.getMap().getSize());
+                }
+                setInfosPanel(true);
+            }
         })
     }
+    
+    
 
     /**
      * Empty zac layer and clean text
@@ -1154,6 +1168,7 @@ const cartohoraires = (function() {
                 getDataByExtent();
                 // init default zoom level
                 zoomToDefaultLvl();
+                // init get data by exte
             });
 
         },
