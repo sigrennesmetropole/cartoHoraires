@@ -751,8 +751,7 @@ const cartohoraires = (function() {
         mviewer.getMap().addInteraction(selectSingleClick);
         mviewer.select = selectSingleClick;
         selectSingleClick.on('select', function(e) {
-            //console.log(e);
-            if (selectSingleClick){
+            if (selectSingleClick && selectSingleClick.getFeatures().getArray().length>0){
                 var mview = mviewer.getMap().getView();
                 var zac_geom = selectSingleClick.getFeatures().getArray()[0].getGeometry();
                 mview.fit(zac_geom, {size: mviewer.getMap().getSize()});
@@ -761,7 +760,6 @@ const cartohoraires = (function() {
                     var centerPoint = zac_geom.getClosestPoint(mview.getCenter());
                     mview.centerOn(centerPoint, mviewer.getMap().getSize());
                 }
-                setInfosPanel(true);
             }
         })
     }
