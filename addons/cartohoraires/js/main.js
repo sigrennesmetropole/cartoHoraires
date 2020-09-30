@@ -656,13 +656,19 @@ const cartohoraires = (function() {
             });
         }
         if (!containsData.length) {
+            $('.zac-infos-loc').removeClass('zacData');
             cleanInfos(type);
             setAbsentPresent();
         }
-        reloadChart(containsData);
+        if (isAutorizedZoom()){
+            reloadChart(containsData);
+        }
         // get absent
         // get present and absent
-        if(containsData) {
+        if(containsData.length) {
+            if(type=='zac'){
+                $('.zac-infos-loc').addClass('zacData');
+            }
             let indiv = containsData.map(i => i.getProperties());
             // get absents and not absents
             let abs = indiv.filter(a => a.absence);
@@ -697,10 +703,11 @@ const cartohoraires = (function() {
             success: function(results) {
 
                 if (results.features && results.features.length) {
-
+                    $('.zac-infos-loc').removeClass('no-selected-zac');
                     if (results.features[0].properties.nomza) {
                         $('#zac-info').text('');
                         $('#zac-info').text(results.features[0].properties.nomza);
+                        $('.zac-infos-loc').removeClass('zacData');
                     }
                     // add to layer to highlight feature
                     let zac3857 = new ol.Feature(
@@ -713,6 +720,10 @@ const cartohoraires = (function() {
                     getDataByGeom('zac', zac3857.getGeometry().getCoordinates()[0]);
                 } else {
                     cleanInfos('zac');
+                    setAbsentPresent();
+                    $('#temp-infos').text('');
+                    $('#zac-info').text('Aucune ZAC sélectionnée');
+                    $('.zac-infos-loc').addClass('no-selected-zac');
                 }
             }
         });
@@ -763,8 +774,8 @@ const cartohoraires = (function() {
     function cleanInfos(type) {
         if (zacLayer) {
             zacLayer.getSource().clear(); // remove all features
-            $('#temp-infos').text('');
-            $('#zac-info').text('Aucune ZAC');
+            //$('#temp-infos').text('');
+            //$('#zac-info').text('Aucune ZAC');
         }
         if (graph) {
             graph.getChart().destroy();
@@ -777,7 +788,7 @@ const cartohoraires = (function() {
             type = null;
             mviewer.getLayers().etablissements.layer.getSource().getSource().clear();
         }
-        if (isAutorizedZoom()) {
+        if (!isAutorizedZoom()) {
             $('#zoomMsg').show();
             $('#zoomMsg').children().show();
             return;
@@ -1010,8 +1021,9 @@ const cartohoraires = (function() {
         // always trigger by event on switch click, day or transport change event
         manageZACUi();
         manageDateInfosUi();
-        if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || isAutorizedZoom()) {
+        if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || !isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
+            moveBehavior();
             clearAll();
             return
         }
@@ -1025,9 +1037,9 @@ const cartohoraires = (function() {
             moveBehavior();
         } else {
             clearAll('extent');
-            layer.layer.once('postrender', function() {
+            //layer.layer.once('postrender', function() {
                 moveBehavior();
-            });
+            //});
         }
         
     }
@@ -1043,7 +1055,8 @@ const cartohoraires = (function() {
      * Control if map zoom is autorhized from zoomLvl addon config param
      */
     function isAutorizedZoom() {
-        return options.zoomLvl ? getZoom() < options.zoomLvl : true;
+        //return options.zoomLvl ? getZoom() < options.zoomLvl : true;
+        return getZoom() >= options.zoomLvl;
     }
 
     /**

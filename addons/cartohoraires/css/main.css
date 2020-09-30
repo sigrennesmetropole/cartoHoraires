@@ -189,10 +189,16 @@ p.subText {
 /* Version 2 ZAC */
 
 .zac-infos-loc {
-    background-color: #f1bd68;
+    background-color: var(--bleu);
     color: white;
     padding: 5px;
     border-radius: 3px;
+}
+.zacData {
+    background-color: var(--jaune);
+}
+.no-selected-zac {
+    background-color: #777;
 }
 
 .title-zae{
