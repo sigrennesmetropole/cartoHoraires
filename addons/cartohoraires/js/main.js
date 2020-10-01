@@ -649,8 +649,8 @@ const cartohoraires = (function() {
      */
     function getDataByGeom(type, coordinates, isGeom = false) {
         // use turf.js
-        var data = mviewer.customLayers.etablissements.layer.getSource().getSource().getFeatures();
-        let polygon = turf.polygon(isGeom ? coordinates : [coordinates]);
+        var data = mviewer.customLayers.etablissements.getReceiptData();
+        let polygon = turf.polygon([coordinates]);
         let containsData = [];
         if (data.length) {
             data.forEach(e => {
@@ -748,7 +748,6 @@ const cartohoraires = (function() {
             let bboxFeature = new ol.format.GeoJSON().readFeatures(turfPolygon);
             let bboxCoord = bboxFeature[0].getGeometry().getCoordinates()[0]
             getDataByGeom('extent', bboxCoord);
-            console.log(bboxCoord);
         }
     }
 
@@ -787,10 +786,7 @@ const cartohoraires = (function() {
             },
             layers: function (layer) { // to apply select only onto zac layer
                 return layer.get('id') === 'zac';
-            }/*,
-            filter: function(f,l) { // do on select
-                console.log(f);
-            }*/
+            }
         });
         mviewer.getMap().addInteraction(selectSingleClick);
         mviewer.select = selectSingleClick;
@@ -798,7 +794,7 @@ const cartohoraires = (function() {
             if (selectSingleClick && selectSingleClick.getFeatures().getArray().length>0){
                 var mview = mviewer.getMap().getView();
                 var zac_geom = selectSingleClick.getFeatures().getArray()[0].getGeometry();
-                mview.fit(zac_geom, {size: mviewer.getMap().getSize()});
+                mview.fit(zac_geom.getExtent(), {size: mviewer.getMap().getSize()});
                 mview.setResolution(mviewer.getMap().getView().getResolution()+2);
                 if (!zac_geom.intersectsCoordinate(mview.getCenter())){
                     var centerPoint = zac_geom.getClosestPoint(mview.getCenter());
