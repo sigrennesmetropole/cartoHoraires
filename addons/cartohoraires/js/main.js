@@ -647,7 +647,7 @@ const cartohoraires = (function() {
      * @param {String} wkt as geom string
      * @param {Array} coordinates 
      */
-    function getDataByGeom(type, coordinates, isGeom = false) {
+    function getDataByGeom(type, coordinates) {
         // use turf.js
         var data = mviewer.customLayers.etablissements.getReceiptData();
         let polygon = turf.polygon([coordinates]);
@@ -759,12 +759,6 @@ const cartohoraires = (function() {
     function moveBehavior() {
         cleanInfos();
         if ($('#switch').is(':checked')) {
-            /*
-            console.log('zac');
-            if(selectSingleClick.getFeatures().getLength()) {
-                getDataByGeom('extent', selectSingleClick.getFeatures().getArray()[0].getGeometry().getCoordinates()[0], true);
-            }
-            */
             getZacByPoint(mviewer.getMap().getView().getCenter());
         } else {
             getDataByExtent();
@@ -803,8 +797,6 @@ const cartohoraires = (function() {
             }
         })
     }
-    
-    
 
     /**
      * Empty zac layer and clean text
@@ -1077,9 +1069,7 @@ const cartohoraires = (function() {
             moveBehavior();
         } else {
             clearAll('extent');
-            //layer.layer.once('postrender', function() {
                 moveBehavior();
-            //});
         }
         
     }
@@ -1162,7 +1152,6 @@ const cartohoraires = (function() {
                 getDataByExtent();
                 // init default zoom level
                 zoomToDefaultLvl();
-                // init get data by exte
             });
 
         },
