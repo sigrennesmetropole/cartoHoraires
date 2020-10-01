@@ -21,6 +21,7 @@ const cartohoraires = (function() {
     let autocomplete;
     let autocompleteForm;
     let autocompleteIdentifier = null;
+    let selectSingleClick;
 
     let rvaConf;
 
@@ -770,6 +771,31 @@ const cartohoraires = (function() {
         mviewer.getMap().on('moveend', function() {
             setInfosPanel(true);
         });
+
+        // select interaction working on "singleclick"
+        selectSingleClick = new ol.interaction.Select({
+            condition: ol.events.condition.singleClick,
+            style: function(feature) {
+                return zacBaseStyle;
+            },
+            layers: function (layer) { // to apply select only onto zac layer
+                return layer.get('id') === 'zac';
+            }
+        });
+        mviewer.getMap().addInteraction(selectSingleClick);
+        mviewer.select = selectSingleClick;
+        selectSingleClick.on('select', function(e) {
+            if (selectSingleClick && selectSingleClick.getFeatures().getArray().length>0){
+                var mview = mviewer.getMap().getView();
+                var zac_geom = selectSingleClick.getFeatures().getArray()[0].getGeometry();
+                mview.fit(zac_geom.getExtent(), {size: mviewer.getMap().getSize()});
+                mview.setResolution(mviewer.getMap().getView().getResolution()+2);
+                if (!zac_geom.intersectsCoordinate(mview.getCenter())){
+                    var centerPoint = zac_geom.getClosestPoint(mview.getCenter());
+                    mview.centerOn(centerPoint, mviewer.getMap().getSize());
+                }
+            }
+        })
     }
 
     /**
@@ -827,6 +853,7 @@ const cartohoraires = (function() {
             style: function(feature) {
                 return zacBaseStyle;
             },
+            id:'zac',
             visible: false,
             zIndex: 0
         });
@@ -835,7 +862,8 @@ const cartohoraires = (function() {
         if (!zacLayer) {
             zacLayer = new ol.layer.Vector({
                 source: new ol.source.Vector({
-                    format: new ol.format.GeoJSON()
+                    format: new ol.format.GeoJSON(),
+                    id: 'zac-src'
                 }),
                 style: function(feature) {
                     return zacHighlightStyle;
@@ -1032,7 +1060,7 @@ const cartohoraires = (function() {
             return
         }
             
-        // il all filters are selected we update map layer and create or restart chart
+        // if all filters are selected we update map layer and create or restart chart
         var layer = mviewer.customLayers.etablissements;
         layer.setSource();
         if(!reloadGraph) return;
@@ -1041,9 +1069,7 @@ const cartohoraires = (function() {
             moveBehavior();
         } else {
             clearAll('extent');
-            //layer.layer.once('postrender', function() {
                 moveBehavior();
-            //});
         }
         
     }
