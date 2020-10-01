@@ -230,16 +230,20 @@ const cartohoraires = (function() {
      * Display modal on mobile device only and display it only if a user clic on button
      */
     function initModalBehavior() {
-        $('.formBtnMobile').one('click', function() {
-            $("#form-modal").modal('toggle');
+        $('.formBtnMobile').on('click', function() {
+            if($('.form-row').length) {
+                // force mobile display;
+                $('.form-row').removeClass('form-row');
+            }
+            $('#formBtn').click();
         });
 
         $('#mobilebtn-el').on('click', function() {
             $("#cartohoraires-modal").modal('toggle');
             if($('.form-row').length) {
-                $('.form-row').removeClass('form-row'); // force mobile display;
+                // force mobile display;
+                $('.form-row').removeClass('form-row');
             }
-
             $('#btn-form-actions').removeClass('text-right');
             $('#btn-form-actions').addClass('text-center');
             $('#btn-form-actions').css('margin-bottom', '25%');
@@ -262,7 +266,7 @@ const cartohoraires = (function() {
             $('#btn-up').fadeOut(300);
         });
 
-        // this fix async problem to be sur to init or refresh some elments
+        // this fix async problem to be sur to init or refresh some elements
         $("#form-modal").one("shown.bs.modal", function () {
             $('#cartohoraires-modal-close').click();
             setTimeout(function(){
