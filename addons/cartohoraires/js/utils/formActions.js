@@ -191,8 +191,8 @@
          * Control email value with a simple regExp
          * @param {String} val as email value
          */
-        _formactions.isMailValid = function (val ) {
-            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
+        _formactions.isMailValid = function (val) {
+            return val && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
         }
 
         /**
@@ -202,8 +202,12 @@
          * @param {Function} callback 
          */
         _formactions.validConnexionForm = function (inputMailId, inputCodeId, callback) {
+            $('#code-form').removeClass('invalid');
+            $('#'+inputMailId).removeClass('invalid');
             // we valid email format
-            if(_formactions.isMailValid($('#'+inputMailId).val())) {
+            let isCode = $('#code-form').val();
+            let isMailValid = _formactions.isMailValid($('#'+inputMailId).val());
+            if(isCode && isMailValid) {
                 // if email format is valid we request connexion with code and email params
                 callback(
                     {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
@@ -255,6 +259,16 @@
                     },
                     'POST',
                     'loginUser'
+                );
+            } else {
+                // invalid UI style
+                if (!isCode) $('#code-form').addClass('invalid');
+                if (!isMailValid) $('#'+inputMailId).addClass('invalid');
+                // display message
+                messages.create(
+                    '#createUserMsgExists',
+                    messages.text.wrongLogin,
+                    '#c52a0d'
                 );
             }
         }
