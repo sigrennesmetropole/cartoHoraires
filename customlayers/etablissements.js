@@ -71,9 +71,10 @@ mviewer.customLayers.etablissements = (function() {
 
         if (size > 1) {
             return manyStyle(radius, color, size);
-        } else {
+        } 
+        /*else {
             return pointStyle(color);
-        }
+        }*/
     }
 
     /**

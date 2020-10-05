@@ -124,6 +124,13 @@ class Graph {
             },
             legend: {
                 display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0
+                    }
+                }]
             }
         };
 
