@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<config>
+	<application
+		title="À LA BONNE HEURE"
+		logo="https://public.sig.rennesmetropole.fr/ressources/img/logos/rm/logo_mviewer_blanc_transparent.png"
+        titlehelp="À propos de la carte des horaires" 
+		help="apps/cartoHoraires/html/help_horaires.html"
+		showhelp="false"
+		iconhelp=""
+		style="apps/cartoHoraires/css/horaires.css"
+		exportpng="true"
+		geoloc="false"
+		measuretools="false"
+		stats="false"
+		statsurl=""
+		togglealllayersfromtheme="false"
+		>
+
+	</application>
+	<mapoptions maxzoom="20" minzoom="10" projection="EPSG:3857" center="-186098.36482879001,6125889.9088213602" zoom="12" />
+	
+	<baselayers>
+		<baselayer visible="true" id="pvcisimplegris" thumbgallery="apps/public/img/basemap/pvcilight.jpg" title="Rennes Metropole" label="Plan de ville simple gris" type="WMTS" 
+			url="https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?" layers="ref_fonds:pvci_simple_gris" format="image/png" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+			attribution="&lt;a href=&quot;https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/home&quot; target=&quot;_blank&quot; &gt;Rennes Métropole&lt;/a&gt;">
+		</baselayer>
+	</baselayers>
+
+	<extensions>
+		<extension type="component" id="bootstrap-clockpicker" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
+		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
+	</extensions>
+
+    <searchparameters bbox="false" localities="false" features="false" static="false"
+		searchRM="true" searchRMConf="apps/georm/addons/data/searchConf.json"/>
+    
+	<themes mini="true">
+		<theme id="horaires" name="Transport" collapsed="true" icon="fas fa-clock">
+		<layer
+				id="etablissements"
+				name="Légende"
+				type="customlayer"
+				url="apps/cartoHoraires/customlayers/etablissements.js"
+				visible="true"
+				permanentlayer="true"
+				metadata=""
+				metadata-csw=""
+				legendurl="apps/cartoHoraires/img/legendmap.png"
+				queryable="false"
+                featurecount="6"
+				infopanel="right-panel">
+			</layer>
+		</theme>
+	</themes>
+</config>
+

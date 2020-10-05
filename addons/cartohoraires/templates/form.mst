@@ -1,0 +1,194 @@
+<div id="form-modal" class="modal fade in" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content no-border form-modal-content">
+            <div class="modal-body form-modal-body">
+                <div class="row form-row">
+                    <div class="col-sm-12 col-md-4 no-float connect-zone" style="background-color:#353350">
+                        <div class="row row-close visible-xs visible-sm">
+                            <button type="button" id="form-modal-close" class="close  mobile-close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="row authent" style="display:none;">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="padding: 0;">
+                                    <img src="apps/cartoHoraires/img/avatar.svg" style="width: 5em; margin-bottom: 15px;">
+                                    <br>
+                                    <span class="id-els">Vous êtes connecté.e en tant que </span>
+                                    <br>
+                                    <span id="email-id"></span>
+                                    <br>
+                                    <span class="row-fluid text-right">
+                                        <button 
+                                            onclick="formactions.logout()"
+                                            type="btn" 
+                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Déconnexion
+                                        </button>
+                                        <button 
+                                            onclick="$('#delete-modal').modal('toggle')"
+                                            type="btn" 
+                                            class="btn btn-xs id-els-btn btn-sm btn-connect no-border id-els" >Supprimer mes horaires
+                                        </button>
+                                        <br>
+                                        <span id="connectedMsg" class="hide"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 anonymous">
+                            <!--TITLE AND DETAILS ABOUT CONNEXION-->
+                            <span classe="row" style="margin-bottom: 10px;">
+                                <h2 class="connect-title" style="margin-top:0px;">Connectez-vous</h2>
+                                <span class="connect-text">
+                                    Pour enregistrer vos horaires, il est nécessaire de s'identifier. 
+                                    Vous avez déjà renseigné vos horaires et vous souhaitez les modifier, 
+                                    connctez-vous avec le code envoyé par mail.
+                                </span>
+                            </span>
+                            <!--INPUT MAIL-->
+                            <span classe="row">
+                                <h4>Adresse mail</h4>
+                                <input id="email-form" autocomplete="false" type="email" placeholder="email@mail.com" class="form-control reset" name="email-form" required>
+                            </span>
+                            <!--INPUT CODE PASSWORD-->
+                            <span classe="row">
+                                <h4>Code</h4>
+                                <input id="code-form" type="password" autocomplete="false" type="text" placeholder="*******" class="form-control reset" name="code-form" required>
+                            </span>
+                            <span id="createUserMsgExists" class="userConnectFormMsg hide"></span>
+                            <!--CODE FORGET-->
+                            <div class="row">
+                                <button
+                                    onclick="formactions.validConnexionForm('email-form','code-form', cartoHoraireApi.request)"
+                                    type="btn" class="btn btn-default btn-connect no-border">S'identifier
+                                </button>
+                                <a href="#" class="link-code" onclick="$('#code-modal').modal('toggle')"> Code oublié ?</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 anonymous">
+                            <!--1st CONNEXION-->
+                            <h3>1ère connexion</h3>
+                            <span classe="col-sm-12">
+                                <h4>Adresse mail</h4>
+                                <input autocomplete="off" required type="email" placeholder="email@mail.com" class="form-control" name="email-form" id="fst-email-form">
+                                <span id="createUserMsgFirst" class="userConnectFormMsg hide"></span>
+                            </span>
+                            <!--1st CONNEXION VALID BUTTON-->
+                            <div class="row">
+                                <button
+                                    onclick="formactions.validFirstConnexionForm('fst-email-form', cartoHoraireApi.request)"
+                                    type="btn" 
+                                    id="firstConnectBtn" 
+                                    class="btn btn-default btn-connect no-border">Obtenir le code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--INPUT ZONE-->
+                    <div class="col-sm-12 col-md-8 no-float input-zone">
+                        <div class="col-sm-12 hidden-sm hidden-xs">
+                            <button type="button" id="form-modal-close" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <h2>Saisissez vos horaires</h2>
+                        <br>
+                        <span id="inputFormMsg" class="userModalFormMsg hide"></span>
+                        <!--INPUT DATA-->
+                        <div class="col-sm-12" style="padding:0;">
+                            <h3>Votre lieu de travail</h3>
+                            <!--RADIO-->
+                            <div class="col-sm-10 col-md-3" id="search-radio-form">
+                                <!--RVA-->
+                                <input type="radio" id="ch-adresse-form" name="search-form" value="address">
+                                <label for="ch-adresse-form">Adresse</label>
+                                <!--SIRENE-->
+                                <input type="radio" id="ch-sirene-form" name="search-form" value="sirene" checked>
+                                <label for="ch-sirene-form">Établissement</label>
+                            </div>
+                            <!--INPUT FIELD-->
+                            <div class="col-sm-10 col-md-12 autocomplete-form" id="search-input-form">
+                                <div class="form-group form-autocomplete-form">
+                                    <div class="input-group date col-sm-12" coordinates="" id="ch-searchfield-form">
+                                    <span class="input-group-addon search-picto">
+                                    <i class="fas fa-search result"></i>
+                                    <i class="fas fa-times delete" style="display:none"></i>
+                                    </span>
+                                    <input type="text" id="input-autocomplete-form" class="form-control search-input input-search input-text reset" autocomplete="off" placeholder="Rechercher votre lieu de travail">
+                                    </div>
+                                </div>
+                                <div class="autocomplete-list-form autocomplete-result col-sm-12" style="display:none;"></div>
+                            </div>
+                        </div>
+                        <!--MAP-->
+                        <div class="col-sm-12">
+                            <div id="mapSearch" class="mapSearch" style="height:150px;"></div>
+                        </div>
+                        <div class="col-sm-12" style="padding:0;">
+                            <h3>Vos horaires</h3>
+                            {{#days}}
+                            <div class="row input-day-zone" id={{id}}>
+                                <h4>{{name}}</h4>
+                                <div>
+                                    <input type="checkbox" id="checkbox-{{id}}" name="checkbox-{{id}}" class="ch-absent">
+                                    <label for="checkbox-{{id}}">Télétravail ou absence</label>
+                                </div>
+                                <div class="row input-selectors">
+                                    <div class="arrive col-sm-12 col-md-3">
+                                        <span>Arrivée au lieu de travail</span>
+                                        <div class="input-group clockpicker">
+                                            <input type="text" id="clockpicker-in-{{id}}" class="form-control clock input-style" value="08:00">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="arrive col-sm-12 col-md-3">
+                                        <span>Mode de transport d'arrivé</span>
+                                        <select class="form-control input-style transpor-list transport-input-selector" id="transport-in-select-{{id}}">
+                                            <option value="">Rien à sélectionner...</option>
+                                        </select>
+                                    </div>
+                                    <div class="arrive col-sm-12 col-md-3">
+                                        <span>Départ du lieu de travail</span>
+                                        <div class="input-group clockpicker">
+                                            <input  id="clockpicker-out-{{id}}" type="text" class="form-control clock input-style" value="18:00">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="arrive col-sm-12 col-md-3">
+                                        <span>Mode de transport du départ</span>
+                                        <select class="form-control input-style transpor-list transport-input-selector" id="transport-out-select-{{id}}">
+                                            <option value="">Rien à sélectionner...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row copyBtn">
+                                    <div class="col-sm-3 col-md-3" style="width: 10em;">
+                                        <button type="btn" class="btn-xs btn-valid btn-copy btn btn-default" 
+                                            onclick="formactions.duplicateDay('{{id}}')" id="copy-{{id}}">Copier pour tous
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-7 col-md-8">
+                                        <p>Vos informations seront copiées du lundi au vendredi. Si vos horaires et/ou modes de déplacement varient, pensez à mettre à jour les jours correspondants</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/days}}
+                            <div id="btn-form-actions" class="row btn-form-actions text-right">
+                                <button 
+                                    id="btn-restore"
+                                    onclick="formactions.restore(true)"
+                                    type="btn" class="btn btn-default btn-valid">
+                                    Réinitialiser
+                                </button>
+                                <button 
+                                    id="btn-valid"
+                                    onclick="formactions.dataToServer('email-id')"
+                                    type="btn" class="btn btn-default btn-valid disabled">Valider</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+.clockpicker>.input-group-addon{
+    background-color: #55B3B9;
+    border: 1px #55B3B9 solid;
+    color: white;
+}
+
+.clockpicker {
+    width: 100%;
+}
+
+.clockpicker-button {
+    background-color: #55B3B9;
+    color: white;
+    font-family: var(--font_regular);
+    font-size: 13px;
+}
+
+.clockpicker-button:hover{
+    background-color: #55b3b9de!important;
+    color: white;
+    border-color: #55b3b9de;
+}
+
+.clockpicker-span-hours.text-primary {
+    color: #55B3B9;
+}
+
+.clockpicker-span-minutes.text-primary {
+    color: #55B3B9;
+}
+
+.clockpicker-popover>.popover-content{
+    background-color: #eee;
+}
+
+.clockpicker-plate {
+    background-color: white;
+    border: 0px;
+}
+
+.clockpicker-popover {
+    z-index: 100000;
+    padding: 0;
+    border: none;
+}
+
+.clockpicker-popover .popover-title {
+    padding: 15px;
+}
+
+.clockpicker-align-left.popover>.arrow {
+    border-color: #00ffff00;
+}
+
+.clockpicker-tick {
+    color: #777;
+}
+
+/* Couleur selection des heures et des minutes */
+.clockpicker-canvas-bearing, .clockpicker-canvas-fg {
+    fill: #58b3ba;
+}
+
+.clockpicker-canvas line {
+    stroke: #58b3ba;
+}
+
+.clockpicker-canvas-bg {
+    fill: #79d8de;
+}
+
+.clockpicker-canvas-bg-trans{
+    fill: #79d8de;
+}

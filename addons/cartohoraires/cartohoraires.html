@@ -1,0 +1,69 @@
+<div class="cartohoraires-panel panel">
+  <div class="panel-body">
+    <h4 class="modal-title">Volet d'information - mode desktop</h4>
+  </div>
+</div>
+
+<div class="modal fade" id="cartohoraires-modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="cartohoraires-modal-close" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Volet d'information - mode mobile</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="code-modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="code-modal-close" class="close" data-dismiss="modal">×</button>
+        <h2>Code oublié ?</h2>
+      </div>
+      <div class="modal-body">
+        <p>
+          Veuillez saisir votre adresse mail pour obtenir un nouveau code. Un mail vous sera envoyé dans les prochaines minutes.
+        </p>
+        <div class="input-group">
+          <span class="input-group-addon" id="codePaperPlane"><i class="fas fa-at"></i></span>
+          <input type="email"  id="code-mail" onchange='formactions.validMailCode(this, "getNewCode")' class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
+        </div>
+        <br>
+        <span id="getCodeMsg" class="userModalFormMsg hide"></span>
+        <button type="btn" id="getNewCode" onclick="formactions.createNewPassword('code-mail')" class="disabled formBtn btn btn-default">Obtenir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete-modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="delete-modal-close" class="close" data-dismiss="modal">×</button>
+        <h2>Confimer la suppression ?</h2>
+      </div>
+      <div class="modal-body">
+        <p>
+          Veuillez saisir votre code de connexion pour supprimer vos données horaires.<br>
+          Attention, votre compte sera lui-aussi supprimé avec cette action.
+        </p>
+        <div class="input-group">
+          <span class="input-group-addon" id="codeDelete"><i class="fas fa-key"></i></span>
+          <input onchange="formactions.changeCodeDelete(this)" type="password"  id="code-delete" class="form-control code-input" placeholder="*****" aria-describedby="codeDelete">
+        </div>
+        <br>
+        <span class="hide userModalFormMsg" id="confirmDeleteMsg"></span>
+        <br>
+        <button type="btn" id="delete-modal-btn" onclick="formactions.deleteInfos()" class="disabled formBtn btn btn-default">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>

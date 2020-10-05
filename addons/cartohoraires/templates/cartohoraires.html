@@ -1,0 +1,207 @@
+
+<div class="cartohoraires-template" style="max-height: 70%">
+    <div class="col-sm-12 text-center load-panel">
+        <div class="loader-sig" id="loader-6">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <p>Chargement des données ...</p>
+    </div>
+
+   <!--SEARCH FIELD & SEARCH TYPE RADIO-->
+   <div class="row top-form">
+        <!--JE CONTRIBUE / DEKSTOP-->
+        <div class="contributionBox_mobile col-sm-12 col-md-12">
+            <div class="contributionPanel">
+                <p class="titlePanel">Renseignez vos horaires</p>
+                <p class="textPanel">Cette carte repose sur les horaires renseignés par des contributeurs volontaires.<br>
+                    Vous souhaitez vous aussi renseigner vos horaires d'arrivée et de départ du travail ? c'est par ici</p>
+                <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
+                    Je contribue
+                </button>
+            </div>
+        </div> 
+        <div class="row" id="titleConfig">
+            <h4 class="col-sm-12 title-zone-config">
+                1- Affiner ma recherche   
+            </h4>
+            <p class="title-zone" style="margin: 0 0 10px 15px;">Zone géographique</p>
+        </div>
+      <!--INPUT FIELD-->
+      <div class="col-sm-10 col-md-6 autocomplete" id="search-input">
+         <div class="form-group form-autocomplete">
+            <div class="input-group date" id="ch-searchfield">
+               <span class="input-group-addon search-picto">
+               <i class="fas fa-search result"></i>
+               <i class="fas fa-times delete" style="display:none;"></i>
+               </span>
+               <input type="text" id="input-autocomplete" class="form-control search-input input-search input-text" autocomplete="off" placeholder="Rechercher votre lieu de travail">
+            </div>
+         </div>
+         <div class="autocomplete-list autocomplete-result col-sm-12" style="display:none;"></div>
+      </div>
+      <!--RADIO-->
+      <div class="col-sm-10 col-md-5" id="search-radio">
+         <!--RVA-->
+         <input type="radio" id="ch-adresse" name="search" value="address">
+         <label for="ch-adresse">Adresse</label>
+         <!--SIRENE-->
+         <input type="radio" id="ch-sirene" name="search" value="sirene" checked>
+         <label for="ch-sirene">Établissement</label>
+      </div>
+   </div>
+   <!--TOGGLE BUTTON-->
+    <div class="row col-sm-12 toggle-zone">
+        <div class="form-group" style="display: flex;">
+            <div class="col-sm-3 col-md-2" style="display: inline-flex; width: 70px;">
+                <input type="checkbox" id="switch">
+                <label for="switch" class="toggle-label">Toggle</label>
+            </div>
+            <div class="title-zae col-sm-8 col-md-9">
+                <p class="Text">Afficher les zones d'activité sur la carte</p>
+                <div id="recapZAC">
+                        <span class="infos" style="display:none" id="zac-infos-panel"> 
+                            <p class="subText" >Pour consulter les informations d'une zone d'activité, placez la zone d'activité souhaitée sous la croix jaune</p>
+                            <span class="zac-infos-loc" >
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="zac-info">zac</span>
+                            </span>    
+                        </span>
+                </div>
+            </div>                         
+        </div>
+    </div>
+    <!--TIME & TRANSPORT-->   
+    <div class="row">
+        <div class="col-sm-11 col-md-7" style="padding-bottom:10px;">
+            <!--DAYS TITLE-->
+            <p class="title-zone">Temporalité</p>
+            <p class="subText">Visualiser les données sur la carte et les graphiques en fonction de la période sélectionnée</p>
+            <br>
+            <!--DAYS-->
+            <span style="margin-top:10px">
+                <button type="button" class="btn btn-default btn-md btn-day btn-selected" day="1" dayName="Lundi">L</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="2" dayName="Mardi">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="3" dayName="Mercredi">M</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="4" dayName="Jeudi">J</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="5" dayName="Vendredi">V</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="6" dayName="Samedi">S</button>
+                <button type="button" class="btn btn-default btn-md btn-day" day="7" dayName="Dimanche">D</button>
+            </span>
+            <div id="slider-zone">
+                <input id="timeSlider" type="text" data-slider-tooltip="hide" data-slider-ticks-snap-bounds="30" data-slider-ticks="[0, 240, 480, 720, 960, 1200, 1440]" data-slider-ticks-labels='["0h", "4h", "8h", "12h", "16h", "20h", "24h"]'/>
+                <span id="slider-info">00 h 00 min</span>
+            </div>
+        </div>
+        <!--MODAL TYPE-->
+        <div class="col-sm-10 col-md-5" style="padding-bottom:10px;">
+            <p class="title-zone">Mode de transport</p>
+            <p class="subText">Filtrer les données sur la carte et les graphiques en fonction du mode de transport sélectionné</p>
+            <!--TRANSPORT SELECTOR-->
+            <select class="form-control transpor-list transport-modal-selector" id="modal-select">
+                <option value="">Rien à sélectionner...</option>
+            </select>
+        </div>
+    </div>
+
+    <!--GRAPH & INFOS-->
+    <div class="row" id="titleDataV">
+        <h4 class="col-sm-12 title-zone">
+            2- Résultats sur la zone, le jour et le mode de transport sélectionnés
+        </h4>
+    </div>
+    <!--RECAP INFOS-->
+    <div class="row" id="recapInfos" >
+        <span class="col-sm-12">
+            <span class="infos" style="display:none" id="clock-info">
+                <i class="fas fa-clock"></i> 
+                <span id="datetime-info">Mercredi - 8:00</span>
+            </span>
+            <span class="infos" style="display:none" id="transport-info">
+                <i class="fas fa-car"></i> 
+                <span id="mode-info">Voiture</span>
+            </span>
+            <span class="infos" style="display:none" id="zac-infos-panel"> 
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="zac-info">zac</span>
+            </span>
+        </span>
+    </div>
+    <!--NUMBERS KEYS-->
+    <div class="row" style="margin: 15px 0px 30px 0px;">
+        <div class="col-sm-12 cardNumber">
+            <div class="card1 col-sm-6">
+                <div class="card-info number1">
+                    <span class="input-info">
+                        <span id="input-number" class="input-number">45</span> personnes
+                    </span>
+                    <br>
+                    <p class="titleNumb"> ont saisis leurs horaires</p>
+                    <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
+                </div>
+            </div>
+            <div class="card2 col-sm-6">
+                <div class="card-info number2">
+                    <span class="input-info">
+                        <span id="absent-number" class="input-number">3</span> personnes
+                    </span>
+                    <br>
+                    <p class="titleNumb">sont en télétravail ou absentes</p>
+                    <p class="subtitleNumb">Pour la journée et la zone sélectionnée</p>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <!--GRAPH PANEL-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default no-border" id="panelGraph">
+                <div class="panel-heading no-border">
+                    <p class="titleGraph">Répartition des arrivées et départs sur une journée</p>
+                    <p class="subtitleGraph">Pour la journée, le mode de transport et la zone sélectionnés</p>
+                </div>
+                <div id="noFilters" class="panel-body no-border text-center panelResult">
+                    <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
+                    <br>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Vous devez sélectionner tous les filtres pour afficher le graphique.</h5>
+                    <!--CHART BAR-->
+                    <canvas id="myChart" class="col-sm-12"></canvas>
+                </div>
+                <div id="zacResult" class="panel-body no-border text-center panelResult" style=" display:none;">
+                    <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
+                    <br>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Aucune ZAC ou aucune données pour cette ZAC.</h5>
+                    <!--CHART BAR-->
+                    <canvas id="myChart" class="col-sm-12"></canvas>
+                </div>
+                <div id="extentResult" class="panel-body no-border text-center panelResult" style="display:none;">
+                    <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
+                    <br>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Aucune donnée à analyser sur le jour et la zone sélectionnés.</h5>
+                    <!--CHART BAR-->
+                    <canvas id="myChart" class="col-sm-12"></canvas>
+                </div>
+                <div id="zoomMsg" class="panel-body no-border text-center panelResult" style="display:none;">
+                    <i class="fas fa-map-marker-alt col-sl-12 emptyGraph"></i>
+                    <br>
+                    <h5 class="subText emptyGraph" style="margin-top:20px">Veuillez zoomer sur la carte pour consulter les informations.</h5>
+                    <!--CHART BAR-->
+                    <canvas id="myChart" class="col-sm-12"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--JE CONTRIBUE / DEKSTOP-->
+    <div class="contributionBox_dekstop row">
+        <div class="contributionPanel">
+            <p class="titlePanel">Renseignez vos horaires</p>
+            <p class="textPanel">Cette carte repose sur les horaires renseignés par des contributeurs volontaires.<br>
+                Vous souhaitez vous aussi renseigner vos horaires d'arrivée et de départ du travail ? c'est par ici</p>
+                <button type="btn" onclick="$('#form-modal').modal('toggle');" class= "formBtn btn btn-default" id="formBtn">
+                Je contribue
+            </button>
+        </div>
+    </div>
+</div>

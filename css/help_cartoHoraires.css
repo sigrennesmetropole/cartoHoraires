@@ -1,0 +1,205 @@
+/*******************************
+------------- CSS HELP / Carto Horaires
+********************************/
+/** Import des fonts **/
+
+@font-face {
+  font-family: 'VistaSansOT_black';
+  src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+  font-family: 'VistaSansOT_bold';
+  src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
+  font-family: 'VistaSansOT_regular';
+  src: url('../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+--font_bold: 'VistaSansOT_bold', Arial, sans-serif;
+--font_black: 'VistaSansOT_black', Arial, sans-serif;
+}
+
+/* Colors */
+:root {
+--bleu: #36334F;
+--turquoise: #57B3B9;
+--jaune: #F1BD68;	
+}
+
+/*** Display title **/
+
+#help .modal-title {
+  display: none;
+}
+
+
+/** Version mobile **/
+
+@media (max-width: 480px) {
+	#help .tab-content>.active {
+		padding: 30px 40px!important;
+	}
+}
+
+/********/
+/* Help button dans navbar mviewer */
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn{
+  border-radius:6%;
+  border: 0px!important;
+  font-family: var(--font_bold);
+  color:var(--bleu);
+  font-size: 15px;
+}
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn:hover{
+  background-color: rgba(255, 255, 255, 0.89);
+}
+
+button.btn.btn-default.navbar-btn.mv-navbar-btn:focus{
+  background-color: rgba(255, 255, 255, 255);
+}
+
+/* Help panel */
+
+/****/
+
+#help .modal-header {
+    padding: 20px 30px!important;
+}
+
+#help .modal-header .close{
+  color: var(--bleu)!important;
+  opacity: 1!important;
+}
+
+#help .modal-body {
+    padding: 0px!important;
+}
+
+#help .modal-content{
+  font-family: var(--font_regular) ;
+  height: auto;
+}
+
+#help .nav-tabs{
+  border-bottom: 0px solid var(--bleu);
+}
+
+#help .nav-tabs>li>a{
+  border-radius: 0px 0px 0 0px!important;
+  color: #777;
+}
+
+#help .nav-tabs>li.active>a{
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--bleu)!important;
+  border-bottom: 2px solid var(--bleu)!important;
+}
+
+/* Titre */
+.title-welcome{
+  padding-bottom: 10px;
+  font-family: var(--font_bold);
+  font-size: 28px;
+  text-align: center;
+  color: var(--bleu);
+  margin-top: 0;
+}
+
+#help .tab-pane h4{
+  font-family: var(--font_bold);
+    color: var(--turquoise);
+    font-size: 18px;
+}
+
+#help .tab-pane p{
+    color: #777;
+    font-size: 14px;
+}
+
+
+/**/
+
+#help .tab-content>.active{
+    padding: 30px 100px;
+}    
+
+/**  Bouton **/ 
+
+  a.data-downl{
+    display:inline-block;
+    padding:0.5em 1em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.3em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:var(--font_regular);
+    font-weight:300;
+    color:#FFFFFF;
+    background-color:var(--bleu);
+    text-align:center;
+    transition: all 0.2s;
+  }
+
+  a.data-downl:hover{
+    color: #ffffff!important;
+    background-color: #36334fd1;
+  }
+
+  /** Barre de navigation **/
+
+  #help .nav-tabs > li {
+  float:none;
+  display:inline-block;
+  zoom:1;
+  }
+
+  #help .nav-tabs {
+  text-align:center;
+  }
+
+  #help .nav-tabs {
+    border-bottom: 1px solid #ffffff;
+    background-color: #ffffff;
+  }
+
+  #help .nav-tabs>li.active>a {
+    border-bottom: 2px solid var(--bleu)!important;
+  }
+
+  #help .nav-tabs>li>a {
+    color: var(--bleu);
+    font-size: 13px;
+    font-family: var(--font_bold);
+    text-transform: uppercase;
+  }
+
+/* Survol */
+
+  #help .nav-tabs>li>a:hover {
+    background-color: #ffffff!important;
+    border-color: #ffffff!important;
+    border-bottom: 2px solid var(--bleu)!important;
+  }
+
+
+  /**** à la bonne heure **/
+  
+  .bold {
+    font-family: var(--font_bold);
+    }
+  
+  .sign_home {
+    margin-top: 25px;
+  }
+  
+  .sign_home a {
+    color: var(--turquoise);
+}

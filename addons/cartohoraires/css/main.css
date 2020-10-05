@@ -1,0 +1,624 @@
+/** Import des fonts **/
+
+@font-face {
+    font-family: 'VistaSansOT_black';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bold';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+	--font_bold: 'VistaSansOT_bold', Arial, sans-serif;
+	--font_black: 'VistaSansOT_black', Arial, sans-serif;
+}
+
+/* Colors */
+:root {
+	--bleu: #36334F;
+	--turquoise: #57B3B9;
+	--jaune: #F1BD68;	
+}
+
+/* ------ */  
+/* Page de chargement du mviewer */
+div#loading-page {
+    font-family: var(--font_regular)!important;
+}
+
+/**/
+.cartohoraires-panel {
+    position: fixed;
+    right: 0px;
+    width: 40%;
+    background-color: white;
+	height: 100%;
+	overflow: auto;
+	max-height: 100%;
+	
+}
+
+.cartohoraires-panel>.panel-body{
+    padding-top:50px;
+}
+
+.cartohoraires-template{
+    padding-top:10px;
+}
+
+/**
+* ADRESS - SIRENE SEARCH FIELD
+*/
+.search-picto{
+    border-right: none;
+	color:white;
+	background-color: var(--bleu);
+	border:none;
+}
+.search-input,.search-input:focus{
+    border-left: none;
+    border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	background-color: rgb(238,238,238);
+	color: #777!important;
+}
+
+.search-picto,.search-input{
+	border-color: transparent;
+}
+
+#search-radio{
+	padding: 5px 15px;
+}
+
+#ch-sirene{
+	margin-left: 10px;
+}
+
+#search-input a{
+	color: #777;
+}
+
+#search-input a:hover{
+	color: var(--bleu);
+}
+
+/**
+* RADIO
+*/
+
+input[type='radio']:checked:after {
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	left: -1px;
+	position: relative;
+	background-color: var(--bleu);
+	content: '';
+	display: inline-block;
+	visibility: visible;
+	border: 2px solid white;
+}
+
+
+input[type='radio']:after {
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	left: -1px;
+	position: relative;
+	background-color: #d1d3d1;
+	content: '';
+	display: inline-block;
+	visibility: visible;
+	border: 2px solid white;
+}
+
+/**
+* TOGGLE BUTTON
+* From https://codepen.io/mburnette/pen/LxNxNg
+*/
+
+.toggle-zone{
+	padding-left:0;
+	margin-bottom: 10px;
+}
+#switch[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.toggle-label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 35px;
+	height: 20px;
+	background: #d1d3d1;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+.toggle-label:after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 5px;
+	width: 15px;
+	height: 15px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+#switch:checked + .toggle-label {
+	background: var(--jaune);
+}
+
+#switch:checked + .toggle-label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+/* Title ZAE*/
+
+p.Text {
+	color: #777;
+    font-family: var(--font_regular);
+    font-size: 14px;
+    margin: 0;
+}
+
+p.subText {
+    font-size: 12px;
+	margin: 0;
+	color: #777;
+	font-family: var(--font_regular);
+	line-height: 1.2;
+}
+
+/* Version 2 ZAC */
+
+.zac-infos-loc {
+    background-color: var(--bleu);
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+.zacData {
+    background-color: var(--jaune);
+}
+.no-selected-zac {
+    background-color: #777;
+}
+
+.title-zae{
+	padding: 0;
+}
+
+#zac-infos-panel .subText {
+    font-style: oblique;
+    font-family: var(--font_regular);
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/**
+* TITLE FILTER
+*/
+
+.title-zone{
+	color: var(--bleu);
+    font-family: var(--font_bold);
+    font-size: 15px;
+    margin: 0px 0px 3px 0px;
+}
+
+#titleConfig {
+    margin: 0;
+}
+
+.title-zone-config{
+	color: var(--bleu);
+    font-family: var(--font_bold);
+    font-size: 20px;
+    margin: 0px 0px 10px 0px;
+}
+/**
+* AUTOCOMPLETE
+*/
+
+.autocomplete-result {
+	background-color:#eee;
+	position: absolute;
+	z-index: 10000000;
+	border: 1px #eeeeee solid;
+	border-radius: 4px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: fit-content;
+	margin: 4px 0px 0px 38px;
+	line-height: 1.6;
+	max-height: 250px;
+	overflow: auto;
+}
+
+.form-autocomplete {
+	margin-bottom: 0px;
+}
+
+
+/*
+* TRANSPORT LIST
+*/
+#modal-select {
+	background-color: #eee;
+    border: 1px #57b3b900 solid;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-family: var(--font_regular);
+    color: #777!important;
+}
+
+select#modal-select {
+    background-image:
+    linear-gradient(45deg, transparent 50%, #ffffff 50%),
+    linear-gradient(135deg, #ffffff 50%, transparent 50%),
+    linear-gradient(to right, var(--bleu), var(--bleu));
+    background-position:
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 10px) calc(1em + 2px),
+    100% 0;
+    background-size: 5px 5px,
+    5px 5px,
+    2.5em 100%;
+    background-repeat: no-repeat;
+    padding: 0.5em 3.5em 0.5em 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/**
+* BUTTON DAYS
+*/
+.btn-day {
+	background-color: #e4e4e4;
+    border: 1px transparent solid;
+    height: 3.5em;
+    width: 2.5em;
+    color: #777;
+    font-family: var(--font_regular);
+}
+
+.btn-selected, .btn-day:focus, .btn-day:active {
+	background-color: var(--bleu);
+    color: #ffffff;
+    border: 1px var(--bleu) solid;
+}
+
+
+.btn-day:hover {
+	background-color: #36334fe0;
+    border: none;
+    color: #f9f9f9;
+}
+
+/** TIME SLIDER **/ 
+#slider-zone .slider.slider-horizontal {
+	margin: 0;
+	width: 60%;
+}
+
+#slider-zone {
+    padding: 20px 0px;
+}
+
+#slider-zone .slider-track {
+    height: 5px!important;
+}
+
+#slider-zone .slider-selection{
+	background-color: #ddd!important;
+    background-image: none;
+}
+
+#slider-zone .slider-track-high {
+    background: #ddd;
+}
+
+#slider-zone .slider-handle.min-slider-handle.round {
+    background: var(--bleu);
+    width: 15px;
+	height: 15px;
+	box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
+	-moz-box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
+	-webkit-box-shadow: 0px 0px 13px 4px rgba(54, 51, 79, 0.6);
+}
+
+#slider-info {
+    background-color: var(--bleu);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin: 0px 0px 0px 20px;
+    color: white;
+	font-family: var(--font_regular);
+	position: absolute;
+}
+
+
+/* RANGE SLIDER */
+
+#slider-zone .slider-tick.round {
+    /* background: none; */
+    border-radius: 0;
+    width: 1px;
+    height: 15px;
+    margin-top: 15px;
+    margin-left: -5px!important;
+}
+
+#slider-zone .slider-tick.round.in-selection {
+    background: #ccc;
+}
+
+#slider-zone .slider-tick-label {
+    margin-top: 20px;
+    color: #aaa;
+}
+
+#slider-zone .slider-handle.min-slider-handle.round {
+    margin-left: -8px;
+}
+
+
+/** DATAVISUALISATION **/
+
+#titleDataV h4 {
+    font-size: 20px;
+}
+
+
+
+/**
+* INFOS ICONS
+*/
+#recapInfos {
+    font-family: var(--font_regular);
+	color: #777;
+	display: none!important;
+}
+
+.infos {
+	margin-right:20px;
+}
+
+.infos>i {
+	padding-right:5px;
+}
+
+
+/* GRAPH */
+#panelGraph .panel-heading.no-border {
+	background-color: #f2f2f2;
+	padding: 15px 25px 0px;
+}
+
+#panelGraph {
+    background-color: #eeec;
+}
+
+p.titleGraph {
+    font-family: var(--font_bold);
+    color: #777;
+    font-size: 15px;
+    margin: 0;
+}
+
+p.subtitleGraph {
+    font-family: var(--font_regular);
+    color: #777;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* EMPTY GRAPH */
+
+i.emptyGraph {
+    color: var(--turquoise);
+    font-size: 18px;
+    background-color: #57b3b94d;
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+.subText.emptyGraph {
+    font-family: var(--font_regular);
+    color: #999;
+    font-size: 13px;
+}
+
+/**
+* CARD INFO - NUMBERKEYS
+*/
+.cardNumber{
+	padding:0px;
+}
+
+.card1{
+	padding: 0 6px 0px 0px;
+}
+
+.card2{
+	padding: 0 0px 0px 6px;
+}
+
+.card-info {
+	background-color: #eeec;
+	border: 1px transparent solid;
+	border-radius: 4px;
+	font-family: var(--font_regular);
+}
+
+/* En version mobile */
+#cartohoraires-modal .card-info{
+	margin-bottom: 10px;
+}
+
+#cartohoraires-modal .card1{
+	padding: 0!important;
+}
+
+#cartohoraires-modal .card2{
+	padding: 0!important;
+}
+
+.glyphicon-menu-hamburger {
+	color: white;
+}
+
+/**/
+
+.input-info {
+	color: var(--turquoise);
+	font-family: var(--font_bold);
+	font-size: 14px;
+}
+
+.input-number {
+	font-size: 20px;
+}
+
+.titleNumb {
+    font-family: var(--font_regular);
+    color: #777;
+	margin: 0;
+	font-size: 12px;
+}
+
+.subtitleNumb {
+    font-family: var(--font_regular);
+    color: #777;
+    margin: 0;
+    font-size: 11px;
+    font-style: oblique;
+}
+
+/* Illustration */
+.number1 {
+	background-image: url(../../../img/numberkey_1.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 10em;
+}
+
+.number2 {
+	background-image: url(../../../img/numberkey_2.png);
+	background-repeat: no-repeat;
+    background-size: contain;
+	background-position: 0% 100%;
+    padding: 0.5em 0.5em 0.5em 7em;
+}
+
+/**
+* OTHERS
+*/
+
+.top-form {
+	margin-bottom: 10px;
+	font-family: var(--font_regular);
+	color: #777;
+}
+
+.no-border{
+	border: 1px transparent solid;
+}
+.no-border>.panel-heading{
+	border: 1px transparent solid !important;
+}
+
+.row{
+	margin-top: 10px;
+}
+
+
+/* HIDE NATIV MVIEWER UI*/
+
+#searchtool, .navbar-form, .navbar-brand.menu-toggle, #sidebar-wrapper, #backgroundlayersbtn, .ol-attribution {
+	display:none !important;
+}
+#map {
+	left: 0px;
+	margin-left: 0px !important;
+}
+
+/* BOX JE CONTRIBUE */
+
+p.titlePanel {
+    font-size: 17px;
+}
+
+.contributionPanel {
+	background-color: #37344f;
+	background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10px;
+	color: white;
+	font-family: var(--font_regular);
+}
+
+/* Dekstop */
+#cartohoraires-modal .contributionBox_dekstop {
+    display: none;
+}
+
+.contributionBox_dekstop {
+    margin: 1em 0em 2em 0em;
+    padding: 0;
+}
+
+.contributionBox_dekstop .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue.png);
+	background-position: 0% 100%;
+    padding: 2em 2em 2em 16em;
+}
+
+/* Mobile*/
+.cartohoraires-panel .contributionBox_mobile {
+    display: none;
+}
+
+.contributionBox_mobile .contributionPanel {
+	background-image: url(../../../img/illu_jecontribue_mobile.png);
+	background-position: 100% 0%;
+	padding: 17em 2em 2em 2em;
+	text-align: center;
+	margin-bottom: 10%;
+}
+
+
+/** LEGEND MAP **/
+#vector-legend-etablissements {
+    display: none;
+}
+
+.layerdisplay-legend.big-legend {
+    margin: 0;
+}
+
+#layers-container a {
+    padding-left: 10px;
+}

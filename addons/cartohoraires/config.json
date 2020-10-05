@@ -1,0 +1,57 @@
+{
+    "js": [
+        "js/main.js",
+        "js/utils/messages.js",
+        "js/utils/autocomplete.js",
+        "js/utils/graph.js",
+        "js/utils/slider.js",
+        "js/lib/lodash.js",
+        "js/lib/bootstrap-autocomplete.js",
+        "js/lib/chart.js@2.8.0.js",
+        "js/lib/turf.min.js",
+        "js/lib/moment.js",
+        "js/utils/api.js",
+        "js/utils/formActions.js"
+    ],
+    "css": [
+        "css/main.css", 
+        "css/loader.css",
+        "css/clockpicker.css",
+        "css/form.css"
+    ],
+    "html": "cartohoraires.html",
+    "target": "page-content-wrapper",
+    "options": {
+        "template": "apps/cartoHoraires/addons/cartohoraires/templates/cartohoraires.html",
+        "templateForm": "apps/cartoHoraires/addons/cartohoraires/templates/form.mst",
+        "templateFormBtn": "apps/cartoHoraires/addons/cartohoraires/templates/formBtn.html",
+        "mapWidth": 50,
+        "templateWidth": 50,
+        "requestLayer": "etablissements",
+        "zoomLvl" : 12,
+        "zoom": 5,
+        "rvaConfigFile": "apps/georm/addons/data/searchConf.json",
+        "za_layer": "eco_comm:v_za_terminee",
+        "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
+        "defaultSRS": "3948",
+        "homeToForm": true,
+        "graph": {
+            "aspectRatio": 3.2,
+            "step": 15,
+            "keepEmpty": false,
+            "responsive": true,
+            "maintainAspectRatio": true,
+            "duration": 3000
+        },
+        "sirenConfig": {
+            "filters": ["denominationunitelegale", "adresseetablissement", "denominationusuelleetablissement"],
+            "operator": "OR",
+            "url": "https://data.rennesmetropole.fr/api/records/1.0/search",
+            "dataset": "base-sirene-v3-ss",
+            "max": 10,
+            "min": 2,
+            "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif",
+            "icon": "apps/cartoHoraires/img/marker-icon.png"
+        }
+    }
+}

@@ -1,0 +1,474 @@
+/** STYLE DU FORMULAIRE **/ 
+
+/** Import des fonts **/
+
+@font-face {
+    font-family: 'VistaSansOT_black';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Black.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_bold';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Bold.otf');
+}
+@font-face {
+    font-family: 'VistaSansOT_regular';
+    src: url('../../../../site_internet/css/font/Vista_Sans-OT/VistaSansOT-Reg.otf');
+}
+
+/** Déclaration des propriétés de styles sous forme de variables **/
+/* Fonts */
+:root {
+	--font_regular: 'VistaSansOT_regular', Arial, sans-serif;
+	--font_bold: 'VistaSansOT_bold', Arial, sans-serif;
+	--font_black: 'VistaSansOT_black', Arial, sans-serif;
+}
+
+/** Taille de la modal **/
+@media (min-width: 992px) {
+	#form-modal .modal-lg {
+		width:85%;
+	}
+
+	.input-zone {
+		padding: 20px 40px;
+	}
+	
+	.connect-zone {
+		padding: 40px 20px!important;
+	}
+}	
+
+/**
+========================= INPUT ZONE
+*/
+
+/* LIEU DE TRAVAIL */
+
+#search-input-form .input-group-addon.search-picto {
+    background-color: var(--turquoise);
+}
+
+#search-radio-form {
+	color: #777;
+}
+
+#ch-sirene-form {
+    margin-left: 10px;
+}
+
+#search-radio-form input[type='radio']:checked:after {
+    background-color: var(--turquoise);
+}
+
+.autocomplete-list-form.autocomplete-result a {
+	color: #777;
+	line-height: 0.2;
+}
+
+.autocomplete-list-form.autocomplete-result a:hover {
+    color: var(--turquoise);
+}
+
+#ch-searchfield-form {
+	position: inherit;
+	width: 100%;
+}
+
+.mobile-close {
+    text-shadow: none;
+    color: white;
+	opacity: 0.8;
+}
+
+.row-close {
+	margin-top: 0 !important;
+    margin-bottom: 0;
+    padding-top: 0 !important;
+}
+
+/* HORAIRES */
+
+.input-day-zone {
+	background-color: rgb(238 238 238 / 78%);
+    padding: 20px;
+    border-radius: 4px;
+	margin: 0px 0px 20px 0px;
+	color:#777;
+	font-family:var(--font_regular);
+}
+
+
+.no-border {
+	border:0;
+}
+
+.input-style{
+	border-radius: 4px;
+    border: 1px #55b3b900 solid;
+    background-color: #dddddd63;
+    color: #777!important;
+}
+
+.input-zone h2{
+	font-family: var(--font_bold);
+    color: var(--bleu);
+}
+
+.input-zone h3 {
+    color: var(--bleu);
+    /* font-family: var(--font_regular); */
+}
+
+.input-day-zone h4 {
+    color: var(--turquoise);
+}
+
+#form-modal .input-group, .transpor-list {
+    margin-top: 5px;
+}
+
+.input-day-zone label {
+    font-weight: normal;
+    margin-left: 5px;
+    display: inline;
+}
+
+#form-modal .transpor-list {
+	background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%), linear-gradient(135deg, #ffffff 50%, transparent 50%), linear-gradient(to right, var(--turquoise), var(--turquoise));
+    background-position: calc(100% - 15px) calc(1em + 2px), calc(100% - 10px) calc(1em + 2px), 100% 0;
+    background-size: 7px 5px, 5px 5px, 2.7em 105%;
+    background-repeat: no-repeat;
+    padding: 0.5em 3.5em 0.5em 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 6px;
+}
+
+#form-modal .input-group-addon {
+    padding: 5px 10px!important;
+}
+
+.arrive {
+    margin-top: 10px;
+}
+
+/* Checkbox */
+#form-modal input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+}
+
+#form-modal input[type=checkbox] {
+    border-radius: 10px;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #777;
+}
+
+#form-modal input[type=checkbox]:checked {
+    background: #55b3b9;
+    border: #55b3b9;
+    position: relative;
+}
+
+/* HELP BUTTON */
+#iconhelp {
+	color: #55B3B9;
+	border-radius: 4px;
+	padding: 0;
+}
+
+
+/**
+========================= CONNECT ZONE
+*/
+.form-modal-content {
+	/*position: absolute;*/
+	border-radius: 6px;
+}
+button.formBtn {
+	background-color: #55B3B9;
+	border: 1px transparent solid;
+	margin-right: 10px;
+	color: white;
+	font-family: var(--font_regular);
+}
+
+button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBtn:visited {
+    border: 1px transparent solid;
+    margin-right: 10px;
+    color: white;
+    background-color: #6cbec3;
+}
+
+.form-modal-body, .form-template {
+	padding:0px;
+	overflow: auto;
+    border-radius: 3px;
+}
+
+#form-modal {
+	overflow-y: auto;
+	/*z-index: 10000;*/
+}
+
+.connect-zone {
+	border-top-right-radius: 3px;
+	padding: 20px;
+}
+
+.connect-zone>* {
+	color: white;
+	background-color: #353350;
+}
+
+.connect-zone h3, .connect-zone a {
+	color:#55B3B9;
+}
+
+.connect-zone input,.code-input {
+	border-radius: 4px;
+}
+
+.connect-zone h4 {
+	margin-top: 20px;
+}
+
+.connect-zone .row {
+	margin-top: 10px;
+	padding: 15px;;
+}
+
+.btn-connect {
+	background-color: #55B3B9;
+	color:white;
+}
+
+.link-code {
+	padding-left: 5px;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.connect-text, a {
+	font-size: 14px;
+	font-family: var(--font_regular);
+	text-justify: auto !important;
+}
+
+/**
+	ID ZONE WHEN USER IS CONNECTED
+*/
+
+.id-els {
+	margin-top: 10px;
+	color:white;
+}
+
+.id-els-btn {
+	color: white;
+    background-color: var(--turquoise);
+    padding: 6px 12px;
+}
+
+.id-els-btn:hover {
+    background-color: #55b3b9a8;
+    color: white;
+}
+
+
+#email-id {
+	color: var(--turquoise);
+    font-family: var(--font_bold);
+}
+
+
+.authent .panel.panel-default {
+    padding: 20px 0px;
+    text-align: center;
+    background-color: #f9f9f900;
+    border: none;
+    color: white;
+}
+
+
+/**
+    BUTTONS TO CLEAR OR VALID FORM
+*/
+
+.btn-valid {
+    background-color: var(--bleu);
+    color: white;
+    margin-top: 20px;
+    border: none;
+    padding: 6px 12px;
+    font-family: var(--font_regular);
+}
+
+.btn-form-actions {
+	padding: 10px;
+}
+
+.btn-copy {
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
+.btn-copy {
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
+.btn-clear {
+    background-color: #55B3B9;
+	color:white;
+	border: none;
+}
+
+.btn-form-action {
+    margin-bottom: 1em;
+}
+
+
+.form-row .no-float {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+}
+
+.form-modal-body>.row {
+    height: 100%;
+    display: table-row;
+}
+
+.btn-up,.btn-up:hover, .btn-up:focus, .btn-up:active {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	z-index: 10000 !important;
+	color: white;
+	margin-bottom: 0;
+	right:15px;
+	background-color: rgba(52,50,80,0.8) !important;
+	box-shadow: 0px 1px 10px 2px #555555b0;
+    margin: 0 auto;
+    border: none;
+}
+
+.btn-up.btn-lg {
+	width: 50px;
+	height: 50px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
+}
+
+.btn-up.btn-xl {
+	width: 70px;
+	height: 70px;
+	font-size: 24px;
+	line-height: 1.33;
+	border-radius: 35px;
+}
+
+.btn-up>span {
+	left: -1px;
+}
+
+/* Button copy */
+
+.copyBtn {
+    margin-top: 20px;
+}
+
+.copyBtn p {
+    font-style: italic;
+    color: #aaa;
+    font-family: var(--font_regular);
+    line-height: 1.2;
+    font-size: 11px;
+}
+
+.copyBtn .btn-valid {
+    background-color: #57b3b9b5;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+	font-family: var(--font_regular);
+	margin: 0px 0px 5px 0px;
+}
+
+.copyBtn .btn-valid:hover {
+    background-color: #57b3b9fa;
+}
+
+
+/**
+* FORM VALIDATION
+*/
+
+.invalid{
+	background-color: rgb(238,129,118,0.4) !important;
+	color: white !important;
+}
+
+.userConnectFormMsg, .userModalFormMsg {
+	display: block;
+	margin-top: 15px;
+	/*color: #fed500;*/
+}
+.userModalFormMsg {
+	margin-bottom:15px;
+}
+
+/*GET NEW CODE MODAL*/
+#code-modal, #delete-modal {
+	z-index: 10000;
+	top: 10%;
+}
+
+#code-modal .modal-content, #delete-modal .modal-content {
+	border-radius: 4px;
+	box-shadow: 0 5px 15px rgba(0,0,0,.8);
+	border: none;
+    padding: 20px;
+}
+
+#codePaperPlane, #codeDelete {
+	background-color: #55B3B9;
+	color: white;
+	border: none;
+}
+
+#code-modal h2, #delete-modal h2 {
+	color: var(--bleu);
+	font-family: var(--font_bold);
+}
+
+#code-modal p, #delete-modal p {
+	font-size: 14px;
+	font-family: var(--font_regular);
+    color: #777;
+}
+
+input#code-mail {
+    border: 1px #55b3b900 solid;
+    background-color: #dddddd63;
+    color: #777!important;
+}
+/** MAP FORM
+*/
+
+.mapSearch {
+	width: 100%;
+	height: 100px;
+}
+.mapSearch>canvas {
+	height: 100%;
+	width:100%
+}
