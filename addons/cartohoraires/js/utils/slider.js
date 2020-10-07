@@ -33,6 +33,9 @@ class Slider {
             ticks_snap_bounds: '1'
         });
 
+        slider.formatTime = this.timeConvert($('#timeSlider').val());
+        $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
+
         // With JQuery
         $('#' + target).on('slideStop', function(e) {
             /**
@@ -56,8 +59,6 @@ class Slider {
             slider.time = e.target.value;
             $('#slider-info').text(slider.formatTime);
         });
-        slider.formatTime = this.timeConvert($('#timeSlider').val());
-        $('#slider-info').text(this.timeConvert($('#timeSlider').val()));
 
         this.refresh = function() {
             return $('#'+this.target).slider('refresh');

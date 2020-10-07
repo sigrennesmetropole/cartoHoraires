@@ -1132,6 +1132,36 @@ const cartohoraires = (function() {
             formactions.validClockpickerBehavior();
     }
 
+    function initAfterData() {
+        // init time slider component
+        initTimeSlider();
+        // button for day selection
+        initBtnDay();
+        // hide or display mir
+        initSwitch();
+
+        initSearchItem();
+
+        $('#searchtool').hide();
+
+        initScrollBehavior();
+
+        // list for transport type value
+        initTransportList();
+
+        initFormInputs();
+        
+        // Display modal on mobile device
+        initModalBehavior();
+        
+        // init get data by extent by default
+        //getDataByExtent();
+        // init default zoom level
+        zoomToDefaultLvl();
+        // init behavior on map move
+        initMoveBehavior();
+    }
+
     /**
      * PUBLIC
      */
@@ -1140,6 +1170,7 @@ const cartohoraires = (function() {
         init: () => {
             // trigger with map postrender event to be sur IHM was loaded and exists
             mviewer.getMap().once('postrender', m => {
+                console.log('INIT');
                 // create SRS 3948 use by sigrennesmetropole as default SRS
                 if (options.defaultSRS === '3948') {
                     initSRS3948();
@@ -1151,14 +1182,10 @@ const cartohoraires = (function() {
                 initDisplayComponents();
                 // create ZAC layer
                 initZacLayer();
-                // init behavior on map move
-                initMoveBehavior();
-                // init get data by extent by default
-                getDataByExtent();
-                // init default zoom level
-                zoomToDefaultLvl();
-            });
 
+                let event = new CustomEvent('cartohorairesInit', { 'detail': 1 });
+                document.dispatchEvent(event);
+            });
         },
 
         /**
@@ -1166,35 +1193,21 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function(isInit) {
-            if(isInit) {
-                // init time slider component
-                let i = 0;
-                if (i == 0 && $('#timeSlider').length) {
-                    initTimeSlider();
-                    i = 1;
-                }
-
-                // button for day selection
-                initBtnDay();
-
-                // hide or display mir
-                initSwitch();
-                if (cartohoraires) {
-                    initSearchItem();
-                }
-                $('#searchtool').hide();
-
-                initScrollBehavior();
-
-                // list for transport type value
-                initTransportList();
-
-                initFormInputs();
-
-                // Display modal on mobile device
-                initModalBehavior();
+            if(!slider || !allZacLayer) {
+                document.addEventListener('cartohorairesInit', function() {
+                    setTimeout(function(){ 
+                        initAfterData();
+                        setInfosPanel(isInit ? true : false);
+                        $('.load-panel').hide();
+                        $(".cartohoraires-panel .row").show();
+                     }, 300);
+                });
+            } else {
+                initAfterData();
+                setInfosPanel(isInit ? true : false);
+                $('.load-panel').hide();
+                $(".cartohoraires-panel .row").show();
             }
-            setInfosPanel(isInit ? true : false);
         },
 
         /**

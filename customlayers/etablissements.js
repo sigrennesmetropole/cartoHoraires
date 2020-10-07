@@ -1,6 +1,6 @@
 mviewer.customLayers.etablissements = (function() {
     let id = 'etablissements';
-    let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
+    let data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
     // we need all initial data set to avoid to call geo server on each filter
     // we user Fuse engine to filter data on fields
@@ -167,30 +167,40 @@ mviewer.customLayers.etablissements = (function() {
         map.getView().setZoom(map.getView().getZoom()-1);
     }
 
+    function load(zte = false, zoom = null, fn = null, isFirst=false, evt) {
+        if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
+            let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
+            cartohoraires.setTransportType([...new Set(type)]);
+            if (vectorSource.getFeatures().length) {
+                initialData = vectorSource.getFeatures();
+            }                
+            
+            console.log('LOAD');
+            cartohoraires.initOnDataLoad(isFirst);
+        }
+
+        //vectorLayer.getSource().refresh();
+        if(zte) vectorLayer.zoomToExtent();
+        if(zoom) mviewer.getMap().getView().setZoom(zoom);
+        if(fn) {
+            fn(evt);
+        }
+    }
+
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
     */
     let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
-            if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
-                let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
-                cartohoraires.setTransportType([...new Set(type)]);
-                if (vectorSource.getFeatures().length) {
-                    initialData = vectorSource.getFeatures();
-                }                
-                ol.Observable.unByKey(evt);
-                cartohoraires.initOnDataLoad(isFirst);
+            console.log('postrender');
+            if(isFirst && typeof cartohoraires === 'undefined') {
+                document.addEventListener('cartohoraires-componentLoaded', function() {
+                    load(zte, zoom, fn, isFirst,e);
+                })
+            } else {
+                load(zte, zoom, fn, isFirst,e);
             }
-            // hide loader and display panel
-            $('.load-panel').hide();
-            $(".cartohoraires-panel .row").show();
-
-            //vectorLayer.getSource().refresh();
-            if(zte) vectorLayer.zoomToExtent();
-            if(zoom) mviewer.getMap().getView().setZoom(zoom);
-            if(fn) {
-                fn(e);
-            }
+            ol.Observable.unByKey(evt);
         })
     };
 
