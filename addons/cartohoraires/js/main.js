@@ -1133,6 +1133,39 @@ const cartohoraires = (function() {
     }
 
     /**
+     * Init DOM component with some lib and init some behaviors that directly depend on layer's data.
+     */
+    function initAfterData() {
+        // init time slider component
+        initTimeSlider();
+        // button for day selection
+        initBtnDay();
+        // hide or display mir
+        initSwitch();
+
+        initSearchItem();
+
+        $('#searchtool').hide();
+
+        initScrollBehavior();
+
+        // list for transport type value
+        initTransportList();
+
+        initFormInputs();
+        
+        // Display modal on mobile device
+        initModalBehavior();
+        
+        // init get data by extent by default
+        //getDataByExtent();
+        // init default zoom level
+        zoomToDefaultLvl();
+        // init behavior on map move
+        initMoveBehavior();
+    }
+
+    /**
      * PUBLIC
      */
 
@@ -1151,14 +1184,10 @@ const cartohoraires = (function() {
                 initDisplayComponents();
                 // create ZAC layer
                 initZacLayer();
-                // init behavior on map move
-                initMoveBehavior();
-                // init get data by extent by default
-                getDataByExtent();
-                // init default zoom level
-                zoomToDefaultLvl();
+                // Usefull event to detect when the app init finish
+                let event = new CustomEvent('cartohorairesInit', { 'detail': 1 });
+                document.dispatchEvent(event);
             });
-
         },
 
         /**
@@ -1166,35 +1195,25 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function(isInit) {
-            if(isInit) {
-                // init time slider component
-                let i = 0;
-                if (i == 0 && $('#timeSlider').length) {
-                    initTimeSlider();
-                    i = 1;
-                }
-
-                // button for day selection
-                initBtnDay();
-
-                // hide or display mir
-                initSwitch();
-                if (cartohoraires) {
-                    initSearchItem();
-                }
-                $('#searchtool').hide();
-
-                initScrollBehavior();
-
-                // list for transport type value
-                initTransportList();
-
-                initFormInputs();
-
-                // Display modal on mobile device
-                initModalBehavior();
+            // try to init with data
+            if(!allZacLayer) {
+                // here slider and layer don't exists, we need to wait for main init method
+                document.addEventListener('cartohorairesInit', function() {
+                    // when main init method is finish, this init trigger event, 
+                    // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
+                    setTimeout(function(){ 
+                        initAfterData();
+                        setInfosPanel(isInit ? true : false);
+                        $('.load-panel').hide();
+                        $(".cartohoraires-panel .row").show();
+                     }, 300);
+                });
+            } else {
+                initAfterData();
+                setInfosPanel(isInit ? true : false);
+                $('.load-panel').hide();
+                $(".cartohoraires-panel .row").show();
             }
-            setInfosPanel(isInit ? true : false);
         },
 
         /**
