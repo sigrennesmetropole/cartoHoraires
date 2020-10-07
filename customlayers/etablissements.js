@@ -167,30 +167,38 @@ mviewer.customLayers.etablissements = (function() {
         map.getView().setZoom(map.getView().getZoom()-1);
     }
 
+    function load(zte = false, zoom = null, fn = null, isFirst=false, evt) {
+        if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
+            let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
+            cartohoraires.setTransportType([...new Set(type)]);
+            if (vectorSource.getFeatures().length) {
+                initialData = vectorSource.getFeatures();
+            }                
+            
+            cartohoraires.initOnDataLoad(isFirst);
+        }
+
+        //vectorLayer.getSource().refresh();
+        if(zte) vectorLayer.zoomToExtent();
+        if(zoom) mviewer.getMap().getView().setZoom(zoom);
+        if(fn) {
+            fn(evt);
+        }
+    }
+
     /**
      * Init event on layer ready state and remove it after process with unByKey ol method
     */
     let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
-            if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
-                let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
-                cartohoraires.setTransportType([...new Set(type)]);
-                if (vectorSource.getFeatures().length) {
-                    initialData = vectorSource.getFeatures();
-                }                
-                ol.Observable.unByKey(evt);
-                cartohoraires.initOnDataLoad(isFirst);
+            if(isFirst && typeof cartohoraires === 'undefined') {
+                document.addEventListener('cartohoraires-componentLoaded', function() {
+                    load(zte, zoom, fn, isFirst,e);
+                })
+            } else {
+                load(zte, zoom, fn, isFirst,e);
             }
-            // hide loader and display panel
-            $('.load-panel').hide();
-            $(".cartohoraires-panel .row").show();
-
-            //vectorLayer.getSource().refresh();
-            if(zte) vectorLayer.zoomToExtent();
-            if(zoom) mviewer.getMap().getView().setZoom(zoom);
-            if(fn) {
-                fn(e);
-            }
+            ol.Observable.unByKey(evt);
         })
     };
 
