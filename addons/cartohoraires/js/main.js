@@ -1132,6 +1132,9 @@ const cartohoraires = (function() {
             formactions.validClockpickerBehavior();
     }
 
+    /**
+     * Init DOM component with some lib and init some behaviors that directly depend on layer's data.
+     */
     function initAfterData() {
         // init time slider component
         initTimeSlider();
@@ -1181,7 +1184,7 @@ const cartohoraires = (function() {
                 initDisplayComponents();
                 // create ZAC layer
                 initZacLayer();
-
+                // Usefull event to detect when the app init finish
                 let event = new CustomEvent('cartohorairesInit', { 'detail': 1 });
                 document.dispatchEvent(event);
             });
@@ -1192,8 +1195,12 @@ const cartohoraires = (function() {
          * trigger by customLayer
          */
         initOnDataLoad: function(isInit) {
+            // try to init with data
             if(!slider || !allZacLayer) {
+                // here slider and layer don't exists, we need to wait for main init method
                 document.addEventListener('cartohorairesInit', function() {
+                    // when main init method is finish, this init trigger event, 
+                    // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
                     setTimeout(function(){ 
                         initAfterData();
                         setInfosPanel(isInit ? true : false);
