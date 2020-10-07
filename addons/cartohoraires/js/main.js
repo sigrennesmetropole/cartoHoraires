@@ -1170,7 +1170,6 @@ const cartohoraires = (function() {
         init: () => {
             // trigger with map postrender event to be sur IHM was loaded and exists
             mviewer.getMap().once('postrender', m => {
-                console.log('INIT');
                 // create SRS 3948 use by sigrennesmetropole as default SRS
                 if (options.defaultSRS === '3948') {
                     initSRS3948();
