@@ -1196,7 +1196,7 @@ const cartohoraires = (function() {
          */
         initOnDataLoad: function(isInit) {
             // try to init with data
-            if(!slider || !allZacLayer) {
+            if(!allZacLayer) {
                 // here slider and layer don't exists, we need to wait for main init method
                 document.addEventListener('cartohorairesInit', function() {
                     // when main init method is finish, this init trigger event, 
