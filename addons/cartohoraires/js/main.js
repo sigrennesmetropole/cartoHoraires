@@ -315,12 +315,12 @@ const cartohoraires = (function() {
      * Create autocomplete request response for BAN API
      * @param {String} results 
      */
-    function searchRVA(e) {
+    function searchRVA(e, optforce) {
         let id = 'search-radio';
         if(!$(e.target).parents('.top-form').length) id = 'search-radio-form';
 
         let value = e.target.value;
-        if (value && value.length > 3) {
+        if (value && ((optforce!= 'undefined' && optforce) || value.length > 3)) {
             let promises = searchRM.request(rvaConf, value);
             Promise.all(promises).then(function(allResult) {
                 let data = searchRM.getAutocompleteData(allResult, value, false);
@@ -423,11 +423,11 @@ const cartohoraires = (function() {
      * Create autocomplete request response for Open Data Rennes API - base-sirene-v3 dataset
      * @param {String} results 
      */
-    function searchSIRENE(e) {
+    function searchSIRENE(e, optforce) {
         if(!options.sirenConfig) return;
         let value = e.target.value;
         let minCar = options.sirenConfig.min || 3;
-        if (value && value.length > minCar) {
+        if (value && ((optforce!='undefined' && optforce) || value.length > minCar)) {
             
             let conf = options.sirenConfig; 
 
@@ -518,16 +518,16 @@ const cartohoraires = (function() {
      * Check search type
      * @param {String} v  as input value
      */
-    function search(e) {
+    function search(e, optforce) {
         let id = 'search-radio'; 
         if(!$(e.target).parents('.top-form').length) id = 'search-radio-form';
 
         autocompleteIdentifier = id;
 
         if ($(`#${id} input:checked`).val() === 'sirene') {
-            return searchSIRENE(e);
+            return searchSIRENE(e, optforce);
         } else {
-            return searchRVA(e);
+            return searchRVA(e, optforce);
         }
     }
 
@@ -624,6 +624,15 @@ const cartohoraires = (function() {
             });
             $('#ch-searchfield').click(function(e) {
                 clearSearch();
+            });
+            
+            $('#btn-pan-search').on('click', function(e) {
+                e.target=$('#input-autocomplete')[0];
+                search(e, true);
+            });
+            $('#btn-pan-search-form').on('click', function(e) {
+                e.target=$('#input-autocomplete-form')[0];
+                search(e, true);
             });
         }
     }
