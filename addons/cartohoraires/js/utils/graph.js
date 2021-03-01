@@ -76,7 +76,7 @@ class Graph {
             if(idx && idx < 0) {
                 group.labels.push(dateTime);
                 group.values.push(data.values[i]);
-            } else if(idx) {
+            } else if(idx != null) {
                 // we create addition for same label to avoid multi same graph labels
                 group.values[idx] = group.values[idx] + data.values[i];
             }
