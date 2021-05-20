@@ -128,7 +128,7 @@ button.btn.btn-default.navbar-btn.mv-navbar-btn:focus{
 /**/
 
 #help .tab-content>.active{
-    padding: 30px 100px;
+    padding: 30px 100px 0 100px;
 }    
 
 /**  Bouton **/ 
