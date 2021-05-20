@@ -20,7 +20,7 @@
 	<mapoptions maxzoom="20" minzoom="10" projection="EPSG:3857" center="-186098.36482879001,6125889.9088213602" zoom="12" />
 	
 	<baselayers>
-		<baselayer visible="true" id="pvcisimplegris" thumbgallery="apps/public/img/basemap/pvcilight.jpg" title="Rennes Metropole" label="Plan de ville simple gris" type="WMTS" 
+		<baselayer visible="true" id="pvcisimplegris" thumbgallery="apps/public/img/basemap/pvcisimple.jpg" title="Rennes Metropole" label="Plan de ville simple gris" type="WMTS" 
 			url="https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?" layers="ref_fonds:pvci_simple_gris" format="image/png" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
 			attribution="&lt;a href=&quot;https://public.sig.rennesmetropole.fr/geonetwork/srv/fre/catalog.search#/home&quot; target=&quot;_blank&quot; &gt;Rennes Métropole&lt;/a&gt;">
 		</baselayer>

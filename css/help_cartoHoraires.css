@@ -202,4 +202,12 @@ button.btn.btn-default.navbar-btn.mv-navbar-btn:focus{
   
   .sign_home a {
     color: var(--turquoise);
-}
+  }
+    
+  .splash_event {
+    border: solid;
+    border-width: thin;
+    padding: 5px;
+    margin: 0 10% 0 10%;
+    text-align: center!important;
+  }

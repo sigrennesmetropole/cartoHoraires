@@ -660,7 +660,7 @@
                 layers: "ref_fonds:pvci_simple_gris",
                 matrixset: "EPSG:3857",
                 style: "_null",
-                thumbgallery: "apps/public/img/basemap/pvcilight.jpg",
+                thumbgallery: "apps/public/img/basemap/pvcisimple.jpg",
                 title: "Rennes Metropole",
                 type: "WMTS",
                 url: "https://public.sig.rennesmetropole.fr/geowebcache/service/wmts?",
