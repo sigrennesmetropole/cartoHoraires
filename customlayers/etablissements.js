@@ -1,6 +1,6 @@
 mviewer.customLayers.etablissements = (function() {
     let id = 'etablissements';
-    let data = 'https://public-test.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
+    let data = 'https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=v_horaires&outputFormat=application%2Fjson&srsname=EPSG:3857';
 
     // we need all initial data set to avoid to call geo server on each filter
     // we user Fuse engine to filter data on fields
@@ -191,6 +191,7 @@ mviewer.customLayers.etablissements = (function() {
     */
     let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
+
             if(isFirst && typeof cartohoraires === 'undefined') {
                 document.addEventListener('cartohoraires-componentLoaded', function() {
                     load(zte, zoom, fn, isFirst,e);
