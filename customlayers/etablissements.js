@@ -191,6 +191,7 @@ mviewer.customLayers.etablissements = (function() {
     */
     let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
+
             if(isFirst && typeof cartohoraires === 'undefined') {
                 document.addEventListener('cartohoraires-componentLoaded', function() {
                     load(zte, zoom, fn, isFirst,e);
