@@ -985,6 +985,7 @@ const cartohoraires = (function() {
         var initBtnEvent = mviewer.getMap().on('postrender', m => {
             if (!slider){initTimeSlider();}
             else {setTimeout(function(){slider.refresh();},250)}
+
             if (!btnInit && $('.btn-day').length) {
                 $('.btn-day').click(function(e) {
                     // style
