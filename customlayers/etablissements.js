@@ -102,7 +102,7 @@ mviewer.customLayers.etablissements = (function() {
 
     let vectorLayer = new ol.layer.Vector({
         source: new ol.source.Cluster({
-            distance: 10,
+            distance: 30,
             source: vectorSource
         }),
         style: clusterStyle,
@@ -174,15 +174,24 @@ mviewer.customLayers.etablissements = (function() {
             if (vectorSource.getFeatures().length) {
                 initialData = vectorSource.getFeatures();
             }                
+            //cartohoraires.initOnDataLoad(isFirst);
+            setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},1000)
+            document.addEventListener('ondataloadEvt', function() {
+                if(zte) vectorLayer.zoomToExtent();
+                if(zoom) mviewer.getMap().getView().setZoom(zoom);
+                if(fn) {
+                    fn(evt);
+                }
+            })
             
-            cartohoraires.initOnDataLoad(isFirst);
         }
-
-        //vectorLayer.getSource().refresh();
-        if(zte) vectorLayer.zoomToExtent();
-        if(zoom) mviewer.getMap().getView().setZoom(zoom);
-        if(fn) {
-            fn(evt);
+        else {
+            //vectorLayer.getSource().refresh();
+            if(zte) vectorLayer.zoomToExtent();
+            if(zoom) mviewer.getMap().getView().setZoom(zoom);
+            if(fn) {
+                fn(evt);
+            }
         }
     }
 
@@ -192,7 +201,7 @@ mviewer.customLayers.etablissements = (function() {
     let createPostRenderEvt = function(zte = false, zoom = null, fn = null, isFirst=false) {
         let evt = vectorLayer.once('postrender', function(e) {
 
-            if(isFirst && typeof cartohoraires === 'undefined') {
+            /*if(isFirst && typeof cartohoraires === 'undefined') {
                 document.addEventListener('cartohoraires-componentLoaded', function() {
                     load(zte, zoom, fn, isFirst,e);
                 })
@@ -200,6 +209,17 @@ mviewer.customLayers.etablissements = (function() {
                 load(zte, zoom, fn, isFirst,e);
             }
             ol.Observable.unByKey(evt);
+            */
+            if (vectorLayer.getSource().getState() == 'ready') {
+                if(isFirst && typeof cartohoraires === 'undefined') {
+                    document.addEventListener('cartohorairesInit', function() {
+                        load(zte, zoom, fn, isFirst,e);
+                    })
+                } else {
+                    load(zte, zoom, fn, isFirst,e);
+                }
+                ol.Observable.unByKey(evt);
+            }
         })
     };
 
@@ -217,7 +237,6 @@ mviewer.customLayers.etablissements = (function() {
             return receiptData
         },
         setSource: setSource,
-        updateLayer: updateLayer,
-        zoomToExtent: vectorLayer.zoomToExtent
+        updateLayer: updateLayer
     }
 }());
