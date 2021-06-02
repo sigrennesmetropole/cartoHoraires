@@ -888,6 +888,8 @@ const cartohoraires = (function() {
                 mviewer.getMap().addLayer(zacLayer);
             }
         }
+        let event = new CustomEvent('allZacInit', { 'detail': 1 });
+        document.dispatchEvent(event);
     }
 
     /**
@@ -1208,23 +1210,28 @@ const cartohoraires = (function() {
          */
         initOnDataLoad: function(isInit) {
             // try to init with data
-            if(!allZacLayer) {
-                // here slider and layer don't exists, we need to wait for main init method
-                document.addEventListener('cartohorairesInit', function() {
-                    // when main init method is finish, this init trigger event, 
-                    // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
-                    setTimeout(function(){ 
-                        initAfterData();
-                        setInfosPanel(isInit ? true : false);
-                        $('.load-panel').hide();
-                        $(".cartohoraires-panel .row").show();
-                     }, 300);
-                });
-            } else {
-                initAfterData();
-                setInfosPanel(isInit ? true : false);
-                $('.load-panel').hide();
-                $(".cartohoraires-panel .row").show();
+            try{
+                if(!allZacLayer) {
+                    // here slider and layer don't exists, we need to wait for main init method
+                    document.addEventListener('allZacInit', function() {
+                        // when main init method is finish, this init trigger event, 
+                        // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
+                        setTimeout(function(){ 
+                            initAfterData();
+                            setInfosPanel(isInit ? true : false);
+                            $('.load-panel').hide();
+                            $(".cartohoraires-panel .row").show();
+                         }, 300);
+                    });
+                } else {
+                    initAfterData();
+                    setInfosPanel(isInit ? true : false);
+                    $('.load-panel').hide();
+                    $(".cartohoraires-panel .row").show();
+                }
+            } finally {
+                let event = new CustomEvent('ondataloadEvt', { 'detail': 1 });
+                document.dispatchEvent(event);
             }
         },
 
