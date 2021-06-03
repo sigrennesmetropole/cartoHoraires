@@ -161,15 +161,15 @@ mviewer.customLayers.etablissements = (function() {
 
     // allow to zoom to extent with layer param function directly
     vectorLayer.zoomToExtent = function() {
-        console.log("*** ZTE ***");
+        //console.log("*** ZTE ***");
         let map = mviewer.getMap();
         let extent = vectorLayer.getSource().getExtent();
         
-        console.log("*** extent = "+ extent +" ***");
+        //console.log("*** extent = "+ extent +" ***");
         map.getView().fit(extent, map.getSize());
         map.getView().setZoom(map.getView().getZoom()-1);
         
-        console.log("*** ZTE (FIN)***");
+        //console.log("*** ZTE (FIN)***");
     }
 
     function load(zte = false, zoom = null, fn = null, isFirst=false, evt) {
