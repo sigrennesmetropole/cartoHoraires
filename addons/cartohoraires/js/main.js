@@ -985,8 +985,8 @@ const cartohoraires = (function() {
      */
     function initBtnDay() {
         var initBtnEvent = mviewer.getMap().on('postrender', m => {
-            if (!slider){initTimeSlider();}
-            else {setTimeout(function(){slider.refresh();},250)}
+            //if (!slider){initTimeSlider();}
+            //else {setTimeout(function(){slider.refresh();},250)}
 
             if (!btnInit && $('.btn-day').length) {
                 $('.btn-day').click(function(e) {
@@ -1074,8 +1074,8 @@ const cartohoraires = (function() {
         manageDateInfosUi();
         if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || !isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
-            moveBehavior();
-            clearAll();
+            //moveBehavior();
+            //clearAll();
             return
         }
             
@@ -1084,7 +1084,7 @@ const cartohoraires = (function() {
         layer.setSource();
         if(!reloadGraph) return;
 
-        if (layer.layer.getSource().getSource().getFeatures().length) {
+        if (layer.layer.getSource().getSource().getFeatures().length >0) {
             moveBehavior();
         } else {
             clearAll('extent');
@@ -1178,6 +1178,14 @@ const cartohoraires = (function() {
         // init behavior on map move
         initMoveBehavior();
     }
+    /**
+    * Show panel
+    */
+    function showPanel(){
+        $('.load-panel').hide();
+        $(".cartohoraires-panel .row").show();
+        slider.refresh();
+    }
 
     /**
      * PUBLIC
@@ -1216,25 +1224,23 @@ const cartohoraires = (function() {
                     document.addEventListener('allZacInit', function() {
                         // when main init method is finish, this init trigger event, 
                         // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
-                        setTimeout(function(){ 
+                        //setTimeout(function(){ 
                             initAfterData();
                             setInfosPanel(isInit ? true : false);
-                            $('.load-panel').hide();
-                            $(".cartohoraires-panel .row").show();
-                         }, 300);
+                            showPanel();
+                         //}, 300);
                     });
                 } else {
                     initAfterData();
                     setInfosPanel(isInit ? true : false);
-                    $('.load-panel').hide();
-                    $(".cartohoraires-panel .row").show();
+                    showPanel();
                 }
             } finally {
                 let event = new CustomEvent('ondataloadEvt', { 'detail': 1 });
                 document.dispatchEvent(event);
             }
         },
-
+        
         /**
          * 
          * @param {String} e as coordinates separated with coma

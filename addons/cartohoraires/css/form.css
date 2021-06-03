@@ -202,7 +202,7 @@ button.formBtn:hover, button.formBtn:active, button.formBtn:focus, button.formBt
     border: 1px transparent solid;
     margin-right: 10px;
     color: white;
-    background-color: #6cbec3;
+    background-color: #6cbec3!important;
 }
 
 .form-modal-body, .form-template {
