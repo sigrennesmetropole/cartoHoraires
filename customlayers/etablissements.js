@@ -180,7 +180,7 @@ mviewer.customLayers.etablissements = (function() {
                 initialData = vectorSource.getFeatures();
             }                
             //cartohoraires.initOnDataLoad(isFirst);
-            setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},500)
+            setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},1000)
             document.addEventListener('ondataloadEvt', function() {
                 if(zte) vectorLayer.zoomToExtent();
                 if(zoom) mviewer.getMap().getView().setZoom(zoom);
