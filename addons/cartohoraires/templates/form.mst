@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="arrive col-sm-12 col-md-3">
-                                        <span>Mode de transport d'arrivé</span>
+                                        <span>Mode de transport d'arrivée</span>
                                         <select class="form-control input-style transpor-list transport-input-selector" id="transport-in-select-{{id}}">
                                             <option value="">Rien à sélectionner...</option>
                                         </select>
