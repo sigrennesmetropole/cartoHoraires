@@ -102,7 +102,7 @@ mviewer.customLayers.etablissements = (function() {
 
     let vectorLayer = new ol.layer.Vector({
         source: new ol.source.Cluster({
-            distance: 30,
+            distance: 20,
             source: vectorSource
         }),
         style: clusterStyle,
@@ -161,29 +161,29 @@ mviewer.customLayers.etablissements = (function() {
 
     // allow to zoom to extent with layer param function directly
     vectorLayer.zoomToExtent = function() {
-        //console.log("*** ZTE ***");
-        let map = mviewer.getMap();
-        let extent = vectorLayer.getSource().getExtent();
-        
-        //console.log("*** extent = "+ extent +" ***");
-        map.getView().fit(extent, map.getSize());
-        map.getView().setZoom(map.getView().getZoom()-1);
-        
-        //console.log("*** ZTE (FIN)***");
+        if (vectorLayer.getSource().getFeatures().length > 0) {
+            let map = mviewer.getMap();
+            let extent = vectorLayer.getSource().getExtent();
+            
+            map.getView().fit(extent, map.getSize());
+            map.getView().setZoom(map.getView().getZoom()-1);
+        }
     }
 
     function load(zte = false, zoom = null, fn = null, isFirst=false, evt) {
+        if(zte) vectorLayer.zoomToExtent();
+        if(zoom) mviewer.getMap().getView().setZoom(zoom);
         if (cartohoraires && cartohoraires.setTransportType && cartohoraires.initOnDataLoad) {
             let type = vectorSource.getFeatures().map(e => e.getProperties().transport_lib);
             cartohoraires.setTransportType([...new Set(type)]);
-            if (vectorSource.getFeatures().length) {
+            if (vectorSource.getFeatures().length > 0) {
                 initialData = vectorSource.getFeatures();
             }                
             //cartohoraires.initOnDataLoad(isFirst);
             setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},1000)
             document.addEventListener('ondataloadEvt', function() {
-                if(zte) vectorLayer.zoomToExtent();
-                if(zoom) mviewer.getMap().getView().setZoom(zoom);
+                //if(zte) vectorLayer.zoomToExtent();
+                //if(zoom) mviewer.getMap().getView().setZoom(zoom);
                 if(fn) {
                     fn(evt);
                 }
@@ -192,8 +192,8 @@ mviewer.customLayers.etablissements = (function() {
         }
         else {
             //vectorLayer.getSource().refresh();
-            if(zte) vectorLayer.zoomToExtent();
-            if(zoom) mviewer.getMap().getView().setZoom(zoom);
+            //if(zte) vectorLayer.zoomToExtent();
+            //if(zoom) mviewer.getMap().getView().setZoom(zoom);
             if(fn) {
                 fn(evt);
             }

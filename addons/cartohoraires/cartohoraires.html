@@ -32,7 +32,7 @@
         </p>
         <div class="input-group">
           <span class="input-group-addon" id="codePaperPlane"><i class="fas fa-at"></i></span>
-          <input type="email"  id="code-mail" onchange='formactions.validMailCode(this, "getNewCode")' class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
+          <input type="email"  id="code-mail" onchange='formactions.validMailCode(this)' onkeyup='formactions.emailButtonState(this, "getNewCode")' class="form-control code-input" placeholder="email@mail.fr" aria-describedby="codePaperPlane">
         </div>
         <br>
         <span id="getCodeMsg" class="userModalFormMsg hide"></span>

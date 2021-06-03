@@ -503,22 +503,31 @@
         }
 
         /**
-         * Valid email to get new password
+         * Valid email to get new password with message label
+         * @param {Objet} input ==> input html
+         */
+        _formactions.validMailCode = function(input) {
+            if(!_formactions.isMailValid(input.value)) {
+                messages.create(
+                    '#getCodeMsg',
+                    messages.text.emailInvalid,
+                    '#c52a0d'
+                );
+            }
+        }
+        
+        /**
+         * Change validation button attribute on email format control
          * @param {Objet} input ==> input html
          * @param {String} id 
          */
-        _formactions.validMailCode = function(input, id) {
+        _formactions.emailButtonState = function(input, id) {
             if(_formactions.isMailValid(input.value)) {
                 $('#'+id).removeClass('disabled');
                 $('#code-mail').removeClass('invalid');
             } else {
                 $('#code-mail').addClass('invalid');
                 $('#'+id).addClass('disabled');
-                messages.create(
-                    '#getCodeMsg',
-                    messages.text.emailInvalid,
-                    '#c52a0d'
-                );
             }
         }
 
