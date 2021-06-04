@@ -426,7 +426,7 @@ const cartohoraires = (function() {
     function searchSIRENE(e, optforce) {
         if(!options.sirenConfig) return;
         let value = e.target.value;
-        let minCar = options.sirenConfig.min || 3;
+        let minCar = options.sirenConfig.min || 5;
         if (value && ((optforce!='undefined' && optforce) || value.length > minCar)) {
             
             let conf = options.sirenConfig; 
