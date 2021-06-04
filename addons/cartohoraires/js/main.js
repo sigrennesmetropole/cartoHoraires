@@ -1211,6 +1211,7 @@ const cartohoraires = (function() {
         }
     }
     
+    /*
     * Show panel
     */
     function showPanel(){
