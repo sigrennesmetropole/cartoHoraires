@@ -15,6 +15,9 @@ const cartohoraires = (function() {
     let options = mviewer.customComponents.cartohoraires.config.options;
     const mapWidth = options.mapWidth;
     const itemsRight = options.templateWidth + 1;
+    let panelLoaded=false;
+    let formLoaded=false;
+    let btnLoaded=false;
     let zacLayer = null;
     let allZacLayer = null;
     let load = false;
@@ -159,6 +162,7 @@ const cartohoraires = (function() {
                 switch(e.type) {
                     case 'panel':
                         displayPanel(e.template);
+                        panelLoaded = true;
                         break;
                     case 'form':
                         let template = Mustache.to_html(e.template, dayView);
@@ -185,12 +189,18 @@ const cartohoraires = (function() {
                             $('#checkbox-'+e).click();
                             $('#copy-'+e).closest('.copyBtn').remove();
                         })
+                        formLoaded = true;
                         break;
                     case 'formBtn':
                         $(document.getElementById('iconhelp').parentNode).prepend(e.template);
+                        btnLoaded = true;
                         break;
                     default:
                         break;
+                }
+                if (panelLoaded && formLoaded && btnLoaded) {
+                    let event = new CustomEvent('panelFullyLoaded', { 'detail': 1 });
+                    document.dispatchEvent(event);
                 }
             })
         })
@@ -295,6 +305,7 @@ const cartohoraires = (function() {
 
         if (!configuration.getConfiguration().mobile) {
             $('#map').attr('style', `width:${mapWidth}% !important`);
+            console.log("InitDisplayComponents : " + $('#map').attr('style'));
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('#toolstoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('.cartohoraires-panel').attr('style', `width: ${options.templateWidth}% !important`);
@@ -1074,8 +1085,8 @@ const cartohoraires = (function() {
         manageDateInfosUi();
         if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || !isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
-            //moveBehavior();
-            //clearAll();
+            moveBehavior();
+            clearAll();
             return
         }
             
@@ -1112,6 +1123,7 @@ const cartohoraires = (function() {
      * Return default zoom from config or from mviewer config directly if "zoom" param is not exists
      */
     function zoomToDefaultLvl() {
+        console.log("retour au zoom par défaut");
         return mviewer.getMap().getView().setZoom(options.zoomLvl || configuration.getConfiguration().mapoptions.zoom)
     }
 
@@ -1179,6 +1191,26 @@ const cartohoraires = (function() {
         initMoveBehavior();
     }
     /**
+    * LaunchInitAfterData
+    */
+    function launchInitAfterData(isInit){
+        if(!allZacLayer) {
+            // here slider and layer don't exists, we need to wait for main init method
+            document.addEventListener('allZacInit', function() {
+                // when main init method is finish, this init trigger event, 
+                // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
+                initAfterData();
+                setInfosPanel(isInit ? true : false);
+                showPanel();
+            });
+        } else {
+            initAfterData();
+            setInfosPanel(isInit ? true : false);
+            showPanel();
+        }
+    }
+    
+    /**
     * Show panel
     */
     function showPanel(){
@@ -1219,21 +1251,12 @@ const cartohoraires = (function() {
         initOnDataLoad: function(isInit) {
             // try to init with data
             try{
-                if(!allZacLayer) {
-                    // here slider and layer don't exists, we need to wait for main init method
-                    document.addEventListener('allZacInit', function() {
-                        // when main init method is finish, this init trigger event, 
-                        // but sometime, Mviewer DOM is not totally loaded, so we wait some ms to trigger this init
-                        //setTimeout(function(){ 
-                            initAfterData();
-                            setInfosPanel(isInit ? true : false);
-                            showPanel();
-                         //}, 300);
+                if (!panelLoaded || !formLoaded || !btnLoaded) {
+                    document.addEventListener('panelFullyLoaded', function() {
+                        launchInitAfterData(isInit);
                     });
                 } else {
-                    initAfterData();
-                    setInfosPanel(isInit ? true : false);
-                    showPanel();
+                    launchInitAfterData(isInit);
                 }
             } finally {
                 let event = new CustomEvent('ondataloadEvt', { 'detail': 1 });
