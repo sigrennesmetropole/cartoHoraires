@@ -305,7 +305,6 @@ const cartohoraires = (function() {
 
         if (!configuration.getConfiguration().mobile) {
             $('#map').attr('style', `width:${mapWidth}% !important`);
-            console.log("InitDisplayComponents : " + $('#map').attr('style'));
             $('#zoomtoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('#toolstoolbar').attr('style', `right: ${itemsRight}% !important`);
             $('.cartohoraires-panel').attr('style', `width: ${options.templateWidth}% !important`);
@@ -1123,7 +1122,6 @@ const cartohoraires = (function() {
      * Return default zoom from config or from mviewer config directly if "zoom" param is not exists
      */
     function zoomToDefaultLvl() {
-        console.log("retour au zoom par défaut");
         return mviewer.getMap().getView().setZoom(options.zoomLvl || configuration.getConfiguration().mapoptions.zoom)
     }
 
