@@ -164,7 +164,6 @@ mviewer.customLayers.etablissements = (function() {
         if (vectorLayer.getSource().getFeatures().length > 0) {
             let map = mviewer.getMap();
             let extent = vectorLayer.getSource().getExtent();
-            
             map.getView().fit(extent, map.getSize());
             map.getView().setZoom(map.getView().getZoom()-1);
         }
