@@ -1085,8 +1085,8 @@ const cartohoraires = (function() {
         manageDateInfosUi();
         if (!$('.btn-day.btn-selected').attr('day') || !$('#timeSlider').val() || !isAutorizedZoom()) {
             // if filters are not all selected we just destroy chart
-            moveBehavior();
-            clearAll();
+            //moveBehavior();
+            //clearAll();
             return
         }
             
@@ -1191,6 +1191,7 @@ const cartohoraires = (function() {
         initMoveBehavior();
     }
     /**
+
     * LaunchInitAfterData
     */
     function launchInitAfterData(isInit){
@@ -1210,7 +1211,6 @@ const cartohoraires = (function() {
         }
     }
     
-    /**
     * Show panel
     */
     function showPanel(){
