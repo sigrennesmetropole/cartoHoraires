@@ -48,8 +48,8 @@
             "operator": "OR",
             "url": "https://data.rennesmetropole.fr/api/records/1.0/search",
             "dataset": "base-sirene-v3-ss",
-            "max": 10,
-            "min": 5,
+            "max": 30,
+            "min": 20,
             "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif",
             "icon": "apps/cartoHoraires/img/marker-icon.png"
         }
