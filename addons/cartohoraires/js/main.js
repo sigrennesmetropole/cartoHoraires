@@ -1193,8 +1193,6 @@ const cartohoraires = (function() {
     * LaunchInitAfterData
     */
     function launchInitAfterData(isInit){
-        // force some mviewer's components display
-        initDisplayComponents();
         if(!allZacLayer) {
             // here slider and layer don't exists, we need to wait for main init method
             document.addEventListener('allZacInit', function() {
@@ -1233,10 +1231,10 @@ const cartohoraires = (function() {
                     initSRS3948();
                 }
 
+                // force some mviewer's components display
+                initDisplayComponents();
                 // get templates to display UIs
                 initTemplates();
-                // force some mviewer's components display
-                //initDisplayComponents();
                 // create ZAC layer
                 initZacLayer();
                 // Usefull event to detect when the app init finish
