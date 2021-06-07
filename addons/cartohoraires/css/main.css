@@ -565,6 +565,10 @@ i.emptyGraph {
 	margin-left: 0px !important;
 }
 
+#map canvas{
+    width:inherit!important;
+}
+
 /* BOX JE CONTRIBUE */
 
 p.titlePanel {
