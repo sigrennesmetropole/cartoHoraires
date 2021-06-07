@@ -564,10 +564,6 @@ i.emptyGraph {
 	left: 0px;
 	margin-left: 0px !important;
 }
-#map canvas{
-    width:inherit!important;
-    height:inherit!important;
-}
 
 /* BOX JE CONTRIBUE */
 
