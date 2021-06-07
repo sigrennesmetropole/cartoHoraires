@@ -1231,10 +1231,10 @@ const cartohoraires = (function() {
                     initSRS3948();
                 }
 
-                // get templates to display UIs
-                initTemplates();
                 // force some mviewer's components display
                 initDisplayComponents();
+                // get templates to display UIs
+                initTemplates();
                 // create ZAC layer
                 initZacLayer();
                 // Usefull event to detect when the app init finish
