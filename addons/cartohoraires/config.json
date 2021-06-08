@@ -47,9 +47,10 @@
             "filters": ["denominationunitelegale", "adresseetablissement", "denominationusuelleetablissement"],
             "operator": "OR",
             "url": "https://data.rennesmetropole.fr/api/records/1.0/search",
+            "apikey": "070f93bb0c06beee1914d63f9bfa8291b784542215fe021d2e9f4738",
             "dataset": "base-sirene-v3-ss",
             "max": 30,
-            "min": 20,
+            "min": 6,
             "requestParam": "&facet=nomunitelegale&refine.etatadministratifetablissement=Actif",
             "icon": "apps/cartoHoraires/img/marker-icon.png"
         }

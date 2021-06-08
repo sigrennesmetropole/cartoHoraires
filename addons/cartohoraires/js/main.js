@@ -459,6 +459,7 @@ const cartohoraires = (function() {
             // Ajax request
             let xhr = new XMLHttpRequest();
             xhr.open('GET', url);
+            xhr.setRequestHeader ("Authorization", "Apikey " + conf.apikey);
             xhr.onload = function() {
                 if (xhr.status === 200 && xhr.responseText) {
                     var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
