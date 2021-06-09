@@ -269,7 +269,7 @@ const cartohoraires = (function() {
         $("#cartohoraires-modal").one("shown.bs.modal", function () {
             setTimeout(function(){
                 slider.refresh();
-            });
+            },250);
         });
 
         // this fix async problem to be sur to init or refresh some elments
@@ -1227,20 +1227,23 @@ const cartohoraires = (function() {
         init: () => {
             // trigger with map postrender event to be sur IHM was loaded and exists
             mviewer.getMap().once('postrender', m => {
-                // create SRS 3948 use by sigrennesmetropole as default SRS
-                if (options.defaultSRS === '3948') {
-                    initSRS3948();
-                }
-
-                // force some mviewer's components display
-                initDisplayComponents();
-                // get templates to display UIs
-                initTemplates();
-                // create ZAC layer
-                initZacLayer();
-                // Usefull event to detect when the app init finish
-                let event = new CustomEvent('cartohorairesInit', { 'detail': 1 });
-                document.dispatchEvent(event);
+                 new Promise((resolve, failureCallback) => {
+                    // create SRS 3948 use by sigrennesmetropole as default SRS
+                    if (options.defaultSRS === '3948') {
+                        initSRS3948();
+                    }
+                    // force some mviewer's components display
+                    initDisplayComponents();
+                    // get templates to display UIs
+                    initTemplates();
+                    // create ZAC layer
+                    initZacLayer();
+                    setTimeout(() => {resolve();}, 300);
+                 }).then(() => {
+                    // Usefull event to detect when the app init finish
+                    let event = new CustomEvent('cartohorairesInit', { 'detail': 1 });
+                    document.dispatchEvent(event);
+                 });
             });
         },
 
