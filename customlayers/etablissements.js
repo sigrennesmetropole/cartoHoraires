@@ -178,11 +178,9 @@ mviewer.customLayers.etablissements = (function() {
             if (vectorSource.getFeatures().length > 0) {
                 initialData = vectorSource.getFeatures();
             }                
-            //cartohoraires.initOnDataLoad(isFirst);
-            setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},500)
+            cartohoraires.initOnDataLoad(isFirst);
+            //setTimeout(function(){cartohoraires.initOnDataLoad(isFirst);},500)
             document.addEventListener('ondataloadEvt', function() {
-                //if(zte) vectorLayer.zoomToExtent();
-                //if(zoom) mviewer.getMap().getView().setZoom(zoom);
                 if(fn) {
                     fn(evt);
                 }
@@ -190,9 +188,6 @@ mviewer.customLayers.etablissements = (function() {
             
         }
         else {
-            //vectorLayer.getSource().refresh();
-            //if(zte) vectorLayer.zoomToExtent();
-            //if(zoom) mviewer.getMap().getView().setZoom(zoom);
             if(fn) {
                 fn(evt);
             }
