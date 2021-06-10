@@ -205,12 +205,12 @@
             $('#code-form').removeClass('invalid');
             $('#'+inputMailId).removeClass('invalid');
             // we valid email format
-            let isCode = $('#code-form').val();
+            let isCode = $('#code-form').val().trim();
             let isMailValid = _formactions.isMailValid($('#'+inputMailId).val());
             if(isCode && isMailValid) {
                 // if email format is valid we request connexion with code and email params
                 callback(
-                    {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val()},
+                    {email: $('#'+inputMailId).val(), code: $('#'+inputCodeId).val().trim()},
                     function(e) {
                         if(e && e.length && e[0]) e = e[0];
                         if(e && e.success && !e.exist) {
