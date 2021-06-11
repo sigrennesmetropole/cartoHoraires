@@ -20,7 +20,7 @@
             'createUser' : '<i class="fas fa-check-circle"></i> Un mot de passe de connexion vous est envoyé par email. Au cas où, vérifiez vos spams.',
             'userAlreadyExist': '<i class="fas fa-exclamation-circle"></i> Votre compte existe déjà. Un nouveau mot de passe vous est envoyé par email. Au cas où, vérifiez vos spams.',
             'updatePassword':'<i class="fas fa-exclamation-circle"></i> Votre compte existe déjà. Un nouveau mot de passe vous est envoyé par email. Au cas où, vérifiez vos spams.',
-            'saveError': '<i class="fas fa-dizzy"></i> Vos informations n\'ont pas pu être sauvegardées !',
+            'saveError': '<i class="fas fa-dizzy"></i> Votre connexion a expiré. Vos informations n\'ont pas pu être sauvegardées ! Veuillez vous reconnecter',
             'saveSuccess': 'Information sauvegardées !',
             'accountMandatory': '<i class="fas fa-exclamation-triangle"></i> Vous devez créer un compte avant de vous connecter !',
             'wrongLogin': '<i class="fas fa-exclamation-triangle"></i> Le code ou l\'email saisi est erroné !',
@@ -48,13 +48,15 @@
         _msg.create = function (target, msg, color='#70ad46', callback=null, time = 3000) {
             $(target).empty();
             $(target).css('color', color).removeClass('hide').show().append(msg);
-            setTimeout(function() {
-                $(target).fadeOut(1000, function() {
-                    if(callback) {
-                        callback();
-                    }
-                });
-            }, time);
+            if (time > 0){
+                setTimeout(function() {
+                    $(target).fadeOut(1000, function() {
+                        if(callback) {
+                            callback();
+                        }
+                    });
+                }, time);
+            }
         }
                 
         return _msg;

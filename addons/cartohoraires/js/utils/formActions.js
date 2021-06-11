@@ -14,13 +14,13 @@
      * To restore completely or simply the form
      * @param {boolean} simple 
      */
-    function resetForm(simple) {
+    function resetForm(simple, closewdw=true) {
         // for week end
         let samDim = [6,7];
         if(!simple) {
             //$('#form-modal').modal('toggle');
             $('#cartohoraires-modal-close').click();
-            $('#form-modal-close').click();
+            if(closewdw) {$('#form-modal-close').click();}
             $('#email-id').text('');
             $('.authent').hide();
             $('.anonymous').show();
@@ -230,6 +230,7 @@
                         } else if(e.auth && e.exist && e.success) {
                             $('.anonymous').hide();
                             $('.authent').show();
+                            $('#inputFormMsg').hide();
                             $('#email-id').text($('#'+inputMailId).val());
                             _formactions.validSendBtn();
 
@@ -268,7 +269,9 @@
                 messages.create(
                     '#createUserMsgExists',
                     messages.text.wrongLogin,
-                    '#c52a0d'
+                    '#c52a0d',
+                    null,
+                    0
                 );
             }
         }
@@ -308,7 +311,7 @@
         /**
          * Logout
          */
-        _formactions.logout = function() {
+        _formactions.logout = function(closewdw = true) {
             let email = $('#email-id').text();
             if(!email) return;
             _formactions.clearSearch();
@@ -321,14 +324,17 @@
                         messages.create(
                             '#confirmDeleteMsg',
                             messages.text.logoutError,
-                            '#ff6600', function() {
-                                window.formactions.restore(false);
-                            }
+                            '#ff6600', function() { if (closewdw) {window.formactions.restore(false);} else {$('#form-modal').animate({ scrollTop: '0px'}, 1000);}}
                         );
                     }
                     else if (e.success) {
-                        _formactions.restore(false);
-                        mviewer.customLayers.etablissements.updateLayer(false, null, null, false);
+                        if (closewdw) {
+                            _formactions.restore(false);
+                            mviewer.customLayers.etablissements.updateLayer(false, null, null, false);
+                        } else {
+                            window.formactions.restore(false, false);
+                            $('#form-modal').animate({ scrollTop: '0px'}, 1000);
+                        }
                     }
                     _formactions.validSendBtn();
                 },
@@ -341,9 +347,9 @@
          * Trigger restore form UI
          * @param {boolean} e 
          */
-        _formactions.restore = function(e) {
+        _formactions.restore = function(e,closewdw) {
             _formactions.validSendBtn();
-            return resetForm(e);
+            return resetForm(e,closewdw);
         }
 
         /**
@@ -493,8 +499,12 @@
                        messages.create(
                             '#inputFormMsg', 
                             messages.text.saveError,
-                            '#ff6600'
+                            '#ff6600',
+                            null,
+                            0
                         );
+                        
+                        _formactions.logout(false);
                     }
                 },
                 'PUT',
