@@ -109,8 +109,14 @@
         let _formactions = {};
 
         _formactions.validSendBtn = function() {
-            // control clock picker
+            // connection
+            if(!$('#email-id').text()) {
+                messages.create('#inputFormMsg', messages.text.loginRequired, '#c52a0d', null, 0);
+                return $('#btn-valid').addClass('disabled');
+            }
             
+            
+            // control clock picker
             let clock = $('.clockpicker').find('input').map((idx, elem) =>  {
                 return $(elem).val();
             }).get();
@@ -120,10 +126,13 @@
             }
 
             // shape
-            if(_formactions && _formactions.vectorLayer && !_formactions.vectorLayer.getSource().getFeatures().length) return $('#btn-valid').addClass('disabled');
-            // connection
-            if(!$('#email-id').text()) return $('#btn-valid').addClass('disabled');
+            if(_formactions && _formactions.vectorLayer && !_formactions.vectorLayer.getSource().getFeatures().length) {
+                messages.create('#inputFormMsg', messages.text.invalidLocation, '#ff6600', null, 0);
+                return $('#btn-valid').addClass('disabled');
+            }
+            
 
+            $('#inputFormMsg').addClass('hide');
             $('#btn-valid').removeClass('disabled');
         }
 
