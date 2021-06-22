@@ -179,8 +179,8 @@ const cartohoraires = (function() {
                             parentDayZone.find('.input-selectors select').prop("disabled", e.target.checked);
                             parentDayZone.find('.input-group-addon').css("pointer-events", e.target.checked ? 'none' : 'auto');
                             if(!e.target.checked) {
-                                if(parentDayZone.find('select[id^=transport-in-select-]').val()==null) {parentDayZone.find('select[id^=transport-in-select-]').prop('selectedIndex', 0);}
-                                if(parentDayZone.find('select[id^=transport-out-select-]').val()==null) {parentDayZone.find('select[id^=transport-out-select-]').prop('selectedIndex', 0);}
+                                if(parentDayZone.find('select[id^=transport-in-select-]').val()==null) {parentDayZone.find('select[id^=transport-in-select-]').prop('selectedIndex', 8);}
+                                if(parentDayZone.find('select[id^=transport-out-select-]').val()==null) {parentDayZone.find('select[id^=transport-out-select-]').prop('selectedIndex', 8);}
                             }
                         });
                         // unchecked weekend
@@ -975,7 +975,8 @@ const cartohoraires = (function() {
                 // empty all
                 $('.transpor-list').empty();
 
-                $('.transport-input-selector').append(inputSelect).val('Voiture (seul(e))');
+                //$('.transport-input-selector').append(inputSelect).val('Voiture (seul(e))');
+                $('.transport-input-selector').append(inputSelect).prop('selectedIndex', 8);
                 $('.transport-modal-selector').append(contain);
 
                 
