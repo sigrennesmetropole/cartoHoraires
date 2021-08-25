@@ -29,15 +29,13 @@
         -->
 	</baselayers>
 
-	<extensions>
-		<extension type="component" id="bootstrap-clockpicker" path="apps/cartoHoraires/addons"/>
-		<extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
-		<extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
-		<extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
-	</extensions>
-
-    <searchparameters bbox="false" localities="false" features="false" static="false"
-		searchRM="true" searchRMConf="apps/georm/addons/data/searchConf.json"/>
+    <extensions>
+        <extension type="component" id="searchRM" path="apps/public/addons" configFile="/apps/public/addons/searchRM/conf/searchConf_RVA.json"/>
+        <extension type="component" id="bootstrap-clockpicker" path="apps/cartoHoraires/addons"/>
+        <extension type="component" id="mir" path="apps/cartoHoraires/addons"/>
+        <extension type="component" id="mobilebtn" path="apps/cartoHoraires/addons"/>
+        <extension type="component" id="cartohoraires" path="apps/cartoHoraires/addons"/>
+    </extensions>
     
 	<themes mini="true">
 		<theme id="horaires" name="Transport" collapsed="true" icon="fas fa-clock">
