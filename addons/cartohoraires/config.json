@@ -30,7 +30,7 @@
         "requestLayer": "etablissements",
         "zoomLvl" : 12,
         "zoom": 5,
-        "rvaConfigFile": "apps/georm/addons/data/searchConf.json",
+        "rvaConfigFile": "apps/public/addons/searchRM/conf/searchConf_RVA.json",
         "za_layer": "eco_comm:v_za_terminee",
         "geoserver": "https://public.sig.rennesmetropole.fr/geoserver/ows",
         "defaultSRS": "3948",
