@@ -724,7 +724,7 @@
                 layers: [wmtsLayer, vectorFormLayer],
                 target: 'mapSearch',
                 view: new ol.View({
-                  center: [-174188.8161504358, 6126632.048479025],
+                  center: [-183890.24433942206,6125725.984905125],
                   zoom: 10.621749404814972,
                 })
             });
@@ -769,6 +769,15 @@
             $('#ch-searchfield-form').click(function(e) {
                 _formactions.clearSearch();
                 _formactions.validSendBtn();
+            });
+            
+            $('#search-radio-form').on('change', function(e) {
+                if ($('#search-radio-form input:checked').val()=='sirene') {
+                    $('#input-autocomplete-form').attr('placeholder','Rechercher votre lieu de travail');
+                } else {
+                    $('#input-autocomplete-form').attr('placeholder','Rechercher votre adresse de travail');
+                }
+                
             });
             // valid
             _formactions.validSendBtn();
