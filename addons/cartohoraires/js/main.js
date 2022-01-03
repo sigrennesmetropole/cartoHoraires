@@ -37,6 +37,9 @@ const cartohoraires = (function() {
 
     let slider;
     let graph;
+    
+    var typingTimer; //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 5 second for example
 
     /**
      * Default style to highlight ZAC on center hover
@@ -436,7 +439,7 @@ const cartohoraires = (function() {
         if(!options.sirenConfig) return;
         let value = e.target.value;
         let minCar = options.sirenConfig.min || 5;
-        if (value && ((optforce!='undefined' && optforce) || value.length > minCar)) {
+        if (value && ((optforce!='undefined' && optforce) || value.length >= minCar)) {
             
             let conf = options.sirenConfig; 
 
@@ -535,7 +538,19 @@ const cartohoraires = (function() {
         autocompleteIdentifier = id;
 
         if ($(`#${id} input:checked`).val() === 'sirene') {
-            return searchSIRENE(e, optforce);
+            //setup before functions
+
+            //on input, clear the countdown 
+            $(e.target).on('input', function () {
+                clearTimeout(typingTimer);
+                typingTimer=setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
+              return searchSIRENE(e, optforce);
+            }
+            //return searchSIRENE(e, optforce);
         } else {
             return searchRVA(e, optforce);
         }
@@ -643,6 +658,15 @@ const cartohoraires = (function() {
             $('#btn-pan-search-form').on('click', function(e) {
                 e.target=$('#input-autocomplete-form')[0];
                 search(e, true);
+            });
+            
+            $('#search-radio').on('change', function(e) {
+                if ($('#search-radio input:checked').val()=='sirene') {
+                    $('#input-autocomplete').attr('placeholder','Rechercher votre lieu de travail');
+                } else {
+                    $('#input-autocomplete').attr('placeholder','Rechercher votre adresse de travail');
+                }
+                
             });
         }
     }
