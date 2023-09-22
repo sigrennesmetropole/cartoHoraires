@@ -571,10 +571,11 @@ const cartohoraires = (function() {
                 if(record.geolocetablissement) {
                     //let coord = record.geometry.coordinates.join(',');
                     let coord = record.geolocetablissement['lon'] + ',' + record.geolocetablissement['lat'];
+                    console.log("COORDONNEES = " + coord);
                     let txt = getSirenText(props);
                     html.push(`
                         <div style='overflow-x:hidden; padding-top:5px;'>
-                        <a href="#" onclick='cartohoraires.select("${record.geolocetablissement}","${escape(txt)}")'>${txt}</a>
+                        <a href="#" onclick='cartohoraires.select("${coord}","${escape(txt)}")'>${txt}</a>
                         <input type='hidden' value='${coord}'>
                         </div>`);
                     siret.push(props.siret);
