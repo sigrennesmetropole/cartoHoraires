@@ -333,7 +333,18 @@ const cartohoraires = (function() {
 
         let value = e.target.value;
         if (value && ((optforce!= 'undefined' && optforce) || value.length > 3)) {
-            let promises = searchRM.request(rvaConf, value);
+            let promises = searchRM.request(rvaConf, value,function (allResult){
+                let data = searchRM.getAutocompleteData(allResult, value, false);
+                
+                if(id === 'search-radio') {
+                    autocomplete.closeAllLists();
+                    autocomplete.displayList(data);
+                } else {
+                    autocompleteForm.closeAllLists();
+                    autocompleteForm.displayList(data);
+                }
+        });
+        /*
             Promise.all(promises).then(function(allResult) {
                 let data = searchRM.getAutocompleteData(allResult, value, false);
                 
@@ -346,6 +357,7 @@ const cartohoraires = (function() {
                 }
 
             });
+            */
         }
     }
 
@@ -435,7 +447,8 @@ const cartohoraires = (function() {
      * Create autocomplete request response for Open Data Rennes API - base-sirene-v3 dataset
      * @param {String} results 
      */
-    function searchSIRENE(e, optforce) {
+     // Base Siren https://data.rennesmetropole.fr/
+    /*function searchSIRENE(e, optforce) {
         if(!options.sirenConfig) return;
         let value = e.target.value;
         let minCar = options.sirenConfig.min || 5;
@@ -450,9 +463,9 @@ const cartohoraires = (function() {
                 filter = `(${filter})`;
             }
             
-            let url = `${conf.url}?q=${filter}&dataset=${conf.dataset}&facet=nomunitelegale&refine.etatadministratifetablissement=Actif`;
+            let url = `${conf.url}?q=${filter}&dataset=${conf.dataset}&facet=nomunitelegale&refine.etatadministratifetablissement=Actif`
             if(conf.max) {
-                url += `&rows=${conf.max}`
+                url += `&rows=${conf.max}`;
             }
             if(conf.requestParam) {
                 url += conf.requestParam;
@@ -472,6 +485,51 @@ const cartohoraires = (function() {
                         } else {
                             autocompleteForm.closeAllLists();
                             autocompleteForm.displayList(response.records);
+                        }
+                    }
+                } else {
+                    console.log('fail request');
+                }
+            };
+            xhr.send();
+        }
+    }*/
+    
+    // Base Siren ODS public
+    function searchSIRENE(e, optforce) {
+        if(!options.sirenConfig) return;
+        let value = e.target.value;
+        let minCar = options.sirenConfig.min || 5;
+        if (value && ((optforce!='undefined' && optforce) || value.length >= minCar)) {
+            
+            let conf = options.sirenConfig; 
+
+            let filter = `${value}`;
+            if(conf.filters && conf.filters.length) {
+                filter = conf.filters.map(e => `${e}`);
+                filter = conf.filters.length > 1 && conf.operator ? filter.join(',') : filter;
+                filter = `search(${filter}, "${value}")`;
+            }
+            
+            let url = `${conf.url}?where=codecommuneetablissement%3D35238%20AND%20etatadministratifetablissement%3D%27Actif%27%20AND%20${filter}`
+
+            if(conf.max) {
+                url += `&limit=${conf.max}`;
+            }
+
+            // Ajax request
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText) {
+                    var response = xhr.responseText.length ? JSON.parse(xhr.responseText) : null;
+                    if (response && response.results.length && autocomplete.displayList) {
+                        if(autocompleteIdentifier === 'search-radio') {
+                            autocomplete.closeAllLists();
+                            autocomplete.displayList(response.results);
+                        } else {
+                            autocompleteForm.closeAllLists();
+                            autocompleteForm.displayList(response.results);
                         }
                     }
                 } else {
@@ -505,14 +563,18 @@ const cartohoraires = (function() {
         let siret = [];
         let html = [];
         results.forEach(record => {
-            if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
-                let props = record.fields;
-                if(record.geometry && record.geometry.coordinates) {
-                    let coord = record.geometry.coordinates.join(',');
+            //if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.fields.siret) < 0 && i < options.sirenConfig.max) {
+            if (options.sirenConfig && options.sirenConfig.max && siret.indexOf(record.siret) < 0 && i < options.sirenConfig.max) {
+                //let props = record.fields;
+                let props = record;
+                //if(record.geometry && record.geometry.coordinates) {
+                if(record.geolocetablissement) {
+                    //let coord = record.geometry.coordinates.join(',');
+                    let coord = record.geolocetablissement['lon'] + ',' + record.geolocetablissement['lat'];
                     let txt = getSirenText(props);
                     html.push(`
                         <div style='overflow-x:hidden; padding-top:5px;'>
-                        <a href="#" onclick='cartohoraires.select("${record.geometry.coordinates}","${escape(txt)}")'>${txt}</a>
+                        <a href="#" onclick='cartohoraires.select("${record.geolocetablissement}","${escape(txt)}")'>${txt}</a>
                         <input type='hidden' value='${coord}'>
                         </div>`);
                     siret.push(props.siret);
